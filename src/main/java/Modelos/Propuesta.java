@@ -4,6 +4,8 @@
  */
 package Modelos;
 
+import java.sql.Date;
+
 /**
  *
  * @author fernan
@@ -11,12 +13,68 @@ package Modelos;
 public class Propuesta {
     private int id;
     private int proyectoId;
+    private int freelancerId;
     private double monto;
-
+    private int tiempo;
+    private String descripcion;
+    private String estado;
+    private Date fecha;
+    
+    public Propuesta(){}
+    
+    public Propuesta(int proyectoId, int freelancerId, double monto, int tiempo, String descripcion) {
+        this.proyectoId = proyectoId;
+        this.freelancerId = freelancerId;
+        this.monto = monto;
+        this.tiempo = tiempo;
+        this.descripcion = descripcion;
+    }
+    
+    
     public int getId() {
         return id;
     }
 
+    public int getFreelancerId() {
+        return freelancerId;
+    }
+
+    public void setFreelancerId(int freelancerId) {
+        this.freelancerId = freelancerId;
+    }
+
+    public int getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(int tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+    
     public void setId(int id) {
         this.id = id;
     }

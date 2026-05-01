@@ -1,0 +1,20 @@
+
+<h2>Explorar Proyectos</h2>
+
+<div *ngIf="proyectos.length === 0">
+  <p>No hay proyectos disponibles</p>
+</div>
+
+<div *ngFor="let p of proyectos" class="card">
+
+  <h3>{{ p.titulo }}</h3>
+
+  <p>{{ p.descripcion }}</p>
+
+  <strong>Presupuesto: Q{{ p.presupuesto }}</strong>
+
+  <br><br>
+
+  <button>Ver detalle</button>
+
+</div>

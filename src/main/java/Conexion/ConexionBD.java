@@ -12,7 +12,7 @@ import java.sql.DriverManager;
  * @author fernan
  */
 public class ConexionBD {
-    private static final String URL = "jdbc:mysql://localhost:3306/sistema_cliente";
+   private static final String URL = "jdbc:mysql://localhost:3306/connectwork?useSSL=false&serverTimezone=UTC";
     private static final String USER_NAME = "root";
     private static final String PASSWORD = "Fernan16@2026";
 

@@ -19,38 +19,49 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class Login extends HttpServlet {
-   @Override
-   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-          
-        try {
-            BufferedReader reader = req.getReader();
-            Gson gson = new Gson();
-            Usuario user = gson.fromJson(reader, Usuario.class);
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        Gson gson = new Gson();
 
-            if (user == null || user.getUsername() == null) {
-                resp.setStatus(400);
-                resp.getWriter().write("JSON inválido");
+        try {
+            Usuario userCreds = gson.fromJson(req.getReader(), Usuario.class);
+
+            if (userCreds == null || userCreds.getUsername() == null || userCreds.getPassword() == null) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                resp.getWriter().write("{\"error\":\"Datos inválidos\"}");
                 return;
             }
 
             UsuarioDAO dao = new UsuarioDAO();
-            Usuario u = dao.login(user.getUsername(), user.getPassword());
+            // Recuerda que dentro de dao.login() debes usar BCrypt.checkpw
+            Usuario u = dao.login(userCreds.getUsername(), userCreds.getPassword());
 
-            if (u != null) {
+            if (u != null && u.getEstado() == 1) {
+                // GENERAR TOKEN
+                String token = JWTUtil.generarToken(u.getId(), u.getUsername(), u.getRol());
 
-                String token = JWTUtil.generarToken(u.getUsername());
+                // CREAR OBJETO DE RESPUESTA
+                // Usamos un Map para que Gson lo convierta a JSON automáticamente
+                java.util.Map<String, Object> responseData = new java.util.HashMap<>();
+                responseData.put("token", token);
+                responseData.put("id", u.getId());
+                responseData.put("username", u.getUsername());
+                responseData.put("rol", u.getRol());
+                responseData.put("perfilCompleto", u.getPerfilCompleto()); // <--- CRÍTICO PARA ANGULAR
 
-                resp.setContentType("application/json");
-                resp.getWriter().write("{\"token\":\"" + token + "\"}");
+                resp.getWriter().write(gson.toJson(responseData));
 
             } else {
-                resp.setStatus(401);
-                resp.getWriter().write("Credenciales incorrectas");
+                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                resp.getWriter().write("{\"error\":\"Credenciales incorrectas o usuario inactivo\"}");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            resp.getWriter().write("ERROR: " + e.getMessage());
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.getWriter().write("{\"error\":\"Error en el servidor\"}");
         }
     }
 }

@@ -1,0 +1,100 @@
+/* Fondo general */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Tarjeta */
+.card {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 16px;
+  width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Título */
+.card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+  color: #444;
+}
+
+/* Inputs y textarea */
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+/* Efecto focus */
+input:focus,
+textarea:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+}
+
+/* Textarea tamaño */
+textarea {
+  resize: none;
+  height: 80px;
+}
+
+/* Botón */
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #667eea;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Hover botón */
+button:hover {
+  background: #5a67d8;
+  transform: scale(1.02);
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.background {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

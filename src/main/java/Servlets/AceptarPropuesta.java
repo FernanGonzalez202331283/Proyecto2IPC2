@@ -46,7 +46,7 @@ public class AceptarPropuesta extends HttpServlet{
 
             // Obtener cliente
             ProyectoDAO proyectoDAO = new ProyectoDAO();
-            int clienteId = proyectoDAO.obtenerClienteId(p.getProyectoId());
+            int clienteId = proyectoDAO.obtenerClienteIdPorUsuario(p.getProyectoId());
 
             //  Obtener usuario del cliente
             ClienteDAO clienteDAO = new ClienteDAO();

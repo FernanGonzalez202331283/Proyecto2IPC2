@@ -1,0 +1,11 @@
+<div class="container">
+  <h2>Proyectos disponibles</h2>
+
+  <div *ngFor="let p of proyectos" class="card">
+    <h3>{{ p.titulo }}</h3>
+    <p>{{ p.descripcion }}</p>
+
+    <p> Q{{ p.presupuesto }}</p>
+    <p>  {{ p.fechaLimite }}</p>
+  </div>
+</div>

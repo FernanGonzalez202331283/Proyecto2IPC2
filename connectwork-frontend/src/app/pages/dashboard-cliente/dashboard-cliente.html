@@ -1,0 +1,65 @@
+<div class="dashboard">
+
+  <!-- Header -->
+  <div class="header">
+    <h2>Hola, {{username}} 👋</h2>
+    <p>Aquí tienes un resumen de tu actividad</p>
+  </div>
+
+  <!-- Cards -->
+  <div class="cards">
+
+    <div class="card clickable" routerLink="/mis-proyectos">
+      <h4>Mis proyectos</h4>
+      <h2>{{totalProyectos}}</h2>
+      <p>Publicados</p>
+    </div>
+
+    <div class="card">
+      <h4>Propuestas recibidas</h4>
+      <h2>{{propuestas}}</h2>
+      <p>Pendientes</p>
+    </div>
+
+    <div class="card">
+      <h4>Contratos activos</h4>
+      <h2>{{activos}}</h2>
+      <p>En progreso</p>
+    </div>
+
+    <div class="card">
+      <h4>Saldo disponible</h4>
+      <h2>Q{{saldo}}</h2>
+      <p>Disponible</p>
+    </div>
+
+  </div>
+
+  <!-- Actividad -->
+  <div class="actividad">
+    <h3>Actividad reciente</h3>
+
+    <div class="item">
+      <span>📩</span>
+      <div>
+        <p>Nueva propuesta en "Proyecto X"</p>
+        <small>Hace 1 hora</small>
+      </div>
+    </div>
+
+    <div class="item">
+      <span>✅</span>
+      <div>
+        <p>Entrega aprobada</p>
+        <small>Hace 3 horas</small>
+      </div>
+    </div>
+
+    <div class="acciones">
+    <button routerLink="/recargar">Recargar saldo</button>
+  <button routerLink="/mis-proyectos">📂 Ver Mis Proyectos</button>
+</div>
+
+  </div>
+
+</div>

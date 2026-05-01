@@ -1,0 +1,60 @@
+<div class="contenedor">
+    <div class="top-bar">
+  <button class="btn-back" (click)="regresar()">
+    ⬅ Regresar
+  </button>
+</div>
+
+  <div class="header-page">
+    <h2>Mis Proyectos</h2>
+            <button class="btn-primary" (click)="irPublicar()">
+        + Publicar Proyecto
+        </button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button 
+      [class.active]="filtro === 'TODOS'" 
+      (click)="cambiarFiltro('TODOS')">Todos</button>
+
+    <button 
+      [class.active]="filtro === 'ABIERTO'" 
+      (click)="cambiarFiltro('ABIERTO')">Abiertos</button>
+
+    <button 
+      [class.active]="filtro === 'EN_PROGRESO'" 
+      (click)="cambiarFiltro('EN_PROGRESO')">En progreso</button>
+
+    <button 
+      [class.active]="filtro === 'COMPLETADO'" 
+      (click)="cambiarFiltro('COMPLETADO')">Completados</button>
+  </div>
+
+  <!-- Lista -->
+  <div class="lista">
+
+    <div *ngFor="let p of proyectosFiltrados" class="card">
+
+      <div class="card-header">
+        <h3>{{p.titulo}}</h3>
+        <span class="estado"
+          [ngClass]="{
+            'abierto': p.estado === 'ABIERTO',
+            'progreso': p.estado === 'EN_PROGRESO',
+            'completado': p.estado === 'COMPLETADO'
+          }">
+          {{p.estado}}
+        </span>
+      </div>
+
+      <div class="card-body">
+        <p><strong> Presupuesto:</strong> Q{{p.presupuesto}}</p>
+        <p><strong> Fecha límite:</strong> {{p.fecha_limite}}</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

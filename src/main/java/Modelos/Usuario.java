@@ -14,13 +14,26 @@ public class Usuario {
     private String username;
     private String password;
     private String correo;
+    private String telefono;
+    private String direccion;
+    private String cui;
+    private String fechaNacimiento;
     private String rol;
     private int estado;
+    private int perfilCompleto;
 
     public int getId() {
         return id;
     }
 
+    public int getPerfilCompleto() {
+        return perfilCompleto;
+    }
+
+    public void setPerfilCompleto(int perfilCompleto) {
+        this.perfilCompleto = perfilCompleto;
+    }
+    
     public void setId(int id) {
         this.id = id;
     }
@@ -72,4 +85,37 @@ public class Usuario {
     public void setEstado(int estado) {
         this.estado = estado;
     }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getCui() {
+        return cui;
+    }
+
+    public void setCui(String cui) {
+        this.cui = cui;
+    }
+
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
 }
+

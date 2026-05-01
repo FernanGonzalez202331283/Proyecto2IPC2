@@ -1,0 +1,32 @@
+<h2>Completar Perfil Freelancer</h2>
+
+<form (ngSubmit)="guardar()">
+
+  <label>Biografía</label>
+  <textarea [(ngModel)]="biografia" name="biografia" required></textarea>
+
+  <label>Nivel de Experiencia</label>
+  <select [(ngModel)]="nivelExperiencia" name="nivelExperiencia" required>
+    <option value="">Seleccione</option>
+    <option value="JUNIOR">Junior</option>
+    <option value="SEMI">Semi-Senior</option>
+    <option value="SENIOR">Senior</option>
+  </select>
+
+  <label>Tarifa por hora</label>
+  <input type="number" [(ngModel)]="tarifaHora" name="tarifaHora" required>
+
+  <label>Habilidades</label>
+  <div *ngFor="let h of listaHabilidades">
+  <label>
+    <input 
+      type="checkbox"
+      [checked]="habilidades.includes(h.id)"
+      (change)="toggleHabilidad(h.id)">
+    {{ h.nombre }}
+  </label>
+</div>
+
+  <button type="submit">Guardar</button>
+
+</form>

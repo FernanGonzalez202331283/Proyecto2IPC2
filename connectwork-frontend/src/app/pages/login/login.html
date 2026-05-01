@@ -1,0 +1,38 @@
+<div class="login-container">
+  <div class="card">
+
+    <h2 class="title">ConnectWork</h2>
+    <p class="subtitle">Iniciar sesión</p>
+
+    <form (ngSubmit)="login()">
+
+      <div class="input-group">
+        <label>Username</label>
+        <input 
+          type="text" 
+          [(ngModel)]="username" 
+          name="username" 
+          placeholder="username" 
+          required>
+      </div>
+
+      <div class="input-group">
+        <label>Contraseña</label>
+        <input 
+          type="password" 
+          [(ngModel)]="password" 
+          name="password" 
+          placeholder="password" 
+          required>
+      </div>
+
+      <button type="submit">Iniciar sesión</button>
+
+    </form>
+<p class="extra">
+  ¿No tienes cuenta? 
+  <span routerLink="/register">Regístrate</span>
+</p>
+
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>Freelancer</h2>
+    <ul>
+      <li class="active">Dashboard</li>
+      <li routerLink="/explorar-proyectos">Explorar Proyectos</li>
+    <li routerLink="/mis-proyectos">Mis Proyectos</li>
+      <li routerLink="/mis-propuestas">Mis Propuestas</li>
+      <li routerLink="/contratos">Contratos</li>
+      <li routerLink="/reportes">Reportes</li>
+    </ul>
+  </aside>
+
+  <!-- CONTENIDO -->
+  <main class="content">
+
+    <h1>Bienvenido {{ username }}</h1>
+
+    <!-- CARDS -->
+    <div class="cards">
+
+      <div class="card">
+        <h3>Saldo</h3>
+        <p>Q{{ saldo }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Propuestas</h3>
+        <p>{{ propuestas }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Contratos Activos</h3>
+        <p>{{ contratos }}</p>
+      </div>
+
+    </div>
+
+    <!-- PROYECTOS -->
+    <div class="proyectos">
+
+      <h2>Proyectos recientes</h2>
+
+      <div *ngIf="proyectos.length === 0">
+        <p>No hay proyectos disponibles</p>
+      </div>
+
+      <div *ngFor="let p of proyectos" class="proyecto">
+        <h3>{{ p.titulo }}</h3>
+        <p>{{ p.descripcion }}</p>
+        <span>Presupuesto: Q{{ p.presupuesto }}</span>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

@@ -1,0 +1,20 @@
+<div class = "background">
+  <div class="card">
+    <h2>Completa tu perfil</h2>
+
+    <form (ngSubmit)="guardar()">
+
+      <label>Descripción</label>
+      <textarea [(ngModel)]="descripcion" name="descripcion" required></textarea>
+
+      <label>Sector</label>
+      <input [(ngModel)]="sector" name="sector" required />
+
+      <label>Sitio web (opcional)</label>
+      <input [(ngModel)]="sitioWeb" name="sitioWeb" />
+
+      <button type="submit">Guardar</button>
+
+    </form>
+  </div>
+</div>

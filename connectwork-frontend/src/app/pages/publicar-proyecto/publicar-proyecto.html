@@ -1,0 +1,21 @@
+<div class="contenedor">
+
+  <h2>Publicar Proyecto</h2>
+  <p>Describe lo que necesitas</p>
+
+  <div class="form">
+
+    <input type="text" [(ngModel)]="titulo" placeholder="Título del proyecto">
+
+    <textarea [(ngModel)]="descripcion" placeholder="Descripción"></textarea>
+
+    <input type="number" [(ngModel)]="presupuesto" placeholder="Presupuesto">
+
+    <input type="date" [(ngModel)]="fechaLimite">
+    <input type="number" [(ngModel)]="categoriaId" placeholder="ID Categoría">
+
+    <button (click)="publicar()">Publicar</button>
+
+  </div>
+
+</div>

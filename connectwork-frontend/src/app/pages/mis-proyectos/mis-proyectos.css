@@ -1,0 +1,148 @@
+.contenedor {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+.header-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #45a049;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: #eee;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tabs button.active {
+  background: #4CAF50;
+  color: white;
+}
+
+.tabs button:hover {
+  background: #ddd;
+}
+
+/* Lista */
+.lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+/* Card */
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Header card */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Estado */
+.estado {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.abierto {
+  background: #2196F3;
+  color: white;
+}
+
+.progreso {
+  background: #FF9800;
+  color: white;
+}
+
+.completado {
+  background: #4CAF50;
+  color: white;
+}
+
+/* Body */
+.card-body {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  min-height: 100vh;
+}
+
+/* Contenedor con efecto glass */
+.contenedor {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  color: white;
+}
+
+.top-bar {
+  margin-bottom: 15px;
+}
+
+.btn-back {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: rgb(20, 8, 8);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-back:hover {
+  background: rgba(255,255,255,0.4);
+}

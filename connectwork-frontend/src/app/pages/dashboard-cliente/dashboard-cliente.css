@@ -1,0 +1,90 @@
+.dashboard {
+  min-height: 100vh;
+  background: #f4f6f9;
+  padding: 20px;
+}
+
+/* Header */
+.header h2 {
+  margin: 0;
+}
+.acciones {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.acciones button {
+  background: #1e66d0;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.acciones button:hover {
+  background: #1555b0;
+}
+.header p {
+  color: gray;
+  margin-bottom: 20px;
+}
+
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card h4 {
+  margin: 0;
+  color: #555;
+}
+
+.card h2 {
+  margin: 10px 0;
+  color: #000;
+}
+
+.card p {
+  color: gray;
+  font-size: 12px;
+}
+
+/* Actividad */
+.actividad {
+  margin-top: 25px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.item {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.item span {
+  font-size: 20px;
+}
+
+.clickable {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.clickable:hover {
+  transform: scale(1.03);
+  background: #f5f5f5;
+}
