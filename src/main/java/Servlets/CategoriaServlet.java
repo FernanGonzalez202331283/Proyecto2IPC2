@@ -4,41 +4,35 @@
  */
 package Servlets;
 
-import DAO.FreelancerDAO;
-import Modelos.Freelancer;
+import DAO.CategoriaDAO;
+import Modelos.Categoria;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  *
  * @author fernan
  */
-@WebServlet("/freelancer/completarPerfil")
-public class CompletarFreelancerServlet extends HttpServlet{
-   @Override
+@WebServlet("/categorias")
+public class CategoriaServlet extends HttpServlet{
+    
+     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
         try {
-            int userId = (int) req.getAttribute("userId");
-
-            FreelancerDAO dao = new FreelancerDAO();
-
-            double saldo = dao.obtenerSaldo(userId);
-
-            Map<String, Object> data = new HashMap<>();
-            data.put("saldo", saldo);
+            CategoriaDAO dao = new CategoriaDAO();
+            List<Categoria> lista = dao.listarCategorias();
 
             Gson gson = new Gson();
-            resp.getWriter().write(gson.toJson(data));
+            resp.getWriter().write(gson.toJson(lista));
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,6 +4,9 @@ import { OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DashboardService } from '../../services/dashboard';
+import { AuthService } from '../../services/auth';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-dashboard-freelancer',
   standalone: true,
@@ -22,7 +25,7 @@ export class DashboardFreelancer implements OnInit {
 
   private api = 'http://localhost:8080/Proyecto2IPC2';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router,private auth: AuthService ) {}
 
   ngOnInit() {
     const user = JSON.parse(localStorage.getItem('usuario')!);
@@ -54,9 +57,20 @@ export class DashboardFreelancer implements OnInit {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (data) => {
-        this.proyectos = data.slice(0, 3); // solo 3 recientes
+        this.proyectos = data.slice(0, 5); // solo 3 recientes
       },
       error: (err) => console.error(err)
     });
   }
+
+   logout() {
+  // Opción simple
+  localStorage.removeItem('token');
+  localStorage.removeItem('usuario');
+
+  // Si ya tienes método en AuthService (mejor usarlo)
+  this.auth.logout?.();
+
+  this.router.navigate(['/login']);
+}
 }

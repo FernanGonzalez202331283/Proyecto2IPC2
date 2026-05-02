@@ -5,6 +5,7 @@
 package Servlets;
 
 import DAO.FreelancerDAO;
+import Modelos.Freelancer;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,23 +19,37 @@ import java.io.IOException;
  */
 @WebServlet("/freelancer/dashboard")
 public class FreelancerServlet extends HttpServlet{
+   
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
 
         try {
+            String rol = (String) req.getAttribute("rol");
+
+            if (!"FREELANCER".equals(rol)) {
+                resp.setStatus(403);
+                resp.getWriter().write("{\"error\":\"No autorizado\"}");
+                return;
+            }
+
+            Gson gson = new Gson();
+            Freelancer f = gson.fromJson(req.getReader(), Freelancer.class);
+
             int userId = (int) req.getAttribute("userId");
 
             FreelancerDAO dao = new FreelancerDAO();
 
-            double saldo = dao.obtenerSaldo(userId);
+            boolean ok = dao.completarPerfil(userId, f);
 
-            java.util.Map<String, Object> data = new java.util.HashMap<>();
-            data.put("saldo", saldo);
-
-            Gson gson = new Gson();
-            resp.getWriter().write(gson.toJson(data));
+            if (ok) {
+                resp.getWriter().write("{\"msg\":\"Perfil completado\"}");
+            } else {
+                resp.setStatus(500);
+                resp.getWriter().write("{\"error\":\"Error al completar perfil\"}");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

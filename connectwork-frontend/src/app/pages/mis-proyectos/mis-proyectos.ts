@@ -4,22 +4,27 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { DashboardService } from '../../services/dashboard';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-mis-proyectos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './mis-proyectos.html',
   styleUrl: './mis-proyectos.css',
 })
 export class MisProyectos {
-  
-  proyectos: any[] = [];
+ proyectos: any[] = [];
   filtro: string = 'TODOS';
   private api = 'http://localhost:8080/Proyecto2IPC2';
 
-  constructor(private http: HttpClient, private location: Location, private router: Router) {}
+  constructor(
+    private http: HttpClient, 
+    private location: Location, 
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    // Esto se ejecuta apenas el componente "nace", cargando los datos de inmediato
     this.cargarProyectos();
   }
 
@@ -31,8 +36,13 @@ export class MisProyectos {
         Authorization: `Bearer ${token}`
       }
     }).subscribe({
-      next: (data) => this.proyectos = data,
-      error: (err) => console.error(err)
+      next: (data) => {
+        // Usar el spread operator [...] asegura que Angular detecte el cambio de datos
+        this.proyectos = [...data];
+      },
+      error: (err) => {
+        console.error("Error al cargar proyectos:", err);
+      }
     });
   }
 
@@ -40,28 +50,25 @@ export class MisProyectos {
     this.filtro = f;
   }
 
+  // Este getter se actualiza automáticamente cada vez que 'proyectos' o 'filtro' cambian
   get proyectosFiltrados() {
-    if (this.filtro === 'TODOS') return this.proyectos;
-
-    if (this.filtro === 'ABIERTO') {
-      return this.proyectos.filter(p => p.estado === 'ABIERTO');
+    if (!this.proyectos || this.proyectos.length === 0) {
+      return [];
     }
 
-    if (this.filtro === 'EN_PROGRESO') {
-      return this.proyectos.filter(p => p.estado === 'EN_PROGRESO');
+    if (this.filtro === 'TODOS') {
+      return this.proyectos;
     }
 
-    if (this.filtro === 'COMPLETADO') {
-      return this.proyectos.filter(p => p.estado === 'COMPLETADO');
-    }
-
-    return this.proyectos;
+    // Filtrado dinámico más limpio
+    return this.proyectos.filter(p => p.estado === this.filtro);
   }
 
   regresar() {
-  this.location.back();
-}
-irPublicar() {
-  this.router.navigate(['/publicar-proyecto']);
-}
+    this.location.back();
+  }
+
+  irPublicar() {
+    this.router.navigate(['/publicar-proyecto']);
+  }
 }

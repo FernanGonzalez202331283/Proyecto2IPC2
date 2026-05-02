@@ -5,7 +5,6 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class DashboardService {
-  // BehaviorSubject guarda el último valor, así el Dashboard lo lee al "nacer"
   private actualizarSource = new BehaviorSubject<boolean>(false);
   actualizar$ = this.actualizarSource.asObservable();
 

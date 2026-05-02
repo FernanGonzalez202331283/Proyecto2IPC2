@@ -1,20 +1,48 @@
+<div class="container">
 
-<h2>Explorar Proyectos</h2>
+  <!-- HEADER -->
+  <div class="top-bar">
+    <button class="btn-back" (click)="regresar()">← Regresar</button>
+    <h2>Explorar Proyectos</h2>
+  </div>
 
-<div *ngIf="proyectos.length === 0">
-  <p>No hay proyectos disponibles</p>
-</div>
+  <!-- FILTROS -->
+  <div class="filtros">
+    <select [(ngModel)]="categoriaSeleccionada" (change)="filtrar()">
+      <option [ngValue]="null">Todas las categorías</option>
+      <option *ngFor="let c of categorias" [ngValue]="c.id">
+        {{ c.nombre }}
+      </option>
+    </select>
+  </div>
 
-<div *ngFor="let p of proyectos" class="card">
+  <!-- SIN RESULTADOS -->
+  <div *ngIf="proyectos.length === 0" class="empty">
+    <p>No hay proyectos disponibles</p>
+  </div>
 
-  <h3>{{ p.titulo }}</h3>
+  <!-- GRID -->
+  <div class="grid">
 
-  <p>{{ p.descripcion }}</p>
+    <div *ngFor="let p of proyectos" class="card">
 
-  <strong>Presupuesto: Q{{ p.presupuesto }}</strong>
+      <div class="card-header">
+        <h3>{{ p.titulo }}</h3>
+        <span class="categoria">{{ p.categoria }}</span>
+      </div>
 
-  <br><br>
+      <p class="desc">{{ p.descripcion }}</p>
 
-  <button>Ver detalle</button>
+      <div class="info">
+        <span class="precio">Q{{ p.presupuesto }}</span>
+      </div>
+
+      <button class="btn-detalle" (click)="verDetalle(p.id)">
+        Ver detalle
+      </button>
+
+    </div>
+
+  </div>
 
 </div>

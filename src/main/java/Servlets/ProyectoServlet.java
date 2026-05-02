@@ -67,10 +67,21 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IO
     resp.setContentType("application/json");
 
     try {
+        ProyectoDAO dao = new ProyectoDAO();
+        Gson gson = new Gson();
+
+        String idParam = req.getParameter("id");
+
+        if (idParam != null) {
+            int id = Integer.parseInt(idParam);
+            Proyecto p = dao.obtenerPorId(id);
+
+            resp.getWriter().write(gson.toJson(p));
+            return;
+        }
         int userId = (int) req.getAttribute("userId");
         String rol = (String) req.getAttribute("rol");
 
-        ProyectoDAO dao = new ProyectoDAO();
         List<Proyecto> lista;
 
         if ("CLIENTE".equals(rol)) {
@@ -82,7 +93,6 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IO
             lista = new java.util.ArrayList<>();
         }
 
-        Gson gson = new Gson();
         resp.getWriter().write(gson.toJson(lista));
 
     } catch (Exception e) {

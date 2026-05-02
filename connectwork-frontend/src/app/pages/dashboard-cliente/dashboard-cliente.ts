@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DashboardService } from '../../services/dashboard';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth';
 @Component({
   selector: 'app-dashboard-cliente',
   standalone: true,
@@ -22,7 +24,9 @@ export class DashboardCliente {
   constructor(
     private http: HttpClient, 
     private dashboardService: DashboardService,
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -56,4 +60,14 @@ cargarDashboard() {
       error: (err) => console.error("Error al cargar dashboard", err)
     });
   }
+  logout() {
+  // Opción simple
+  localStorage.removeItem('token');
+  localStorage.removeItem('usuario');
+
+  // Si ya tienes método en AuthService (mejor usarlo)
+  this.auth.logout?.();
+
+  this.router.navigate(['/login']);
+}
 }

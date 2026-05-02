@@ -1,7 +1,31 @@
-<div class="contenedor">
-  <h2>Recargar saldo</h2>
+<div class="background">
 
-  <input type="number" [(ngModel)]="monto" placeholder="Monto a recargar">
+  <div class="container">
 
-  <button (click)="recargar()">Recargar</button>
+    <!-- HEADER -->
+    <div class="header">
+      <button class="btn-back" (click)="regresar()">←</button>
+      <h2>Recargar saldo</h2>
+    </div>
+
+    <!-- CARD -->
+    <div class="card">
+
+      <p class="subtitle">Ingresa el monto que deseas recargar</p>
+
+      <div class="form">
+
+        <input 
+          type="number" 
+          [(ngModel)]="monto" 
+          placeholder="Monto a recargar (Q)">
+
+        <button (click)="recargar()">Recargar</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </div>

@@ -1,60 +1,55 @@
-<div class="container">
+<div class="dashboard">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <!-- NAVBAR -->
+  <div class="navbar">
     <h2>Freelancer</h2>
-    <ul>
-      <li class="active">Dashboard</li>
-      <li routerLink="/explorar-proyectos">Explorar Proyectos</li>
-    <li routerLink="/mis-proyectos">Mis Proyectos</li>
-      <li routerLink="/mis-propuestas">Mis Propuestas</li>
-      <li routerLink="/contratos">Contratos</li>
-      <li routerLink="/reportes">Reportes</li>
-    </ul>
-  </aside>
 
-  <!-- CONTENIDO -->
-  <main class="content">
-
-    <h1>Bienvenido {{ username }}</h1>
-
-    <!-- CARDS -->
-    <div class="cards">
-
-      <div class="card">
-        <h3>Saldo</h3>
-        <p>Q{{ saldo }}</p>
-      </div>
-
-      <div class="card">
-        <h3>Propuestas</h3>
-        <p>{{ propuestas }}</p>
-      </div>
-
-      <div class="card">
-        <h3>Contratos Activos</h3>
-        <p>{{ contratos }}</p>
-      </div>
-
+    <div class="nav-links">
+      <a routerLink="/explorar-proyectos">Explorar</a>
+      <a routerLink="/mis-propuestas">Propuestas</a>
+      <a routerLink="/contratos">Contratos</a>
+      <a routerLink="/reportes">Reportes</a>
     </div>
 
-    <!-- PROYECTOS -->
-    <div class="proyectos">
+    <button class="btn-logout" (click)="logout()">Salir</button>
+  </div>
 
-      <h2>Proyectos recientes</h2>
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Hola, {{username}} 👋</h1>
+    <p>Gestiona tu trabajo y proyectos fácilmente</p>
+  </div>
 
-      <div *ngIf="proyectos.length === 0">
-        <p>No hay proyectos disponibles</p>
-      </div>
+  <!-- CARDS -->
+  <div class="cards">
 
-      <div *ngFor="let p of proyectos" class="proyecto">
-        <h3>{{ p.titulo }}</h3>
-        <p>{{ p.descripcion }}</p>
-        <span>Presupuesto: Q{{ p.presupuesto }}</span>
-      </div>
-
+    <div class="card">
+      <h4>Saldo</h4>
+      <h2>Q{{saldo}}</h2>
     </div>
 
-  </main>
+    <div class="card">
+      <h4>Propuestas</h4>
+      <h2>{{propuestas}}</h2>
+    </div>
+
+    <div class="card">
+      <h4>Contratos</h4>
+      <h2>{{contratos}}</h2>
+    </div>
+
+  </div>
+
+  <!-- PROYECTOS -->
+  <div class="proyectos">
+    <h3>Proyectos recientes</h3>
+
+    <div *ngFor="let p of proyectos" class="proyecto">
+      <h4>{{p.titulo}}</h4>
+      <p>{{p.descripcion}}</p>
+      <span>Q{{p.presupuesto}}</span>
+    </div>
+
+  </div>
 
 </div>

@@ -1,60 +1,74 @@
-<div class="contenedor">
-    <div class="top-bar">
-  <button class="btn-back" (click)="regresar()">
-    ⬅ Regresar
-  </button>
-</div>
-
-  <div class="header-page">
-    <h2>Mis Proyectos</h2>
-            <button class="btn-primary" (click)="irPublicar()">
-        + Publicar Proyecto
-        </button>
+<div class="main-container">
+  <div class="top-nav">
+    <button class="btn-back" (click)="regresar()">
+      ← Regresar
+    </button>
   </div>
 
-  <!-- Tabs -->
-  <div class="tabs">
+  <div class="header-page">
+    <h1 class="page-title">Mis proyectos</h1>
+    <button class="btn-new-project" (click)="irPublicar()">
+      Nuevo proyecto
+    </button>
+  </div>
+
+  <div class="tabs-container">
     <button 
+      class="tab-button"
       [class.active]="filtro === 'TODOS'" 
       (click)="cambiarFiltro('TODOS')">Todos</button>
 
     <button 
+      class="tab-button"
       [class.active]="filtro === 'ABIERTO'" 
       (click)="cambiarFiltro('ABIERTO')">Abiertos</button>
 
     <button 
+      class="tab-button"
       [class.active]="filtro === 'EN_PROGRESO'" 
       (click)="cambiarFiltro('EN_PROGRESO')">En progreso</button>
 
     <button 
+      class="tab-button"
       [class.active]="filtro === 'COMPLETADO'" 
       (click)="cambiarFiltro('COMPLETADO')">Completados</button>
   </div>
 
-  <!-- Lista -->
-  <div class="lista">
+  <div class="project-list">
 
-    <div *ngFor="let p of proyectosFiltrados" class="card">
+    <div *ngFor="let p of proyectosFiltrados" class="project-card">
+      
+      <div class="card-left-content">
+        <div class="card-title-row">
+          <h3 class="project-name">{{p.titulo}}</h3>
+          <span class="status-badge"
+            [ngClass]="{
+              'status-open': p.estado === 'ABIERTO',
+              'status-progress': p.estado === 'EN_PROGRESO',
+              'status-completed': p.estado === 'COMPLETADO'
+            }">
+            {{ p.estado | titlecase }} </span>
+        </div>
 
-      <div class="card-header">
-        <h3>{{p.titulo}}</h3>
-        <span class="estado"
-          [ngClass]="{
-            'abierto': p.estado === 'ABIERTO',
-            'progreso': p.estado === 'EN_PROGRESO',
-            'completado': p.estado === 'COMPLETADO'
-          }">
-          {{p.estado}}
-        </span>
+        <div class="card-details-row">
+          <span class="detail-item">
+            <strong>Presupuesto:</strong> Q{{p.presupuesto | number:'1.2-2'}}
+          </span>
+          <span class="detail-separator">•</span>
+          <span class="detail-item">
+            <strong>Fecha límite:</strong> {{p.fecha_limite}}
+          </span>
+          </div>
+
+        <div class="card-status-text">
+          <strong>Estado:</strong> {{p.estado | titlecase}}
+        </div>
       </div>
 
-      <div class="card-body">
-        <p><strong> Presupuesto:</strong> Q{{p.presupuesto}}</p>
-        <p><strong> Fecha límite:</strong> {{p.fecha_limite}}</p>
-      </div>
+      <div class="card-arrow">
+        <span class="arrow-icon">&rsaquo;</span> </div>
 
     </div>
 
   </div>
-
 </div>

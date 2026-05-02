@@ -14,6 +14,7 @@ public class Proyecto {
     private int id;
     private int clienteId;
     private int categoriaId;
+    private String categoria;
     private String titulo;
     private String descripcion;
     private double presupuesto;
@@ -34,6 +35,14 @@ public class Proyecto {
         this.estado = estado;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+    
     
     public void setId(int id) {
         this.id = id;

@@ -11,7 +11,9 @@ import { ListarProyectos } from './pages/listar-proyectos/listar-proyectos';
 import { authGuard } from './guards/auth-guard';
 import { PublicarProyecto } from './pages/publicar-proyecto/publicar-proyecto';
 import { Recargar } from './pages/recargar/recargar';
-import { MisProyectos } from './pages/mis-proyectos/mis-proyectos';
+import { MisProyectos } from './pages/mis-proyectos/mis-proyectos'; 
+import { ExplorarProyectos } from './pages/explorar-proyectos/explorar-proyectos';
+import { DetalleProyecto } from './pages/detalle-proyecto/detalle-proyecto';
 export const routes: Routes = [
     { path: '', component: Login },
     { path: 'login', component: Login },
@@ -46,5 +48,13 @@ export const routes: Routes = [
   path: 'dashboard-freelancer',
   loadComponent: () => import('./pages/dashboard-freelancer/dashboard-freelancer')
     .then(m => m.DashboardFreelancer)
+},
+{
+  path: 'explorar-proyectos',
+  component: ExplorarProyectos
+},
+{
+  path: 'proyecto/:id',
+  component: DetalleProyecto
 }
 ];

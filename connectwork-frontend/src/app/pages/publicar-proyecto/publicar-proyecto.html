@@ -1,20 +1,76 @@
-<div class="contenedor">
+<div class="background">
 
-  <h2>Publicar Proyecto</h2>
-  <p>Describe lo que necesitas</p>
+  <div class="container">
 
-  <div class="form">
+    <!-- HEADER -->
+    <div class="header">
+      <button class="btn-back" (click)="regresar()">volver </button>
+      <h2>Publicar Proyecto</h2>
+    </div>
 
-    <input type="text" [(ngModel)]="titulo" placeholder="Título del proyecto">
+    <div class="card">
 
-    <textarea [(ngModel)]="descripcion" placeholder="Descripción"></textarea>
+      <p class="subtitle">Describe lo que necesitas</p>
 
-    <input type="number" [(ngModel)]="presupuesto" placeholder="Presupuesto">
+      <form (ngSubmit)="publicar()">
 
-    <input type="date" [(ngModel)]="fechaLimite">
-    <input type="number" [(ngModel)]="categoriaId" placeholder="ID Categoría">
+        <input 
+          type="text" 
+          [(ngModel)]="titulo" 
+          name="titulo"
+          placeholder="Título del proyecto" 
+          required>
 
-    <button (click)="publicar()">Publicar</button>
+        <textarea 
+          [(ngModel)]="descripcion" 
+          name="descripcion"
+          placeholder="Descripción del proyecto" 
+          required></textarea>
+
+        <input 
+          type="number" 
+          [(ngModel)]="presupuesto" 
+          name="presupuesto"
+          placeholder="Presupuesto (Q)" 
+          required>
+
+        <input 
+          type="date" 
+          [(ngModel)]="fechaLimite" 
+          name="fechaLimite"
+          required>
+
+        <select 
+          [(ngModel)]="categoriaId" 
+          name="categoriaId" 
+          required>
+          <option value="">Seleccione categoría</option>
+          <option *ngFor="let c of categorias" [value]="c.id">
+            {{c.nombre}}
+          </option>
+        </select>
+
+        <div class="habilidades">
+
+          <label>Habilidades requeridas</label>
+
+          <div class="lista-habilidades">
+            <label *ngFor="let h of habilidades" class="item-habilidad">
+              <input 
+                type="checkbox"
+                [value]="h.id"
+                (change)="toggleHabilidad(h.id, $event)">
+              {{ h.nombre }}
+            </label>
+          </div>
+
+        </div>
+
+        <button type="submit">Publicar proyecto</button>
+
+      </form>
+
+    </div>
 
   </div>
 

@@ -10,7 +10,6 @@ package Modelos;
  */
 public class Freelancer {
     private int idUsuario;
-    private String descripcion;
     private String nivelExperiencia;
     private double tarifaHora;
     private int perfilCompleto;
@@ -40,14 +39,6 @@ public class Freelancer {
     
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public String getNivelExperiencia() {

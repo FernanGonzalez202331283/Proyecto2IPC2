@@ -31,19 +31,29 @@ export class Recargar {
     headers: { Authorization: `Bearer ${token}` }
   }).subscribe({
     next: () => {
-      // Notificamos al BehaviorSubject
-      this.dashboardService.notificarActualizacion();
-      
-      alert('Saldo recargado exitosamente');
-      this.monto = 0;
+      // 1. Notificamos al servicio (para que el Dashboard sepa que debe refrescar)
+  this.dashboardService.notificarActualizacion();
+  
+  // 2. El alert es CLAVE aquí: detiene la ejecución de JavaScript.
+  // Mientras el usuario lee el mensaje y le da "Aceptar", 
+  // MySQL tiene tiempo de sobra (milisegundos) para terminar el UPDATE.
+  alert('Saldo recargado exitosamente');
 
-      // Navegamos al Dashboard
-      this.router.navigate(['/dashboard-cliente']);
+  // 3. Limpiamos el input
+  this.monto = 0;
+
+  // 4. Navegamos. 
+  // Al llegar al dashboard, como el servicio tiene el aviso, se ejecutará el GET.
+  this.router.navigate(['/dashboard-cliente']);
     },
     error: (err) => {
       console.error(err);
       alert('Error al recargar saldo');
     }
   });
+}
+
+regresar() {
+  window.history.back();
 }
 }
