@@ -8,12 +8,43 @@
 
   <!-- FILTROS -->
   <div class="filtros">
+
+    <!-- CATEGORÍA -->
     <select [(ngModel)]="categoriaSeleccionada" (change)="filtrar()">
       <option [ngValue]="null">Todas las categorías</option>
       <option *ngFor="let c of categorias" [ngValue]="c.id">
         {{ c.nombre }}
       </option>
     </select>
+
+    <!-- HABILIDADES -->
+    <select [(ngModel)]="habilidadSeleccionada" (change)="filtrar()">
+      <option [ngValue]="null">Todas las habilidades</option>
+      <option *ngFor="let h of habilidades" [ngValue]="h.id">
+        {{ h.nombre }}
+      </option>
+    </select>
+
+    <!-- PRESUPUESTO -->
+    <input 
+      type="number" 
+      placeholder="Min Q" 
+      [(ngModel)]="presupuestoMin" 
+      (input)="filtrar()"
+    >
+
+    <input 
+      type="number" 
+      placeholder="Max Q" 
+      [(ngModel)]="presupuestoMax" 
+      (input)="filtrar()"
+    >
+
+    <!-- LIMPIAR -->
+    <button class="btn-limpiar" (click)="limpiarFiltros()">
+      Limpiar
+    </button>
+
   </div>
 
   <!-- SIN RESULTADOS -->
@@ -32,6 +63,11 @@
       </div>
 
       <p class="desc">{{ p.descripcion }}</p>
+      <div class="habilidades" *ngIf="p.habilidades?.length">
+        <span *ngFor="let h of p.habilidades" class="tag">
+          {{ h.nombre }}
+        </span>
+      </div>
 
       <div class="info">
         <span class="precio">Q{{ p.presupuesto }}</span>

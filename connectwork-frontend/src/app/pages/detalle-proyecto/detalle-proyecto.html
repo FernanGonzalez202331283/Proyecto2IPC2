@@ -3,10 +3,9 @@
   <!-- BOTÓN REGRESAR -->
   <button class="btn-back" (click)="regresar()">← Regresar</button>
 
-  <!-- TÍTULO PRINCIPAL -->
   <h2 class="titulo-pagina">Detalle del Proyecto</h2>
 
-  <div *ngIf="proyecto != null" class="card">
+  <div *ngIf="proyecto" class="card">
 
     <div class="header">
       <h1>{{ proyecto.titulo }}</h1>
@@ -16,15 +15,30 @@
     <p class="descripcion">
       {{ proyecto.descripcion }}
     </p>
+    <div class="habilidades" *ngIf="proyecto.habilidades?.length">
+      <h4>Habilidades requeridas</h4>
+      <span *ngFor="let h of proyecto.habilidades" class="tag">
+  {{ nombreHabilidad(h) }}
+</span>
+    </div>
 
+    <!-- INFO -->
     <div class="info">
+
       <div class="item">
         <span class="label">Presupuesto</span>
         <span class="value">Q{{ proyecto.presupuesto }}</span>
       </div>
+
+      <div class="item">
+        <span class="label">Fecha límite</span>
+        <span class="value">{{ proyecto.fechaLimite }}</span>
+      </div>
+
     </div>
 
-    <button class="btn-propuesta">
+    <!-- BOTÓN -->
+    <button class="btn-propuesta" (click)="irAPropuesta()">
       Enviar propuesta
     </button>
 

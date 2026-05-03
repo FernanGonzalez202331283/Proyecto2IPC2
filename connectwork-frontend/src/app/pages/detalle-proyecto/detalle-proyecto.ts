@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class DetalleProyecto {
 
-  
+  habilidadesCatalogo: any[] = [];
   proyecto: any;
 
   constructor(
@@ -25,6 +25,7 @@ export class DetalleProyecto {
   ) {}
 
   ngOnInit() {
+    this.cargarHabilidades(); 
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
 
@@ -36,7 +37,7 @@ export class DetalleProyecto {
 
   cargarProyecto(id: any) {
     const token = localStorage.getItem('token');
-
+    console.log(this.proyecto);
     this.http.get<any>(`http://localhost:8080/Proyecto2IPC2/proyectos?id=${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe(data => {
@@ -45,7 +46,24 @@ export class DetalleProyecto {
     });
   }
 
+  nombreHabilidad(id: number): string {
+  const h = this.habilidadesCatalogo.find(x => x.id === id);
+  return h ? h.nombre : '...';
+}
+
+  cargarHabilidades() {
+  this.http.get<any[]>(`http://localhost:8080/Proyecto2IPC2/habilidades`)
+    .subscribe({
+      next: (data) => this.habilidadesCatalogo = data,
+      error: (err) => console.error(err)
+    });
+}
+
   regresar() {
   this.router.navigate(['/explorar-proyectos']);
+}
+
+irAPropuesta() {
+  this.router.navigate(['/enviar-propuesta', this.proyecto.id]);
 }
 }

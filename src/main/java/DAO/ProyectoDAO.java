@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -219,7 +220,7 @@ public class ProyectoDAO {
     try {
         Connection con = ConexionBD.getConnection();
 
-        String sql = "SELECT p.id, p.titulo, p.descripcion, p.presupuesto, p.categoria_id, c.nombre AS categoria " +
+        String sql = "SELECT p.id, p.titulo, p.descripcion, p.presupuesto, p.categoria_id, p.fecha_limite, c.nombre AS categoria " +
                      "FROM proyecto p " +
                      "JOIN categoria c ON p.categoria_id = c.id " +
                      "WHERE p.estado = 'ABIERTO'";
@@ -235,6 +236,8 @@ public class ProyectoDAO {
             p.setDescripcion(rs.getString("descripcion"));
             p.setPresupuesto(rs.getDouble("presupuesto"));
             p.setCategoriaId(rs.getInt("categoria_id"));
+            p.setFechaLimite(rs.getDate("fecha_limite").toString());
+            
             p.setCategoria(rs.getString("categoria"));
 
             //
@@ -256,7 +259,7 @@ public class ProyectoDAO {
     try {
         Connection con = ConexionBD.getConnection();
 
-        String sql = "SELECT p.id, p.titulo, p.descripcion, p.presupuesto, p.categoria_id, c.nombre AS categoria " +
+        String sql = "SELECT p.id, p.titulo, p.descripcion, p.presupuesto, p.categoria_id, p.fecha_limite, c.nombre AS categoria " +
                      "FROM proyecto p " +
                      "JOIN categoria c ON p.categoria_id = c.id " +
                      "WHERE p.id = ?";
@@ -274,6 +277,7 @@ public class ProyectoDAO {
             p.setDescripcion(rs.getString("descripcion"));
             p.setPresupuesto(rs.getDouble("presupuesto"));
             p.setCategoriaId(rs.getInt("categoria_id"));
+            p.setFechaLimite(rs.getDate("fecha_limite").toString());
             p.setCategoria(rs.getString("categoria"));
 
             

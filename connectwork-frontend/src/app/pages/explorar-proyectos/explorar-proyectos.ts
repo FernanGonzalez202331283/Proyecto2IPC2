@@ -12,11 +12,18 @@ import { Router } from '@angular/router';
   styleUrl: './explorar-proyectos.css',
 })
 export class ExplorarProyectos implements OnInit {
- proyectos: any[] = [];
+  
+  proyectos: any[] = [];
   proyectosOriginal: any[] = [];
+
+  habilidades: any[] = [];
+  habilidadSeleccionada: number | null = null;
 
   categorias: any[] = [];
   categoriaSeleccionada: number | null = null;
+
+  presupuestoMin: number | null = null;
+  presupuestoMax: number | null = null;
 
   private api = 'http://localhost:8080/Proyecto2IPC2';
 
@@ -25,6 +32,15 @@ export class ExplorarProyectos implements OnInit {
   ngOnInit() {
     this.cargarProyectos();
     this.cargarCategorias();
+    this.cargarHabilidades();
+  }
+
+  cargarHabilidades() {
+    this.http.get<any[]>(`${this.api}/habilidades`)
+      .subscribe({
+        next: (data) => this.habilidades = data,
+        error: (err) => console.error(err)
+      });
   }
 
   cargarProyectos() {
@@ -34,10 +50,8 @@ export class ExplorarProyectos implements OnInit {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (data) => {
-        console.log("PROYECTOS:", data);
-
         this.proyectos = data;
-        this.proyectosOriginal = data; 
+        this.proyectosOriginal = data;
       },
       error: (err) => console.error("ERROR:", err)
     });
@@ -46,29 +60,44 @@ export class ExplorarProyectos implements OnInit {
   cargarCategorias() {
     this.http.get<any[]>(`${this.api}/categorias`)
       .subscribe({
-        next: (data) => {
-          this.categorias = data;
-        },
+        next: (data) => this.categorias = data,
         error: (err) => console.error(err)
       });
   }
 
-  filtrar() {
+ filtrar() {
+  this.proyectos = this.proyectosOriginal.filter(p => {
 
-    if (!this.categoriaSeleccionada) {
-      console.log(typeof this.categoriaSeleccionada);
-      this.proyectos = this.proyectosOriginal;
-      return;
-    }
+    const cumpleCategoria =
+      !this.categoriaSeleccionada || p.categoriaId == this.categoriaSeleccionada;
 
-    this.proyectos = this.proyectosOriginal.filter(p =>
-      p.categoriaId == this.categoriaSeleccionada
-    );
+    const cumpleHabilidad =
+      !this.habilidadSeleccionada ||
+      p.habilidades?.includes(this.habilidadSeleccionada);
+
+    const cumpleMin =
+      this.presupuestoMin == null || p.presupuesto >= this.presupuestoMin;
+
+    const cumpleMax =
+      this.presupuestoMax == null || p.presupuesto <= this.presupuestoMax;
+
+    return cumpleCategoria && cumpleHabilidad && cumpleMin && cumpleMax;
+  });
+}
+
+  limpiarFiltros() {
+    this.categoriaSeleccionada = null;
+    this.habilidadSeleccionada = null;
+    this.presupuestoMin = null;
+    this.presupuestoMax = null;
+    this.proyectos = this.proyectosOriginal;
   }
+
   verDetalle(id: number) {
-  this.router.navigate(['/proyecto', id]);
-}
-regresar() {
-  this.router.navigate(['/dashboard-freelancer']);
-}
+    this.router.navigate(['/proyecto', id]);
+  }
+
+  regresar() {
+    this.router.navigate(['/dashboard-freelancer']);
+  }
 }

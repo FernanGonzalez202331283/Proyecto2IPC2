@@ -31,6 +31,11 @@ export class DashboardFreelancer implements OnInit {
     const user = JSON.parse(localStorage.getItem('usuario')!);
     this.username = user.username;
 
+    if (user.perfilCompleto === 0) {
+    this.router.navigate(['/completar-freelancer']);
+    return;
+  }
+
     this.cargarDashboard();
     this.cargarProyectos();
   }
