@@ -15,42 +15,47 @@
     <!-- HEADER -->
     <div class="card-header">
       <div>
-       <h3>{{p.proyectoTitulo}}</h3>
-<small>Freelancer #{{p.freelancerId}}</small>
+        <h3>{{ p.proyectoTitulo }}</h3>
+        <small>Freelancer #{{ p.freelancerId }}</small>
       </div>
 
-      <span class="estado" [ngClass]="p.estado.toLowerCase()">
-        {{p.estado}}
+      <!-- 🔥 protegido contra null -->
+      <span class="estado" [ngClass]="p.estado?.toLowerCase()">
+        {{ p.estado }}
       </span>
     </div>
 
     <!-- INFO -->
     <div class="info">
-
-      <p>
-        <b>Monto ofertado:</b> Q{{p.monto}}
-      </p>
-
-      <p>
-        <b>Tiempo de entrega:</b> {{p.tiempo}} días
-      </p>
-
-      <p>
-        <b>Descripción:</b> {{p.descripcion}}
-      </p>
-
+      <p><b>Monto ofertado:</b> Q{{ p.monto }}</p>
+      <p><b>Tiempo de entrega:</b> {{ p.tiempo }} días</p>
+      <p><b>Descripción:</b> {{ p.descripcion }}</p>
     </div>
 
-    <!-- ACCIONES -->
-    <div class="acciones">
+   <div class="acciones">
 
-      <button class="btn-aceptar">
-        Aceptar
-      </button>
+  <!-- SELECCIONAR -->
+  <button 
+  class="btn-aceptar" 
+  (click)="seleccionar(p.id)"
+  [disabled]="p.estado !== 'EN_REVISION'">
+  Seleccionar
+</button>
 
-      <button class="btn-rechazar">
-        Rechazar
-      </button>
+  <button 
+  (click)="confirmar(p.id)"
+  [disabled]="p.estado?.toUpperCase() !== 'SELECCIONADA'">
+  Confirmar
+</button>
+
+  <!-- RECHAZAR -->
+  <button 
+    class="btn-rechazar" 
+    (click)="rechazar(p.id)"
+    [disabled]="p.estado?.toUpperCase() !== 'EN_REVISION'">
+    Rechazar
+  </button>
+
 
     </div>
 

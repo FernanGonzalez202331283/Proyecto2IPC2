@@ -49,9 +49,8 @@ public class PropuestaDAO {
     return p;
 }
 
-    public void actualizarEstado(int id, String estado) {
+    public void actualizarEstado(Connection con, int id, String estado) {
     try {
-        Connection con = ConexionBD.getConnection();
         String sql = "UPDATE propuesta SET estado=? WHERE id=?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, estado);
@@ -59,7 +58,7 @@ public class PropuestaDAO {
         ps.executeUpdate();
 
     } catch (Exception e) {
-        e.printStackTrace();
+        throw new RuntimeException("Error al actualizar estado");
     }
 }
     
@@ -128,7 +127,7 @@ public class PropuestaDAO {
 
         // 4. insertar
         String sql = "INSERT INTO propuesta (proyecto_id, freelancer_id, monto, tiempo, descripcion, estado, fecha) " +
-                     "VALUES (?, ?, ?, ?, ?, 'PENDIENTE', NOW())";
+                     "VALUES (?, ?, ?, ?, ?, 'EN_REVISION', NOW())";
 
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, p.getProyectoId());
@@ -245,7 +244,7 @@ public class PropuestaDAO {
 
             p.setId(rs.getInt("id"));
             p.setProyectoId(rs.getInt("proyecto_id"));
-            p.setProyectoTitulo(rs.getString("proyectoTitulo")); // 🔥 IMPORTANTE
+            p.setProyectoTitulo(rs.getString("proyectoTitulo")); 
             p.setFreelancerId(rs.getInt("freelancer_id"));
             p.setMonto(rs.getDouble("monto"));
             p.setTiempo(rs.getInt("tiempo"));
@@ -260,6 +259,165 @@ public class PropuestaDAO {
     }
 
     return lista;
+}
+    
+    
+    public void rechazarPropuesta(int propuestaId) {
+
+    try (Connection con = ConexionBD.getConnection()) {
+
+        String sql = "UPDATE propuesta SET estado='RECHAZADA' WHERE id=?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, propuestaId);
+
+        int filas = ps.executeUpdate();
+
+        if (filas == 0) {
+            throw new RuntimeException("Propuesta no encontrada");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        throw new RuntimeException("Error al rechazar propuesta");
+    }
+}
+    
+    public void seleccionarPropuesta(int propuestaId) {
+
+    try (Connection con = ConexionBD.getConnection()) {
+
+        // 1. obtener proyecto
+        String sql = "SELECT proyecto_id FROM propuesta WHERE id=?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, propuestaId);
+        ResultSet rs = ps.executeQuery();
+
+        if (!rs.next()) {
+            throw new RuntimeException("Propuesta no encontrada");
+        }
+
+        int proyectoId = rs.getInt("proyecto_id");
+
+        // 2. validar estado del proyecto
+        String validar = "SELECT estado FROM proyecto WHERE id=?";
+        PreparedStatement psVal = con.prepareStatement(validar);
+        psVal.setInt(1, proyectoId);
+        ResultSet rsVal = psVal.executeQuery();
+
+        if (rsVal.next() && !rsVal.getString("estado").equals("ABIERTO")) {
+            throw new RuntimeException("El proyecto ya no está disponible");
+        }
+
+        // 3. poner proyecto EN_REVISION
+        String sqlProyecto = "UPDATE proyecto SET estado='EN_REVISION' WHERE id=?";
+        PreparedStatement ps2 = con.prepareStatement(sqlProyecto);
+        ps2.setInt(1, proyectoId);
+        ps2.executeUpdate();
+
+        //4. marcar la seleccionada
+        String sqlSeleccionada = "UPDATE propuesta SET estado='SELECCIONADA' WHERE id=?";
+        PreparedStatement psSel = con.prepareStatement(sqlSeleccionada);
+        psSel.setInt(1, propuestaId);
+        psSel.executeUpdate();
+
+        //5. rechazar las demás
+        String sqlRechazar = "UPDATE propuesta SET estado='RECHAZADA' WHERE proyecto_id=? AND id<>?";
+        PreparedStatement ps3 = con.prepareStatement(sqlRechazar);
+        ps3.setInt(1, proyectoId);
+        ps3.setInt(2, propuestaId);
+        ps3.executeUpdate();
+
+    } catch (Exception e) {
+        throw new RuntimeException(e.getMessage());
+    }
+}
+
+    public void confirmarPropuesta(int propuestaId) {
+
+    Connection con = null;
+
+    try {
+        con = ConexionBD.getConnection();
+        con.setAutoCommit(false);
+
+        // 1. obtener propuesta
+        String sql = "SELECT * FROM propuesta WHERE id=?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, propuestaId);
+        ResultSet rs = ps.executeQuery();
+
+        if (!rs.next()) {
+            throw new RuntimeException("Propuesta no encontrada");
+        }
+
+        int proyectoId = rs.getInt("proyecto_id");
+        double monto = rs.getDouble("monto");
+
+        // 2. validar proyecto en EN_REVISION
+        String val = "SELECT estado, cliente_id FROM proyecto WHERE id=?";
+        PreparedStatement psVal = con.prepareStatement(val);
+        psVal.setInt(1, proyectoId);
+        ResultSet rsVal = psVal.executeQuery();
+
+        if (!rsVal.next() || !rsVal.getString("estado").equals("EN_REVISION")) {
+            throw new RuntimeException("El proyecto no está listo para confirmar");
+        }
+
+        int clienteId = rsVal.getInt("cliente_id");
+
+        // 3. bloquear saldo
+        String sqlSaldo = "SELECT saldo FROM cliente WHERE id=? FOR UPDATE";
+        PreparedStatement psS = con.prepareStatement(sqlSaldo);
+        psS.setInt(1, clienteId);
+        ResultSet rsS = psS.executeQuery();
+
+        if (!rsS.next()) {
+            throw new RuntimeException("Cliente no encontrado");
+        }
+
+        double saldo = rsS.getDouble("saldo");
+
+        if (saldo < monto) {
+            throw new RuntimeException("Saldo insuficiente");
+        }
+
+        // 4. descontar saldo
+        String upd = "UPDATE cliente SET saldo = saldo - ? WHERE id=?";
+        PreparedStatement psU = con.prepareStatement(upd);
+        psU.setDouble(1, monto);
+        psU.setInt(2, clienteId);
+        psU.executeUpdate();
+
+        // 5. marcar propuesta como ACEPTADA
+        actualizarEstado(con, propuestaId, "ACEPTADA");
+
+        // 6. proyecto → EN_PROGRESO
+        String sql3 = "UPDATE proyecto SET estado='EN_PROGRESO' WHERE id=?";
+        PreparedStatement ps3 = con.prepareStatement(sql3);
+        ps3.setInt(1, proyectoId);
+        ps3.executeUpdate();
+
+        // 7. crear contrato
+        String sqlContrato =
+            "INSERT INTO contrato (propuesta_id, monto, estado, fecha_inicio) " +
+            "VALUES (?, ?, 'EN_PROGRESO', NOW())";
+
+        PreparedStatement ps4 = con.prepareStatement(sqlContrato);
+        ps4.setInt(1, propuestaId);
+        ps4.setDouble(2, monto);
+        ps4.executeUpdate();
+
+        con.commit();
+
+    } catch (Exception e) {
+
+        try { if (con != null) con.rollback(); } catch (Exception ex) {}
+
+        throw new RuntimeException(e.getMessage());
+
+    } finally {
+        try { if (con != null) con.setAutoCommit(true); } catch (Exception e) {}
+    }
 }
     
 }

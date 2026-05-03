@@ -26,37 +26,77 @@ export class PropuestasCliente {
   ) {}
 
   ngOnInit() {
-
     const user = JSON.parse(localStorage.getItem('usuario')!);
     this.userId = user?.id;
-
-    console.log("USER ID:", this.userId);
 
     if (!this.userId) return;
 
     this.cargarPropuestas();
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.cargarPropuestas();
-      });
   }
 
   cargarPropuestas() {
+  this.http.get<any[]>(
+    `http://localhost:8080/Proyecto2IPC2/cliente/propuestas?userId=${this.userId}`
+  ).subscribe({
+    next: (data) => {
+      console.log("PROPUESTAS:", data);
+      this.propuestas = data;
 
-    this.http.get<any[]>(
-      `http://localhost:8080/Proyecto2IPC2/cliente/propuestas?userId=${this.userId}`
+      this.cdr.detectChanges(); // 
+    },
+    error: (err) => console.error(err)
+  });
+}
+
+  volver() {
+    this.router.navigate(['/dashboard-cliente']);
+  }
+
+  // 🔵 SELECCIONAR
+  seleccionar(id: number) {
+    this.http.post(
+      `http://localhost:8080/Proyecto2IPC2/propuesta/seleccionar`,
+      { id }
     ).subscribe({
-      next: (data) => {
-        console.log("PROPUESTAS:", data);
-
-        this.propuestas = data;
-        this.cdr.detectChanges();
+      next: () => {
+        alert("Propuesta seleccionada");
+        this.cargarPropuestas();
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error(err);
+        alert(err.error?.error || "Error al seleccionar");
+      }
     });
   }
-  volver() {
-  this.router.navigate(['/dashboard-cliente']);
-}
+
+  // 🟢 CONFIRMAR
+  confirmar(id: number) {
+    this.http.post(
+      `http://localhost:8080/Proyecto2IPC2/propuesta/confirmar`,
+      { id }
+    ).subscribe({
+      next: () => {
+        alert("Contrato iniciado");
+        this.cargarPropuestas();
+      },
+      error: (err) => {
+        console.error(err);
+        alert(err.error?.error || "Error al confirmar");
+      }
+    });
+  }
+
+  // 🔴 RECHAZAR
+  rechazar(id: number) {
+    this.http.post(
+      `http://localhost:8080/Proyecto2IPC2/propuesta/rechazar`,
+      { id }
+    ).subscribe({
+      next: () => this.cargarPropuestas(),
+      error: (err) => {
+        console.error(err);
+        alert(err.error?.error || "Error al rechazar");
+      }
+    });
+  }
 }
