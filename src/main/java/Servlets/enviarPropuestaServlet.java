@@ -19,8 +19,7 @@ import java.io.IOException;
  */
 @WebServlet("/freelancer/propuesta")
 public class enviarPropuestaServlet extends HttpServlet{
-    
-    @Override
+     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         resp.setContentType("application/json");
@@ -39,13 +38,17 @@ public class enviarPropuestaServlet extends HttpServlet{
 
             if (ok) {
                 resp.getWriter().write("{\"msg\":\"Propuesta enviada\"}");
-            } else {
-                resp.setStatus(500);
             }
 
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             resp.setStatus(400);
             resp.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.setStatus(500);
+            resp.getWriter().write("{\"error\":\"Error del servidor\"}");
         }
     }
+
 }

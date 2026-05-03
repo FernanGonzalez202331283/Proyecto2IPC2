@@ -1,0 +1,59 @@
+<div class="page">
+
+  <button class="btn-back" (click)="volver()">
+    ← Volver
+  </button>
+
+  <h2 class="title">Propuestas recibidas</h2>
+
+  <div *ngIf="propuestas.length === 0" class="empty">
+    No hay propuestas aún
+  </div>
+
+  <div *ngFor="let p of propuestas" class="card">
+
+    <!-- HEADER -->
+    <div class="card-header">
+      <div>
+       <h3>{{p.proyectoTitulo}}</h3>
+<small>Freelancer #{{p.freelancerId}}</small>
+      </div>
+
+      <span class="estado" [ngClass]="p.estado.toLowerCase()">
+        {{p.estado}}
+      </span>
+    </div>
+
+    <!-- INFO -->
+    <div class="info">
+
+      <p>
+        <b>Monto ofertado:</b> Q{{p.monto}}
+      </p>
+
+      <p>
+        <b>Tiempo de entrega:</b> {{p.tiempo}} días
+      </p>
+
+      <p>
+        <b>Descripción:</b> {{p.descripcion}}
+      </p>
+
+    </div>
+
+    <!-- ACCIONES -->
+    <div class="acciones">
+
+      <button class="btn-aceptar">
+        Aceptar
+      </button>
+
+      <button class="btn-rechazar">
+        Rechazar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

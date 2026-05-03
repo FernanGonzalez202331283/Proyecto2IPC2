@@ -144,4 +144,33 @@ public class ClienteDAO {
         return false;
     }
 }
+     
+     public int contarPropuestas(int userId) {
+    int total = 0;
+
+    try {
+        Connection con = ConexionBD.getConnection();
+
+        String sql =
+        "SELECT COUNT(*) AS total " +
+        "FROM propuesta p " +
+        "JOIN proyecto pr ON p.proyecto_id = pr.id " +
+        "JOIN cliente c ON pr.cliente_id = c.id " +
+        "WHERE c.usuario_id = ?";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, userId);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            total = rs.getInt("total");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return total;
+}
 }

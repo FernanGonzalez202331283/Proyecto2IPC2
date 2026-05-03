@@ -13,6 +13,7 @@ import java.sql.Date;
 public class Propuesta {
     private int id;
     private int proyectoId;
+    private String proyectoTitulo;
     private int freelancerId;
     private double monto;
     private int tiempo;
@@ -28,6 +29,14 @@ public class Propuesta {
         this.monto = monto;
         this.tiempo = tiempo;
         this.descripcion = descripcion;
+    }
+
+    public String getProyectoTitulo() {
+        return proyectoTitulo;
+    }
+
+    public void setProyectoTitulo(String proyectoTitulo) {
+        this.proyectoTitulo = proyectoTitulo;
     }
     
     

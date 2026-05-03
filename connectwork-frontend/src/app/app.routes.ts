@@ -14,6 +14,7 @@ import { Recargar } from './pages/recargar/recargar';
 import { MisProyectos } from './pages/mis-proyectos/mis-proyectos'; 
 import { ExplorarProyectos } from './pages/explorar-proyectos/explorar-proyectos';
 import { DetalleProyecto } from './pages/detalle-proyecto/detalle-proyecto';
+import { EnviarPropuesta } from './pages/enviar-propuesta/enviar-propuesta';
 export const routes: Routes = [
     { path: '', component: Login },
     { path: 'login', component: Login },
@@ -56,5 +57,15 @@ export const routes: Routes = [
 {
   path: 'proyecto/:id',
   component: DetalleProyecto
+},
+{
+  path: 'enviar-propuesta/:id',
+  loadComponent: () => import('./pages/enviar-propuesta/enviar-propuesta').then(m => m.EnviarPropuesta)
+},
+{
+  path: 'cliente/propuestas',
+  loadComponent: () =>
+    import('./pages/propuestas-cliente/propuestas-cliente')
+      .then(m => m.PropuestasCliente)
 }
 ];

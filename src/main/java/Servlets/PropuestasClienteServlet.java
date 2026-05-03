@@ -4,39 +4,37 @@
  */
 package Servlets;
 
-import DAO.ClienteDAO;
+import DAO.PropuestaDAO;
+import Modelos.Propuesta;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
 /**
  *
  * @author fernan
  */
-@WebServlet("/cliente/dashboard")
-public class ClienteServlet extends HttpServlet{
-   
+@WebServlet("/cliente/propuestas")
+public class PropuestasClienteServlet extends HttpServlet {
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         resp.setContentType("application/json");
 
         try {
-            int userId = (int) req.getAttribute("userId");
+           int userId = Integer.parseInt(req.getParameter("userId"));
 
-            ClienteDAO dao = new ClienteDAO();
+            PropuestaDAO dao = new PropuestaDAO();
 
-            Map<String, Object> data = dao.obtenerDashboard(userId);
-            
-            int propuestas = dao.contarPropuestas(userId);
-            data.put("propuestas", propuestas);
-            
+            List<Propuesta> lista = dao.listarPorCliente(userId);
+
             Gson gson = new Gson();
-            resp.getWriter().write(gson.toJson(data));
+            resp.getWriter().write(gson.toJson(lista));
 
         } catch (Exception e) {
             e.printStackTrace();

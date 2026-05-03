@@ -5,6 +5,7 @@ import { DashboardService } from '../../services/dashboard';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { interval } from 'rxjs';
 @Component({
   selector: 'app-dashboard-cliente',
   standalone: true,
@@ -32,9 +33,12 @@ export class DashboardCliente {
   ngOnInit() {
     const user = JSON.parse(localStorage.getItem('usuario')!);
     this.username = user.username;
-
+    this.cargarDashboard();
     this.dashboardService.actualizar$.subscribe(() => {
       console.log("Actualizando datos del dashboard..."); 
+      this.cargarDashboard();
+    });
+    interval(5000).subscribe(() => {
       this.cargarDashboard();
     });
   }
@@ -47,27 +51,23 @@ cargarDashboard() {
       }
     }).subscribe({
       next: (data) => {
-        console.log("Asignando saldo:", data.saldo);
-        
-        this.saldo = data.saldo; 
+
+        this.saldo = data.saldo;
         this.totalProyectos = data.totalProyectos;
         this.propuestas = data.propuestas || 0;
         this.activos = data.activos || 0;
 
-        console.log("Variable this.saldo ahora vale:", this.saldo);
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       },
       error: (err) => console.error("Error al cargar dashboard", err)
     });
   }
+
   logout() {
-  // Opción simple
-  localStorage.removeItem('token');
-  localStorage.removeItem('usuario');
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
 
-  // Si ya tienes método en AuthService (mejor usarlo)
-  this.auth.logout?.();
-
-  this.router.navigate(['/login']);
-}
+    this.auth.logout?.();
+    this.router.navigate(['/login']);
+  }
 }
