@@ -1,0 +1,80 @@
+<div class="container">
+
+  <div class="top-bar">
+    <button class="btn-back" (click)="regresar()">← Regresar</button>
+    <h2>Mis Entregas</h2>
+  </div>
+
+  <!-- LOADING -->
+  <div *ngIf="cargando" class="empty">
+    <p>Cargando entregas...</p>
+  </div>
+
+  <!-- SIN ENTREGAS -->
+  <div *ngIf="!cargando && entregas.length === 0" class="empty">
+    <p>No hay entregas aún</p>
+  </div>
+
+  <!-- LISTA -->
+  <div *ngIf="!cargando && entregas.length > 0" class="grid">
+
+    <div class="card" *ngFor="let e of entregas">
+
+      <div class="card-header">
+        <h3>Entrega #{{ e.numero }}</h3>
+
+        <span class="estado" [ngClass]="e.estado.toLowerCase()">
+          {{ e.estado }}
+        </span>
+      </div>
+
+      <p class="desc">{{ e.descripcion }}</p>
+
+      <!-- LINK ARCHIVO -->
+      <a *ngIf="e.archivo" [href]="e.archivo" target="_blank">
+        📎 Ver archivo
+      </a>
+
+      <!-- FECHA -->
+      <p class="fecha">📅 {{ e.fecha }}</p>
+
+      <!-- COMENTARIO -->
+      <div *ngIf="e.comentarioCliente" class="comentario">
+        💬 {{ e.comentarioCliente }}
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FORM -->
+  <div class="card form-entrega">
+
+    <h3>Subir nueva entrega</h3>
+
+    <textarea 
+      [(ngModel)]="descripcionEntrega"
+      placeholder="Describe el trabajo realizado">
+    </textarea>
+
+    <input 
+      type="text"
+      [(ngModel)]="archivoUrl"
+      placeholder="URL del archivo"
+    >
+
+    <button 
+      class="btn-detalle"
+      [disabled]="!descripcionEntrega || !archivoUrl || hayPendiente()"
+      (click)="subirEntrega()">
+      Enviar entrega
+    </button>
+
+    <!-- MENSAJE SI BLOQUEADO -->
+    <p *ngIf="hayPendiente()" class="warning">
+      Ya tienes una entrega pendiente de revisión
+    </p>
+
+  </div>
+
+</div>

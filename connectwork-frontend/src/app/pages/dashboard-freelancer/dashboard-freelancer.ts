@@ -78,4 +78,7 @@ export class DashboardFreelancer implements OnInit {
 
   this.router.navigate(['/login']);
 }
+irContratos() {
+  this.router.navigate(['/contratos']);
+}
 }

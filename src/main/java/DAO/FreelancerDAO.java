@@ -140,4 +140,28 @@ public class FreelancerDAO {
 
         return saldo;
     }
+    
+    public int obtenerIdPorUsuario(int userId) {
+
+    int freelancerId = 0;
+
+    try {
+        Connection con = ConexionBD.getConnection();
+
+        String sql = "SELECT id FROM freelancer WHERE usuario_id = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, userId);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            freelancerId = rs.getInt("id");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return freelancerId;
+}
    }

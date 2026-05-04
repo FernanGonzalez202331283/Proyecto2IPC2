@@ -15,6 +15,8 @@ import { MisProyectos } from './pages/mis-proyectos/mis-proyectos';
 import { ExplorarProyectos } from './pages/explorar-proyectos/explorar-proyectos';
 import { DetalleProyecto } from './pages/detalle-proyecto/detalle-proyecto';
 import { EnviarPropuesta } from './pages/enviar-propuesta/enviar-propuesta';
+import { PropuestasCliente } from './pages/propuestas-cliente/propuestas-cliente';
+import { ContratosActivos } from './pages/contratos-activos/contratos-activos';
 export const routes: Routes = [
     { path: '', component: Login },
     { path: 'login', component: Login },
@@ -67,5 +69,10 @@ export const routes: Routes = [
   loadComponent: () =>
     import('./pages/propuestas-cliente/propuestas-cliente')
       .then(m => m.PropuestasCliente)
+}, { path: 'contratos', component: ContratosActivos },
+{
+  path: 'contrato/:id',
+  loadComponent: () => import('./pages/detalle-contrato/detalle-contrato')
+    .then(m => m.DetalleContrato)
 }
 ];

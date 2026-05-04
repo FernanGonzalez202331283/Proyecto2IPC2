@@ -1,0 +1,47 @@
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="top-bar">
+    <button class="btn-back" (click)="regresar()">← Regresar</button>
+    <h2>Mis Contratos</h2>
+  </div>
+
+  <!-- LOADING -->
+  <div *ngIf="cargando" class="empty">
+    <p>Cargando contratos...</p>
+  </div>
+
+  <!-- SIN CONTRATOS -->
+  <div *ngIf="!cargando && contratos.length === 0" class="empty">
+    <p>No tienes contratos activos</p>
+  </div>
+
+  <!-- GRID -->
+  <div *ngIf="!cargando && contratos.length > 0" class="grid">
+
+    <div 
+      *ngFor="let c of contratos" 
+      class="card"
+      (click)="verContrato(c.contratoId)"
+    >
+
+      <div class="card-header">
+        <h3>{{ c.titulo }}</h3>
+        <span class="categoria">{{ c.estadoProyecto }}</span>
+      </div>
+
+      <p class="desc">{{ c.descripcion }}</p>
+
+      <div class="info">
+        <span class="precio">Q{{ c.monto }}</span>
+      </div>
+
+      <button class="btn-detalle">
+        Ver detalle
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
