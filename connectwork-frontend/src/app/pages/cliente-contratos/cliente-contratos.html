@@ -1,0 +1,35 @@
+<div class="page">
+
+  <div class="container">
+
+    <h2>Contratos activos</h2>
+
+    <div *ngIf="contratos && contratos.length === 0" class="empty">
+      <p>No tienes contratos activos</p>
+    </div>
+
+    <div *ngIf="contratos && contratos.length > 0" class="grid">
+      <div *ngFor="let c of contratos" class="card">
+
+        <div class="card-header">
+          <h3>{{ c.titulo || 'Sin título' }}</h3>
+        </div>
+
+        <div class="card-body">
+          <p>{{ c.descripcion || 'Sin descripción' }}</p>
+        </div>
+
+        <div class="footer">
+          <span class="precio">Q{{ c.monto }}</span>
+
+          <button (click)="verDetalle(c.contratoId)">
+            Ver entregas
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

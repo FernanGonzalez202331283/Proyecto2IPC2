@@ -5,6 +5,7 @@
 package Servlets;
 
 import DAO.ClienteDAO;
+import DAO.ContratoDAO;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -34,7 +35,12 @@ public class ClienteServlet extends HttpServlet{
             
             int propuestas = dao.contarPropuestas(userId);
             data.put("propuestas", propuestas);
-            
+            int clienteId = dao.obtenerIdPorUsuario(userId);
+
+            ContratoDAO contratoDAO = new ContratoDAO();
+            int activos = contratoDAO.contarActivosPorCliente(clienteId);
+
+            data.put("activos", activos);
             Gson gson = new Gson();
             resp.getWriter().write(gson.toJson(data));
 

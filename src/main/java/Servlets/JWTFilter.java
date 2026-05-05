@@ -24,47 +24,50 @@ public class JWTFilter implements Filter{
     @Override
 public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, jakarta.servlet.ServletException {
+HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
 
-    HttpServletRequest req = (HttpServletRequest) request;
-    HttpServletResponse resp = (HttpServletResponse) response;
+        // CORS SIEMPRE (CRÍTICO)
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-    String path = req.getRequestURI();
+        // Preflight
+        if (req.getMethod().equalsIgnoreCase("OPTIONS")) {
+            resp.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
 
-    //PERMITIR PREFLIGHT (CORS)
-    if (req.getMethod().equalsIgnoreCase("OPTIONS")) {
+        String path = req.getRequestURI();
+
+        // RUTAS LIBRES
+        if (path.endsWith("/login") || path.endsWith("/registro")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        String authHeader = req.getHeader("Authorization");
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            resp.getWriter().write("{\"error\":\"Token requerido\"}");
+            return;
+        }
+
+        String token = authHeader.substring(7);
+        Claims claims = JWTUtil.validarToken(token);
+
+        if (claims == null) {
+            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            resp.getWriter().write("{\"error\":\"Token inválido o expirado\"}");
+            return;
+        }
+
+        // atributos del usuario
+        req.setAttribute("userId", ((Number) claims.get("id")).intValue());
+        req.setAttribute("username", claims.getSubject());
+        req.setAttribute("rol", claims.get("rol"));
+
         chain.doFilter(request, response);
-        return;
     }
-
-    //RUTAS PUBLICAS
-    if (path.endsWith("/login") || path.endsWith("/registro")) {
-        chain.doFilter(request, response);
-        return;
-    }
-
-    //TOKEN
-    String authHeader = req.getHeader("Authorization");
-
-    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-        resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        resp.getWriter().write("{\"error\":\"Token requerido\"}");
-        return;
-    }
-
-    String token = authHeader.substring(7);
-
-    Claims claims = JWTUtil.validarToken(token);
-
-    if (claims == null) {
-        resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        resp.getWriter().write("{\"error\":\"Token inválido o expirado\"}");
-        return;
-    }
-
-    req.setAttribute("userId", ((Number) claims.get("id")).intValue());
-    req.setAttribute("username", claims.getSubject());
-    req.setAttribute("rol", (String) claims.get("rol"));
-
-    chain.doFilter(request, response);
-}
 }

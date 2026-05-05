@@ -4,8 +4,8 @@
  */
 package Servlets;
 
+import DAO.ClienteDAO;
 import DAO.ContratoDAO;
-import DAO.FreelancerDAO;
 import Modelos.ContratoDetalle;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,18 +19,19 @@ import java.util.List;
  *
  * @author fernan
  */
-@WebServlet("/contratos")
-public class ContratoServlet extends HttpServlet{
+@WebServlet("/cliente/contratos")
+public class ClinteContratosServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         int userId = (int) req.getAttribute("userId");
 
-        FreelancerDAO fdao = new FreelancerDAO();
-        int freelancerId = fdao.obtenerIdPorUsuario(userId);
+        // obtener cliente_id
+        ClienteDAO cdao = new ClienteDAO();
+        int clienteId = cdao.obtenerIdPorUsuario(userId);
 
         ContratoDAO dao = new ContratoDAO();
-        List<ContratoDetalle> lista = dao.listarActivosPorFreelancer(freelancerId);
+        List<ContratoDetalle> lista = dao.listarActivosPorCliente(clienteId);
         System.out.println("Contratos encontrados: " + lista.size());
         Gson gson = new Gson();
         resp.setContentType("application/json");

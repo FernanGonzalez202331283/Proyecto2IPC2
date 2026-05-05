@@ -173,4 +173,28 @@ public class ClienteDAO {
 
     return total;
 }
+     
+     public int obtenerIdPorUsuario(int userId) {
+
+    int clienteId = 0;
+
+    try {
+        Connection con = ConexionBD.getConnection();
+
+        String sql = "SELECT id FROM cliente WHERE usuario_id=?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, userId);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            clienteId = rs.getInt("id");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return clienteId;
+}
 }

@@ -6,7 +6,9 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { interval } from 'rxjs';
+import { Subscription } from 'rxjs';
 @Component({
+
   selector: 'app-dashboard-cliente',
   standalone: true,
   imports: [RouterModule],
@@ -20,10 +22,12 @@ export class DashboardCliente {
   propuestas = 0;
   activos = 0;
   username = '';
+
   private api = 'http://localhost:8080/Proyecto2IPC2';
+  private sub!: Subscription;
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef,
     private router: Router,
@@ -31,19 +35,39 @@ export class DashboardCliente {
   ) {}
 
   ngOnInit() {
-    const user = JSON.parse(localStorage.getItem('usuario')!);
+    const userStr = localStorage.getItem('usuario');
+    const token = localStorage.getItem('token');
+
+    if (!userStr || !token) {
+      this.logout();
+      return;
+    }
+
+    const user = JSON.parse(userStr);
     this.username = user.username;
+
     this.cargarDashboard();
+
+    // evento manual
     this.dashboardService.actualizar$.subscribe(() => {
-      console.log("Actualizando datos del dashboard..."); 
       this.cargarDashboard();
     });
-    interval(5000).subscribe(() => {
-      this.cargarDashboard();
+
+    // polling controlado
+    this.sub = interval(5000).subscribe(() => {
+      if (localStorage.getItem('token')) {
+        this.cargarDashboard();
+      }
     });
   }
-cargarDashboard() {
+
+  cargarDashboard() {
     const token = localStorage.getItem('token');
+
+    if (!token) {
+      this.logout();
+      return;
+    }
 
     this.http.get<any>(`${this.api}/cliente/dashboard`, {
       headers: {
@@ -51,15 +75,20 @@ cargarDashboard() {
       }
     }).subscribe({
       next: (data) => {
-
-        this.saldo = data.saldo;
-        this.totalProyectos = data.totalProyectos;
+        this.saldo = data.saldo || 0;
+        this.totalProyectos = data.totalProyectos || 0;
         this.propuestas = data.propuestas || 0;
         this.activos = data.activos || 0;
 
         this.cdr.detectChanges();
       },
-      error: (err) => console.error("Error al cargar dashboard", err)
+      error: (err) => {
+        console.error("Error dashboard", err);
+
+        if (err.status === 401) {
+          this.logout();
+        }
+      }
     });
   }
 
@@ -69,5 +98,9 @@ cargarDashboard() {
 
     this.auth.logout?.();
     this.router.navigate(['/login']);
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 }

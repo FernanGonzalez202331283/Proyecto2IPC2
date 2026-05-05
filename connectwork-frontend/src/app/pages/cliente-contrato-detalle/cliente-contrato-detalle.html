@@ -1,0 +1,33 @@
+<div *ngIf="ultimaEntrega; else sinEntrega">
+
+  <h3>Entrega #{{ ultimaEntrega.numero }}</h3>
+  <p>{{ ultimaEntrega.descripcion }}</p>
+
+  <div class="archivos" *ngIf="ultimaEntrega.archivo">
+    <a [href]="ultimaEntrega.archivo" target="_blank">
+      📎 Ver archivo
+    </a>
+  </div>
+
+  <p><strong>Estado:</strong> {{ ultimaEntrega.estado }}</p>
+
+  <div *ngIf="ultimaEntrega.comentarioCliente">
+    <strong>Comentario cliente:</strong>
+    <p>{{ ultimaEntrega.comentarioCliente }}</p>
+  </div>
+
+  <div class="acciones" *ngIf="ultimaEntrega.estado === 'PENDIENTE'">
+
+    <button class="aprobar" (click)="aprobar()">✅ Aprobar</button>
+    <button class="rechazar" (click)="rechazar()">❌ Rechazar</button>
+    <button class="cancelar" (click)="cancelar()">🚫 Cancelar contrato</button>
+
+  </div>
+
+</div>
+
+<ng-template #sinEntrega>
+  <div class="empty">
+    <p>⚠️ Este contrato aún no tiene entregas</p>
+  </div>
+</ng-template>
