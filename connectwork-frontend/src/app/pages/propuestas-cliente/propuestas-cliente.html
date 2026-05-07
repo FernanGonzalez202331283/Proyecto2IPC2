@@ -19,7 +19,7 @@
         <small>Freelancer #{{ p.freelancerId }}</small>
       </div>
 
-      <!-- 🔥 protegido contra null -->
+      <!-- protegido contra null -->
       <span class="estado" [ngClass]="p.estado?.toLowerCase()">
         {{ p.estado }}
       </span>

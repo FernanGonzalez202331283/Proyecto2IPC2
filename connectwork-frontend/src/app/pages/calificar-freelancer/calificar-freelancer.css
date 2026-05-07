@@ -1,0 +1,110 @@
+/* calificar-freelancer.css */
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.contenedor{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.5),
+      rgba(0,0,0,0.5)
+    ),
+    url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1600');
+
+  background-size: cover;
+  background-position: center;
+
+  padding: 20px;
+}
+
+.card{
+  width: 100%;
+  max-width: 550px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 40px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+  text-align: center;
+}
+
+.card h1{
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.subtitulo{
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.estrellas{
+  margin-bottom: 30px;
+}
+
+.estrellas span{
+  font-size: 50px;
+  cursor: pointer;
+  color: #ccc;
+  transition: 0.3s;
+}
+
+.estrellas span:hover{
+  transform: scale(1.1);
+}
+
+.estrellas span.activa{
+  color: gold;
+}
+
+textarea{
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+
+  padding: 15px;
+
+  resize: none;
+
+  font-size: 16px;
+
+  margin-bottom: 25px;
+}
+
+.acciones{
+  display: flex;
+  justify-content: center;
+}
+
+.btn{
+  border: none;
+  padding: 14px 30px;
+  border-radius: 12px;
+
+  font-size: 16px;
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.guardar{
+  background: #2563eb;
+  color: white;
+}
+
+.guardar:hover{
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}

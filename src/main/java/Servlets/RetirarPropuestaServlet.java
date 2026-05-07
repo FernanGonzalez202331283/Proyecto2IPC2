@@ -5,8 +5,6 @@
 package Servlets;
 
 import DAO.PropuestaDAO;
-import Modelos.Propuesta;
-import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,8 +15,8 @@ import java.io.IOException;
  *
  * @author fernan
  */
-@WebServlet("/freelancer/propuesta")
-public class enviarPropuestaServlet extends HttpServlet{
+@WebServlet("/freelancer/propuesta/retirar")
+public class RetirarPropuestaServlet extends HttpServlet {
      @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
@@ -26,31 +24,22 @@ public class enviarPropuestaServlet extends HttpServlet{
 
         try {
             int userId = (int) req.getAttribute("userId");
-
-            Gson gson = new Gson();
-            Propuesta p = gson.fromJson(req.getReader(), Propuesta.class);
+            int propuestaId = Integer.parseInt(req.getParameter("id"));
 
             PropuestaDAO dao = new PropuestaDAO();
-
             int freelancerId = dao.obtenerFreelancerId(userId);
-            
-            boolean ok = dao.enviarPropuesta(freelancerId, p);
-            System.out.println("USER ID: " + req.getAttribute("userId"));
-            System.out.println("PROPUESTA: " + p.getProyectoId() + " - " + p.getMonto());
 
-            if (ok) {
-                resp.getWriter().write("{\"msg\":\"Propuesta enviada\"}");
-            }
+            dao.retirarPropuesta(propuestaId, freelancerId);
+
+            resp.getWriter().write("{\"msg\":\"Propuesta retirada\"}");
 
         } catch (RuntimeException e) {
             resp.setStatus(400);
             resp.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
 
         } catch (Exception e) {
-            e.printStackTrace();
             resp.setStatus(500);
             resp.getWriter().write("{\"error\":\"Error del servidor\"}");
         }
     }
-
 }

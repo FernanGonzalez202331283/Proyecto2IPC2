@@ -1,0 +1,48 @@
+<!-- calificar-freelancer.html -->
+
+<div class="contenedor">
+
+  <div class="card">
+
+    <h1>Calificar Freelancer</h1>
+
+    <p class="subtitulo">
+      Comparte tu experiencia sobre el trabajo realizado
+    </p>
+
+    <!-- ESTRELLAS -->
+    <div class="estrellas">
+
+      <span
+        *ngFor="let s of [1,2,3,4,5]"
+        (click)="seleccionarEstrella(s)"
+        [class.activa]="s <= estrellas">
+
+        ★
+
+      </span>
+
+    </div>
+
+    <!-- TEXTO -->
+    <textarea
+      [(ngModel)]="comentario"
+      placeholder="Escribe un comentario..."
+      rows="5">
+    </textarea>
+
+    <!-- BOTONES -->
+    <div class="acciones">
+
+      <button class="btn guardar"
+              (click)="guardarCalificacion()">
+
+        Enviar Calificación
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

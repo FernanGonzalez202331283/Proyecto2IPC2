@@ -31,7 +31,7 @@ public class Cors implements Filter{
         resp.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-        //PRE-FLIGHT (MUY IMPORTANTE)
+        //PRE-FLIGHT
         if (req.getMethod().equalsIgnoreCase("OPTIONS")) {
             resp.setStatus(HttpServletResponse.SC_OK);
             return;

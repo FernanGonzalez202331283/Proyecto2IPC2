@@ -1,0 +1,52 @@
+<div class="page">
+   
+
+  <div class="card">
+    <button class="btn-back" (click)="regresar()">
+    ← Volver
+    </button>
+
+    <h2>Solicitar nueva habilidad</h2>
+
+    <p class="subtitle">
+      Envía una solicitud para agregar una nueva habilidad al catálogo.
+    </p>
+
+    <div class="form-group">
+
+      <label>Nombre de la habilidad</label>
+
+      <input
+        type="text"
+        [(ngModel)]="nombre"
+        placeholder="Ejemplo: Docker"
+      >
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Descripción</label>
+
+      <textarea
+        [(ngModel)]="descripcion"
+        placeholder="Describe la habilidad solicitada">
+      </textarea>
+
+    </div>
+
+    <button (click)="enviar()">
+      Enviar solicitud
+    </button>
+
+    <p *ngIf="mensaje" class="success">
+      {{mensaje}}
+    </p>
+
+    <p *ngIf="error" class="error">
+      {{error}}
+    </p>
+
+  </div>
+
+</div>

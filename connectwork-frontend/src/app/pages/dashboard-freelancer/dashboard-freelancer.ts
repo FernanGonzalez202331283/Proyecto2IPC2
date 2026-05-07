@@ -4,7 +4,6 @@ import { OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DashboardService } from '../../services/dashboard';
 import { AuthService } from '../../services/auth';
 import { ChangeDetectorRef } from '@angular/core';
 @Component({
@@ -25,7 +24,7 @@ export class DashboardFreelancer implements OnInit {
 
   private api = 'http://localhost:8080/Proyecto2IPC2';
 
-  constructor(private http: HttpClient, private router: Router,private auth: AuthService ) {}
+  constructor(private http: HttpClient, private router: Router,private auth: AuthService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     const user = JSON.parse(localStorage.getItem('usuario')!);
@@ -41,19 +40,21 @@ export class DashboardFreelancer implements OnInit {
   }
 
   cargarDashboard() {
-    const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
-    this.http.get<any>(`${this.api}/freelancer/dashboard`, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).subscribe({
-      next: (data) => {
-        this.saldo = data.saldo || 0;
-        this.propuestas = data.propuestas || 0;
-        this.contratos = data.contratos || 0;
-      },
-      error: (err) => console.error(err)
-    });
-  }
+  this.http.get<any>(`${this.api}/freelancer/dashboard`, {
+    headers: { Authorization: `Bearer ${token}` }
+  }).subscribe({
+    next: (data) => {
+      this.saldo = data.saldo || 0;
+      this.propuestas = data.propuestas || 0;
+      this.contratos = data.contratos || 0;
+
+      this.cdr.detectChanges(); 
+    },
+    error: (err) => console.error(err)
+  });
+}
 
   cargarProyectos() {
     const token = localStorage.getItem('token');
@@ -62,7 +63,8 @@ export class DashboardFreelancer implements OnInit {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (data) => {
-        this.proyectos = data.slice(0, 5); // solo 3 recientes
+        this.proyectos = data.slice(0, 5); // solo 5 recientes
+        this.cdr.detectChanges();
       },
       error: (err) => console.error(err)
     });

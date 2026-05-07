@@ -18,6 +18,9 @@ import { EnviarPropuesta } from './pages/enviar-propuesta/enviar-propuesta';
 import { PropuestasCliente } from './pages/propuestas-cliente/propuestas-cliente';
 import { ContratosActivos } from './pages/contratos-activos/contratos-activos';
 import { ClienteContratoDetalle } from './pages/cliente-contrato-detalle/cliente-contrato-detalle';
+import { ClienteContratos } from './pages/cliente-contratos/cliente-contratos';
+import { CalificarFreelancer } from './pages/calificar-freelancer/calificar-freelancer';
+
 export const routes: Routes = [
     { path: '', component: Login },
     { path: 'login', component: Login },
@@ -84,6 +87,21 @@ export const routes: Routes = [
  {
     path: 'cliente/contrato/:id',
     component: ClienteContratoDetalle
+  },
+  {
+    path: 'mis-propuestas',
+    loadComponent: () => import('./pages/mis-propuestas/mis-propuestas')
+      .then(m => m.MisPropuestas)
+  },
+  {
+  path: 'solicitar-habilidad',
+  loadComponent: () =>
+    import('./pages/solicitar-habilidad/solicitar-habilidad')
+      .then(m => m.SolicitarHabilidad)
+},
+ {
+    path: 'calificar-freelancer/:id',
+    component: CalificarFreelancer
   }
 
 ];

@@ -3,14 +3,14 @@
   <div class="header">
 
   <div class="header-top">
-    <h2>Hola, {{username}} 👋</h2>
+    <h2>Hola, {{username}} bienvenido</h2>
 
     <button class="btn-logout" (click)="logout()">
       Cerrar sesión
     </button>
   </div>
 
-  <p>Aquí tienes un resumen de tu actividad</p>
+  <p>resumen de tu actividad</p>
 
 </div>
 
@@ -39,32 +39,8 @@
       <h2>Q{{saldo}}</h2>
       <p>Disponible</p>
     </div>
-
-  </div>
-
-  <!-- Actividad -->
-  <div class="actividad">
-    <h3>Actividad reciente</h3>
-
-    <div class="item">
-      <span>📩</span>
-      <div>
-        <p>Nueva propuesta en "Proyecto X"</p>
-        <small>Hace 1 hora</small>
-      </div>
-    </div>
-
-    <div class="item">
-      <span>✅</span>
-      <div>
-        <p>Entrega aprobada</p>
-        <small>Hace 3 horas</small>
-      </div>
-    </div>
-
     <div class="acciones">
     <button routerLink="/recargar">Recargar saldo</button>
-  <button routerLink="/mis-proyectos">📂 Ver Mis Proyectos</button>
 </div>
 
   </div>

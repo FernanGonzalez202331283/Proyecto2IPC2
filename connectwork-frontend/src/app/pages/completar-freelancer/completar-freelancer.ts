@@ -83,4 +83,8 @@ export class CompletarFreelancer implements OnInit {
       }
     });
   }
+
+  regresar() {
+  this.router.navigate(['/login']);
+}
 }

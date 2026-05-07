@@ -44,7 +44,7 @@ public class ClienteDAO {
 
     try (Connection con = ConexionBD.getConnection()) {
 
-        con.setAutoCommit(false); //TRANSACCIÓN
+        con.setAutoCommit(false);
 
         // 1. insertar cliente
         PreparedStatement ps1 = con.prepareStatement(sqlCliente);
@@ -59,7 +59,7 @@ public class ClienteDAO {
         ps2.setInt(1, userId);
         ps2.executeUpdate();
 
-        con.commit(); // ✅ todo correcto
+        con.commit();
         return true;
 
     } catch (Exception e) {
@@ -95,7 +95,7 @@ public class ClienteDAO {
             clienteId = rsCliente.getInt("id");
         }
 
-        // 3. Obtener cantidad de proyectos (AHORA SÍ CORRECTO)
+        // 3. Obtener cantidad de proyectos
         String sqlProyectos = "SELECT COUNT(*) AS total FROM proyecto WHERE cliente_id = ?";
         PreparedStatement ps2 = con.prepareStatement(sqlProyectos);
         ps2.setInt(1, clienteId);
@@ -124,7 +124,7 @@ public class ClienteDAO {
 
         con.setAutoCommit(false);
 
-        // INSERTAR RECARGA
+        //  NSERTAR RECARGA
         PreparedStatement ps1 = con.prepareStatement(sqlRecarga);
         ps1.setInt(1, usuarioId);
         ps1.setDouble(2, monto);

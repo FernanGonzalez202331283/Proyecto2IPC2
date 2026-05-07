@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-explorar-proyectos',
   standalone  : true,
@@ -27,7 +28,7 @@ export class ExplorarProyectos implements OnInit {
 
   private api = 'http://localhost:8080/Proyecto2IPC2';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router,  private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.cargarProyectos();
@@ -44,18 +45,20 @@ export class ExplorarProyectos implements OnInit {
   }
 
   cargarProyectos() {
-    const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
-    this.http.get<any[]>(`${this.api}/proyectos`, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).subscribe({
-      next: (data) => {
-        this.proyectos = data;
-        this.proyectosOriginal = data;
-      },
-      error: (err) => console.error("ERROR:", err)
-    });
-  }
+  this.http.get<any[]>(`${this.api}/proyectos`, {
+    headers: { Authorization: `Bearer ${token}` }
+  }).subscribe({
+    next: (data) => {
+      this.proyectos = data;
+      this.proyectosOriginal = data;
+
+      this.cdr.detectChanges(); 
+    },
+    error: (err) => console.error("ERROR:", err)
+  });
+}
 
   cargarCategorias() {
     this.http.get<any[]>(`${this.api}/categorias`)

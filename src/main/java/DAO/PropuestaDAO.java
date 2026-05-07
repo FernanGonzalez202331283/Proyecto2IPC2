@@ -61,13 +61,12 @@ public class PropuestaDAO {
         throw new RuntimeException("Error al actualizar estado");
     }
 }
-    
-   public boolean enviarPropuesta(int freelancerId, Propuesta p) {
+  public boolean enviarPropuesta(int freelancerId, Propuesta p) {
 
     try {
         Connection con = ConexionBD.getConnection();
 
-        //VALIDACIÓN GENERAL
+        // VALIDACIÓN GENERAL
         if (freelancerId == 0) {
             throw new RuntimeException("Freelancer no encontrado");
         }
@@ -79,17 +78,20 @@ public class PropuestaDAO {
             throw new RuntimeException("Datos incompletos en la propuesta");
         }
 
-        // 1. validar duplicado
-        String check = "SELECT id FROM propuesta WHERE proyecto_id=? AND freelancer_id=?";
+        //1. VALIDAR DUPLICADO (IGNORANDO RETIRADAS)
+        String check = "SELECT id FROM propuesta " +
+                       "WHERE proyecto_id=? AND freelancer_id=? " +
+                       "AND estado IN ('EN_REVISION','SELECCIONADA','ACEPTADA')";
+
         PreparedStatement psCheck = con.prepareStatement(check);
         psCheck.setInt(1, p.getProyectoId());
         psCheck.setInt(2, freelancerId);
 
         if (psCheck.executeQuery().next()) {
-            throw new RuntimeException("Ya enviaste propuesta a este proyecto");
+            throw new RuntimeException("Ya tienes una propuesta activa en este proyecto");
         }
 
-        // 2. validar estado y presupuesto
+        // 2. VALIDAR ESTADO DEL PROYECTO Y PRESUPUESTO
         String estadoSql = "SELECT estado, presupuesto FROM proyecto WHERE id=?";
         PreparedStatement psEstado = con.prepareStatement(estadoSql);
         psEstado.setInt(1, p.getProyectoId());
@@ -109,7 +111,7 @@ public class PropuestaDAO {
             }
         }
 
-        // 3. validar habilidades
+        // 3. VALIDAR HABILIDADES
         String sqlHab = "SELECT COUNT(*) AS total " +
                         "FROM freelancer_habilidad fh " +
                         "JOIN proyecto_habilidad ph ON fh.habilidad_id = ph.habilidad_id " +
@@ -125,7 +127,7 @@ public class PropuestaDAO {
             throw new RuntimeException("No cumples con las habilidades requeridas");
         }
 
-        // 4. insertar
+        //4. INSERTAR PROPUESTA
         String sql = "INSERT INTO propuesta (proyecto_id, freelancer_id, monto, tiempo, descripcion, estado, fecha) " +
                      "VALUES (?, ?, ?, ?, ?, 'EN_REVISION', NOW())";
 
@@ -418,6 +420,97 @@ public class PropuestaDAO {
     } finally {
         try { if (con != null) con.setAutoCommit(true); } catch (Exception e) {}
     }
+}
+    
+    public void retirarPropuesta(int propuestaId, int freelancerId) {
+
+    try (Connection con = ConexionBD.getConnection()) {
+
+        // 1. obtener propuesta + proyecto
+        String sql = "SELECT p.estado, p.freelancer_id, pr.estado AS estadoProyecto " +
+                     "FROM propuesta p " +
+                     "JOIN proyecto pr ON p.proyecto_id = pr.id " +
+                     "WHERE p.id=?";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, propuestaId);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (!rs.next()) {
+            throw new RuntimeException("Propuesta no encontrada");
+        }
+
+        // 2. validar que sea del freelancer
+        if (rs.getInt("freelancer_id") != freelancerId) {
+            throw new RuntimeException("No puedes retirar esta propuesta");
+        }
+
+        // 3. validar estado del proyecto
+        if (!rs.getString("estadoProyecto").equals("ABIERTO")) {
+            throw new RuntimeException("El proyecto ya no está abierto");
+        }
+
+        // 4. validar estado de la propuesta
+        String estado = rs.getString("estado");
+
+        if (!estado.equals("EN_REVISION")) {
+            throw new RuntimeException("No puedes retirar esta propuesta");
+        }
+
+        // 5. actualizar estado
+        String update = "UPDATE propuesta SET estado='RETIRADA' WHERE id=?";
+        PreparedStatement ps2 = con.prepareStatement(update);
+        ps2.setInt(1, propuestaId);
+        ps2.executeUpdate();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        throw new RuntimeException("Error al retirar propuesta");
+    }
+}
+    public List<Propuesta> listarPorFreelancer(int freelancerId) {
+
+    List<Propuesta> lista = new ArrayList<>();
+
+    try {
+        Connection con = ConexionBD.getConnection();
+
+        String sql =
+        "SELECT p.*, pr.titulo AS proyectoTitulo, pr.estado AS estadoProyecto " +
+        "FROM propuesta p " +
+        "JOIN proyecto pr ON p.proyecto_id = pr.id " +
+        "WHERE p.freelancer_id = ? " +
+        "ORDER BY p.fecha DESC";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, freelancerId);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+
+        Propuesta p = new Propuesta();
+
+        p.setId(rs.getInt("id"));
+        p.setProyectoId(rs.getInt("proyecto_id"));
+        p.setProyectoTitulo(rs.getString("proyectoTitulo"));
+        p.setMonto(rs.getDouble("monto"));
+        p.setTiempo(rs.getInt("tiempo"));
+        p.setDescripcion(rs.getString("descripcion"));
+
+        //IMPORTANTE
+        p.setEstado(rs.getString("estado"));
+        p.setEstadoProyecto(rs.getString("estadoProyecto"));
+
+        lista.add(p);
+    }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return lista;
 }
     
 }

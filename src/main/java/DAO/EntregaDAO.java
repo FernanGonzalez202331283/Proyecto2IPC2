@@ -53,7 +53,7 @@ public class EntregaDAO {
         return lista;
     }
 
-    //CREAR ENTREGA (CORREGIDO)
+    //CREAR ENTREGA 
     public boolean crearEntrega(int contratoId, String descripcion, String archivo) {
 
         Connection con = null;
@@ -276,6 +276,12 @@ public boolean rechazarEntrega(int contratoId, String motivo) {
         PreparedStatement ps2 = con.prepareStatement(sql2);
         ps2.setInt(1, contratoId);
         ps2.executeUpdate();
+        
+        // 5. VOLVER CONTRATO A EN_PROGRESO
+        String sql3 = "UPDATE contrato SET estado='EN_PROGRESO' WHERE id=?";
+        PreparedStatement ps3 = con.prepareStatement(sql3);
+        ps3.setInt(1, contratoId);
+        ps3.executeUpdate();
 
         con.commit();
         return true;

@@ -43,4 +43,9 @@ export class ClienteContratos implements OnInit {
   verDetalle(id: number) {
     this.router.navigate(['/cliente/contrato', id]);
   }
+
+  regresar() {
+  this.router.navigate(['/dashboard-cliente']);
 }
+}
+

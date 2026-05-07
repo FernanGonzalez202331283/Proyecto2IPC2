@@ -1,6 +1,6 @@
 <div class="container">
 
-  <button class="btn-back" (click)="regresar()">← Regresar</button>
+  <button class="btn-back" (click)="regresar()"> Regresar</button>
 
   <h2>Enviar Propuesta</h2>
 
@@ -18,14 +18,14 @@
     <label>Descripción</label>
     <textarea [(ngModel)]="propuesta.descripcion"></textarea>
 
-    <!-- MENSAJES -->
-    <div *ngIf="error" class="error">{{ error }}</div>
-    <div *ngIf="mensaje" class="success">{{ mensaje }}</div>
+   <div *ngIf="error" class="error"> {{ error }}</div>
+<div *ngIf="mensaje" class="success">{{ mensaje }}</div>
 
-    <!-- BOTÓN -->
-    <button class="btn-enviar" (click)="enviar()">
-      Enviar Propuesta
-    </button>
+<button class="btn-enviar"
+        (click)="enviar()"
+        [disabled]="enviando">
+  {{ enviando ? 'Enviando...' : 'Enviar Propuesta' }}
+</button>
 
   </div>
 

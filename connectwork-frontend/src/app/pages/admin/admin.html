@@ -1,1 +1,126 @@
-<p>admin works!</p>
+<div class="dashboard">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+
+    <div class="logo">
+      <h2>Admin Panel</h2>
+    </div>
+
+    <div class="nav-links">
+      <a routerLink="/admin/categorias">Categorías</a>
+      <a routerLink="/admin/habilidades">Habilidades</a>
+      <a routerLink="/admin/solicitudes">Solicitudes</a>
+      <a routerLink="/admin/comision">Comisión</a>
+      <a routerLink="/admin/reportes">Reportes</a>
+    </div>
+
+    <button class="btn-logout" (click)="logout()">
+      Salir
+    </button>
+
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <h1>Panel Administrativo</h1>
+
+    <p>
+      Gestiona categorías, habilidades,
+      solicitudes y reportes del sistema
+    </p>
+
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+
+    <div class="stat-card">
+      <h3>Categorías</h3>
+      <!--<h2>{{totalCategorias}}</h2>-->
+    </div>
+
+    <div class="stat-card">
+      <h3>Habilidades</h3>
+     <!-- <h2>{{totalHabilidades}}</h2>-->
+    </div>
+
+    <div class="stat-card">
+      <h3>Solicitudes</h3>
+      <!--<h2>{{solicitudesPendientes}}</h2>--> 
+    </div>
+
+    <div class="stat-card">
+      <h3>Comisión</h3>
+     <!-- <h2>{{comisionActual}}%</h2>-->
+    </div>
+
+  </section>
+
+  <!-- ACTIONS -->
+  <section class="actions">
+
+    <div class="action-card" routerLink="/admin/categorias">
+
+      <div class="icon">📂</div>
+
+      <h3>Gestionar Categorías</h3>
+
+      <p>
+        Crear, editar y desactivar categorías
+      </p>
+
+    </div>
+
+    <div class="action-card" routerLink="/admin/habilidades">
+
+      <div class="icon">🛠️</div>
+
+      <h3>Gestionar Habilidades</h3>
+
+      <p>
+        Administrar habilidades del catálogo
+      </p>
+
+    </div>
+
+    <div class="action-card" routerLink="/admin/solicitudes">
+
+      <div class="icon">📩</div>
+
+      <h3>Solicitudes</h3>
+
+      <p>
+        Revisar solicitudes pendientes
+      </p>
+
+    </div>
+
+    <div class="action-card" routerLink="/admin/comision">
+
+      <div class="icon">💰</div>
+
+      <h3>Comisión</h3>
+
+      <p>
+        Cambiar porcentaje de la plataforma
+      </p>
+
+    </div>
+
+    <div class="action-card" routerLink="/admin/reportes">
+
+      <div class="icon">📊</div>
+
+      <h3>Reportes</h3>
+
+      <p>
+        Visualizar estadísticas e ingresos
+      </p>
+
+    </div>
+
+  </section>
+
+</div>

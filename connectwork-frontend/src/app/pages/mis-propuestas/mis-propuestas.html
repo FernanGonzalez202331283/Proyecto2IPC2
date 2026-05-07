@@ -1,0 +1,47 @@
+<div class="contenedor">
+
+    <!-- BOTÓN REGRESAR -->
+  <button class="btn-back" (click)="regresar()">
+    ← Volver
+  </button>
+
+  <h2 class="titulo">Mis Propuestas</h2>
+
+  <div class="grid">
+
+    <div *ngFor="let p of propuestas" class="card">
+
+      <div class="card-header">
+        <h3>{{p.proyectoTitulo}}</h3>
+        <span class="estado" [ngClass]="p.estado.toLowerCase()">
+          Propuesta: {{p.estado}} <br>
+          Proyecto: {{p.estadoProyecto}}
+        </span>
+      </div>
+
+      <p class="descripcion">{{p.descripcion}}</p>
+
+      <div class="info">
+        <div>
+          <small>Monto</small>
+          <strong>Q{{p.monto}}</strong>
+        </div>
+
+        <div>
+          <small>Tiempo</small>
+          <strong>{{p.tiempo}} días</strong>
+        </div>
+      </div>
+
+      <button 
+        class="btn-retirar"
+        *ngIf="p.estado === 'EN_REVISION'" 
+        (click)="retirar(p.id)">
+        Retirar propuesta
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

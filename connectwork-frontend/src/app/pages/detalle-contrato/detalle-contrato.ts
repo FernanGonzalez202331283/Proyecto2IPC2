@@ -28,7 +28,8 @@ export class DetalleContrato implements OnInit {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute, 
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -36,25 +37,28 @@ export class DetalleContrato implements OnInit {
     this.cargarEntregas();
   }
 
-  cargarEntregas() {
-    const token = localStorage.getItem('token');
+ cargarEntregas() {
+  const token = localStorage.getItem('token');
 
-    this.cargando = true;
+  this.cargando = true;
+  this.cdr.detectChanges(); 
 
-    this.http.get<any[]>(`${this.api}/entregas?contratoId=${this.contratoId}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).subscribe({
-      next: (data) => {
-        this.entregas = data || [];
-        this.cargando = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.entregas = [];
-        this.cargando = false;
-      }
-    });
-  }
+  this.http.get<any[]>(`${this.api}/entregas?contratoId=${this.contratoId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  }).subscribe({
+    next: (data) => {
+      this.entregas = data || [];
+      this.cargando = false;
+      this.cdr.detectChanges(); 
+    },
+    error: (err) => {
+      console.error(err);
+      this.entregas = [];
+      this.cargando = false;
+      this.cdr.detectChanges();
+    }
+  });
+}
 
   subirEntrega() {
     const token = localStorage.getItem('token');

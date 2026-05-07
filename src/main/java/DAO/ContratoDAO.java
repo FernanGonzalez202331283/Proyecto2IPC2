@@ -134,7 +134,7 @@ public class ContratoDAO {
         ps2.setInt(1, contratoId);
         ps2.executeUpdate();
 
-        //3. REEMBOLSAR AL CLIENTE (CORRECTO)
+        //3. REEMBOLSAR AL CLIENTE
         String sqlReembolso =
             "SELECT cli.usuario_id, c.monto " +
             "FROM contrato c " +

@@ -20,6 +20,8 @@ public class Propuesta {
     private String descripcion;
     private String estado;
     private Date fecha;
+    private String estadoProyecto;
+    
     
     public Propuesta(){}
     
@@ -31,6 +33,16 @@ public class Propuesta {
         this.descripcion = descripcion;
     }
 
+    public String getEstadoProyecto() {
+        return estadoProyecto;
+    }
+
+    public void setEstadoProyecto(String estadoProyecto) {
+        this.estadoProyecto = estadoProyecto;
+    }
+
+    
+    
     public String getProyectoTitulo() {
         return proyectoTitulo;
     }

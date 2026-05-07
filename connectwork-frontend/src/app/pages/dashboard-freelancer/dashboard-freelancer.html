@@ -9,6 +9,9 @@
       <a routerLink="/mis-propuestas">Propuestas</a>
       <a (click)="irContratos()">Contratos</a>
       <a routerLink="/reportes">Reportes</a>
+      <a routerLink="/solicitar-habilidad">
+    Solicitar habilidad
+  </a>
     </div>
 
     <button class="btn-logout" (click)="logout()">Salir</button>
@@ -36,6 +39,12 @@
     <div class="card">
       <h4>Contratos</h4>
       <h2>{{contratos}}</h2>
+    </div>
+
+    <div class="card clickable" (click)="irContratos()">
+      <h4>Contratos activos</h4>
+      <h2>{{contratos}}</h2>
+      <p>Ver entregas y progreso</p>
     </div>
 
   </div>

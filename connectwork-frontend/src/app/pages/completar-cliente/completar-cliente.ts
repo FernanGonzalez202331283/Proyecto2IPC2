@@ -59,4 +59,8 @@ descripcion = '';
     });
   }
 
+  regresar() {
+  this.router.navigate(['/login']);
+}
+
 }

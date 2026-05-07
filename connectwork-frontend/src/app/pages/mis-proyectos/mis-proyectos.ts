@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { DashboardService } from '../../services/dashboard';
 import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-mis-proyectos',
   standalone: true,
@@ -20,7 +20,8 @@ export class MisProyectos {
   constructor(
     private http: HttpClient, 
     private location: Location, 
-    private router: Router
+    private router: Router, 
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -29,22 +30,24 @@ export class MisProyectos {
   }
 
   cargarProyectos() {
-    const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
-    this.http.get<any[]>(`${this.api}/proyectos`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).subscribe({
-      next: (data) => {
-        // Usar el spread operator [...] asegura que Angular detecte el cambio de datos
-        this.proyectos = [...data];
-      },
-      error: (err) => {
-        console.error("Error al cargar proyectos:", err);
-      }
-    });
-  }
+  this.http.get<any[]>(`${this.api}/proyectos`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).subscribe({
+    next: (data) => {
+      this.proyectos = [...data];
+
+      // Forzar detección de cambios
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error("Error al cargar proyectos:", err);
+    }
+  });
+}
 
   cambiarFiltro(f: string) {
     this.filtro = f;

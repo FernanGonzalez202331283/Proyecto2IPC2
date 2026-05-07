@@ -5,6 +5,7 @@ import { OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cliente-contrato-detalle',
   standalone: true,
@@ -23,7 +24,8 @@ export class ClienteContratoDetalle implements OnInit {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -50,14 +52,39 @@ export class ClienteContratoDetalle implements OnInit {
   });
 }
 
-  aprobar() {
+ aprobar() {
+
   this.http.post(`${this.api}/entregas/revisar`, {
+
     accion: "APROBAR",
     contratoId: this.contratoId
-  }).subscribe(() => {
-    alert("Entrega aprobada");
-    this.cargarEntregas();
+
+  }).subscribe({
+
+    next: () => {
+
+      alert("Entrega aprobada");
+
+      this.cargarEntregas();
+
+      // REDIRIGIR A CALIFICAR
+      this.router.navigate([
+        '/calificar-freelancer',
+        this.contratoId
+      ]);
+
+    },
+
+    error: (err) => {
+
+      console.log(err);
+
+      alert("Error al aprobar entrega");
+
+    }
+
   });
+
 }
 
   rechazar() {
@@ -87,4 +114,8 @@ export class ClienteContratoDetalle implements OnInit {
       alert("Contrato cancelado");
     });
   }
+
+  regresar() {
+  this.router.navigate(['/cliente/contratos']);
+}
 }

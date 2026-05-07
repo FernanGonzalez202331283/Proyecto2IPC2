@@ -1,0 +1,141 @@
+/* FONDO GENERAL */
+.page {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+
+  padding: 20px;
+}
+
+/* CARD */
+.card {
+  width: 100%;
+  max-width: 500px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.1);
+
+  border-radius: 20px;
+
+  padding: 35px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+  color: white;
+}
+
+/* TITULO */
+.card h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+/* SUBTITULO */
+.subtitle {
+  color: #cbd5e1;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* FORM */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-weight: 600;
+
+  color: #e2e8f0;
+}
+
+/* INPUTS */
+input,
+textarea {
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.1);
+
+  color: white;
+
+  outline: none;
+
+  font-size: 15px;
+
+  transition: 0.3s;
+}
+
+/* PLACEHOLDER */
+input::placeholder,
+textarea::placeholder {
+  color: #cbd5e1;
+}
+
+/* FOCUS */
+input:focus,
+textarea:focus {
+  background: rgba(255,255,255,0.15);
+
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+/* TEXTAREA */
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+/* BOTON */
+button {
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+/* HOVER */
+button:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+/* MENSAJES */
+.success {
+  margin-top: 18px;
+  color: #4ade80;
+  font-weight: bold;
+}
+
+.error {
+  margin-top: 18px;
+  color: #f87171;
+  font-weight: bold;
+}
