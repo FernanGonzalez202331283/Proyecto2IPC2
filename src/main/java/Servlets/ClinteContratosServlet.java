@@ -26,7 +26,7 @@ public class ClinteContratosServlet extends HttpServlet{
 
         int userId = (int) req.getAttribute("userId");
 
-        // obtener cliente_id
+        //obtener cliente_id
         ClienteDAO cdao = new ClienteDAO();
         int clienteId = cdao.obtenerIdPorUsuario(userId);
 

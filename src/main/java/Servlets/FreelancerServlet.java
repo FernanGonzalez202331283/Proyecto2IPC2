@@ -35,7 +35,7 @@ public class FreelancerServlet extends HttpServlet{
 
             double saldo = dao.obtenerSaldo(userId);
 
-            // luego conectamos real
+            //luego conectamos real
             int propuestas = 0;
             int contratos = 0;
 

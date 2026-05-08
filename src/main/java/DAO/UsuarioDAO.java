@@ -21,14 +21,14 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author fernan
  */
 public class UsuarioDAO {
-     public Usuario login(String username, String password) {
+
+    public Usuario login(String username, String password) {
         System.out.println("Intentando login para: " + username);
         Usuario u = null;
 
         String sql = "SELECT * FROM usuario WHERE username=? AND estado=1";
 
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, username);
 
@@ -65,17 +65,14 @@ public class UsuarioDAO {
     }
 
     public boolean registrar(Usuario u) {
-        String sql = "INSERT INTO usuario (nombre, username, password, correo, telefono, " +
-                     "direccion, cui, fecha_nacimiento, rol, perfil_completo, estado) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuario (nombre, username, password, correo, telefono, "
+                + "direccion, cui, fecha_nacimiento, rol, perfil_completo, estado) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getUsername());
-
-            // 🔥 HASH SOLO AQUÍ
             String hash = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt());
             ps.setString(3, hash);
 
@@ -97,9 +94,8 @@ public class UsuarioDAO {
     }
 
     public boolean existeUsuario(String username) {
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(
-                 "SELECT id FROM usuario WHERE username = ?")) {
+        try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(
+                "SELECT id FROM usuario WHERE username = ?")) {
 
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
@@ -111,263 +107,243 @@ public class UsuarioDAO {
             return false;
         }
     }
-    
-     public List<Usuario> listarUsuarios() {
 
-    List<Usuario> lista = new ArrayList<>();
+    public List<Usuario> listarUsuarios() {
 
-    String sql = "SELECT id, nombre, username, correo, rol, estado FROM usuario";
+        List<Usuario> lista = new ArrayList<>();
 
-    try (Connection con = Conexion.ConexionBD.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
+        String sql = "SELECT id, nombre, username, correo, rol, estado FROM usuario";
 
-        while (rs.next()) {
+        try (Connection con = Conexion.ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
-            Usuario u = new Usuario();
+            while (rs.next()) {
 
-            u.setId(rs.getInt("id"));
-            u.setNombre(rs.getString("nombre"));
-            u.setUsername(rs.getString("username"));
-            u.setCorreo(rs.getString("correo"));
-            u.setRol(rs.getString("rol"));
-            u.setEstado(rs.getInt("estado"));
+                Usuario u = new Usuario();
 
-            lista.add(u);
+                u.setId(rs.getInt("id"));
+                u.setNombre(rs.getString("nombre"));
+                u.setUsername(rs.getString("username"));
+                u.setCorreo(rs.getString("correo"));
+                u.setRol(rs.getString("rol"));
+                u.setEstado(rs.getInt("estado"));
+
+                lista.add(u);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        return lista;
     }
 
-    return lista;
-}
-      public boolean cambiarEstado(int id, int estado) {
+    public boolean cambiarEstado(int id, int estado) {
 
-    String sql = "UPDATE usuario SET estado = ? WHERE id = ?";
+        String sql = "UPDATE usuario SET estado = ? WHERE id = ?";
 
-    try (Connection con = Conexion.ConexionBD.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ps.setInt(1, estado);
-        ps.setInt(2, id);
+            ps.setInt(1, estado);
+            ps.setInt(2, id);
 
-        return ps.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
 
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
+
     public PerfilUsuario obtenerPerfil(int id) {
 
-    PerfilUsuario perfil = new PerfilUsuario();
+        PerfilUsuario perfil = new PerfilUsuario();
 
-    Usuario usuario = null;
+        Usuario usuario = null;
 
-    Freelancer freelancer = null;
+        Freelancer freelancer = null;
 
-    Cliente cliente = null;
+        Cliente cliente = null;
 
-    String sqlUsuario =
-        "SELECT * FROM usuario WHERE id = ?";
+        String sqlUsuario
+                = "SELECT * FROM usuario WHERE id = ?";
 
-    String sqlFreelancer =
-        "SELECT * FROM freelancer WHERE usuario_id = ?";
+        String sqlFreelancer
+                = "SELECT * FROM freelancer WHERE usuario_id = ?";
 
-    String sqlCliente =
-        "SELECT * FROM cliente WHERE usuario_id = ?";
-
-    try (
-        Connection con = ConexionBD.getConnection()
-    ) {
-
-        // =========================
-        // USUARIO
-        // =========================
+        String sqlCliente
+                = "SELECT * FROM cliente WHERE usuario_id = ?";
 
         try (
-            PreparedStatement ps =
-                con.prepareStatement(sqlUsuario)
-        ) {
+                Connection con = ConexionBD.getConnection()) {
 
-            ps.setInt(1, id);
+            try (
+                    PreparedStatement ps
+                    = con.prepareStatement(sqlUsuario)) {
 
-            ResultSet rs = ps.executeQuery();
+                ps.setInt(1, id);
 
-            if(rs.next()){
+                ResultSet rs = ps.executeQuery();
 
-                usuario = new Usuario();
+                if (rs.next()) {
 
-                usuario.setId(
-                    rs.getInt("id")
-                );
+                    usuario = new Usuario();
 
-                usuario.setNombre(
-                    rs.getString("nombre")
-                );
+                    usuario.setId(
+                            rs.getInt("id")
+                    );
 
-                usuario.setUsername(
-                    rs.getString("username")
-                );
+                    usuario.setNombre(
+                            rs.getString("nombre")
+                    );
 
-                usuario.setCorreo(
-                    rs.getString("correo")
-                );
+                    usuario.setUsername(
+                            rs.getString("username")
+                    );
 
-                usuario.setTelefono(
-                    rs.getString("telefono")
-                );
+                    usuario.setCorreo(
+                            rs.getString("correo")
+                    );
 
-                usuario.setDireccion(
-                    rs.getString("direccion")
-                );
+                    usuario.setTelefono(
+                            rs.getString("telefono")
+                    );
 
-                usuario.setCui(
-                    rs.getString("cui")
-                );
+                    usuario.setDireccion(
+                            rs.getString("direccion")
+                    );
 
-                usuario.setFechaNacimiento(
-                    rs.getString("fecha_nacimiento")
-                );
+                    usuario.setCui(
+                            rs.getString("cui")
+                    );
 
-                usuario.setRol(
-                    rs.getString("rol")
-                );
+                    usuario.setFechaNacimiento(
+                            rs.getString("fecha_nacimiento")
+                    );
 
-                usuario.setEstado(
-                    rs.getInt("estado")
-                );
+                    usuario.setRol(
+                            rs.getString("rol")
+                    );
+
+                    usuario.setEstado(
+                            rs.getInt("estado")
+                    );
+                }
             }
+
+            try (
+                    PreparedStatement ps
+                    = con.prepareStatement(sqlFreelancer)) {
+
+                ps.setInt(1, id);
+
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+
+                    freelancer = new Freelancer();
+
+                    freelancer.setIdUsuario(
+                            rs.getInt("usuario_id")
+                    );
+
+                    freelancer.setBiografia(
+                            rs.getString("biografia")
+                    );
+
+                    freelancer.setNivelExperiencia(
+                            rs.getString("nivel")
+                    );
+
+                    freelancer.setTarifaHora(
+                            rs.getDouble("tarifa")
+                    );
+
+                    freelancer.setPerfilCompleto(
+                            rs.getInt("perfil_completo")
+                    );
+                }
+            }
+            try (
+                    PreparedStatement ps
+                    = con.prepareStatement(sqlCliente)) {
+
+                ps.setInt(1, id);
+
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+
+                    cliente = new Cliente();
+
+                    cliente.setId(
+                            rs.getInt("id")
+                    );
+
+                    cliente.setUsuarioId(
+                            rs.getInt("usuario_id")
+                    );
+
+                    cliente.setDescripcion(
+                            rs.getString("descripcion")
+                    );
+
+                    cliente.setSector(
+                            rs.getString("sector")
+                    );
+
+                    cliente.setSitioWeb(
+                            rs.getString("sitio_web")
+                    );
+                }
+            }
+
+            perfil.setUsuario(usuario);
+
+            perfil.setFreelancer(freelancer);
+
+            perfil.setCliente(cliente);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
 
-        // =========================
-        // FREELANCER
-        // =========================
-
-        try (
-            PreparedStatement ps =
-                con.prepareStatement(sqlFreelancer)
-        ) {
-
-            ps.setInt(1, id);
-
-            ResultSet rs = ps.executeQuery();
-
-            if(rs.next()){
-
-                freelancer = new Freelancer();
-
-                freelancer.setIdUsuario(
-                    rs.getInt("usuario_id")
-                );
-
-                freelancer.setBiografia(
-                    rs.getString("biografia")
-                );
-
-                freelancer.setNivelExperiencia(
-                    rs.getString("nivel")
-                );
-
-                freelancer.setTarifaHora(
-                    rs.getDouble("tarifa")
-                );
-
-                freelancer.setPerfilCompleto(
-                    rs.getInt("perfil_completo")
-                );
-            }
-        }
-
-        // =========================
-        // CLIENTE
-        // =========================
-
-        try (
-            PreparedStatement ps =
-                con.prepareStatement(sqlCliente)
-        ) {
-
-            ps.setInt(1, id);
-
-            ResultSet rs = ps.executeQuery();
-
-            if(rs.next()){
-
-                cliente = new Cliente();
-
-                cliente.setId(
-                    rs.getInt("id")
-                );
-
-                cliente.setUsuarioId(
-                    rs.getInt("usuario_id")
-                );
-
-                cliente.setDescripcion(
-                    rs.getString("descripcion")
-                );
-
-                cliente.setSector(
-                    rs.getString("sector")
-                );
-
-                cliente.setSitioWeb(
-                    rs.getString("sitio_web")
-                );
-            }
-        }
-
-        perfil.setUsuario(usuario);
-
-        perfil.setFreelancer(freelancer);
-
-        perfil.setCliente(cliente);
-
-    } catch (Exception e) {
-
-        e.printStackTrace();
+        return perfil;
     }
 
-    return perfil;
-}
-      
-      public boolean crearAdmin(Usuario u) {
+    public boolean crearAdmin(Usuario u) {
 
-    String sql =
-        "INSERT INTO usuario " +
-        "(nombre, username, password, correo, rol, estado) " +
-        "VALUES (?, ?, ?, ?, 'ADMIN', 1)";
+        String sql
+                = "INSERT INTO usuario "
+                + "(nombre, username, password, correo, rol, estado) "
+                + "VALUES (?, ?, ?, ?, 'ADMIN', 1)";
 
-    try (
-        Connection con = ConexionBD.getConnection();
-        PreparedStatement ps =
-            con.prepareStatement(sql)
-    ) {
+        try (
+                Connection con = ConexionBD.getConnection(); PreparedStatement ps
+                = con.prepareStatement(sql)) {
 
-        ps.setString(1, u.getNombre());
+            ps.setString(1, u.getNombre());
 
-        ps.setString(2, u.getUsername());
+            ps.setString(2, u.getUsername());
 
-        String hash =
-            BCrypt.hashpw(
-                u.getPassword(),
-                BCrypt.gensalt()
-            );
+            String hash
+                    = BCrypt.hashpw(
+                            u.getPassword(),
+                            BCrypt.gensalt()
+                    );
 
-        ps.setString(3, hash);
+            ps.setString(3, hash);
 
-        ps.setString(4, u.getCorreo());
+            ps.setString(4, u.getCorreo());
 
-        return ps.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
 
-    } catch (Exception e) {
+        } catch (Exception e) {
 
-        e.printStackTrace();
+            e.printStackTrace();
 
-        return false;
+            return false;
+        }
     }
-}
-      
+
 }

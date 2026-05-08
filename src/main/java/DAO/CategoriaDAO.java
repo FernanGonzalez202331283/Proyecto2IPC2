@@ -17,114 +17,109 @@ import java.util.List;
  * @author fernan
  */
 public class CategoriaDAO {
+
     public List<Categoria> listarCategorias() {
 
-    List<Categoria> lista = new ArrayList<>();
+        List<Categoria> lista = new ArrayList<>();
 
-    try {
+        try {
 
-        Connection con = ConexionBD.getConnection();
+            Connection con = ConexionBD.getConnection();
 
-        String sql =
-            "SELECT id, nombre, estado FROM categoria";
+            String sql
+                    = "SELECT id, nombre, estado FROM categoria";
 
-        PreparedStatement ps =
-            con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
+            while (rs.next()) {
 
-            Categoria c = new Categoria();
+                Categoria c = new Categoria();
 
-            c.setId(rs.getInt("id"));
-            c.setNombre(rs.getString("nombre"));
-            c.setEstado(rs.getInt("estado"));
+                c.setId(rs.getInt("id"));
+                c.setNombre(rs.getString("nombre"));
+                c.setEstado(rs.getInt("estado"));
 
-            lista.add(c);
+                lista.add(c);
+
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
 
         }
 
-    } catch (Exception e) {
-
-        e.printStackTrace();
-
+        return lista;
     }
 
-    return lista;
-}
-     
-     public boolean crearCategoria(String nombre) {
+    public boolean crearCategoria(String nombre) {
 
-    String sql =
-        "INSERT INTO categoria(nombre, estado) VALUES(?,1)";
+        String sql
+                = "INSERT INTO categoria(nombre, estado) VALUES(?,1)";
 
-    try (
-        Connection con = ConexionBD.getConnection();
-        PreparedStatement ps = con.prepareStatement(sql)
-    ) {
+        try (
+                Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ps.setString(1, nombre);
+            ps.setString(1, nombre);
 
-        ps.executeUpdate();
+            ps.executeUpdate();
 
-        return true;
+            return true;
 
-    } catch (Exception e) {
+        } catch (Exception e) {
 
-        e.printStackTrace();
+            e.printStackTrace();
 
-        return false;
+            return false;
+        }
     }
-}
-     
-     public boolean editarCategoria(int id, String nombre) {
 
-    String sql =
-        "UPDATE categoria SET nombre=? WHERE id=?";
+    public boolean editarCategoria(int id, String nombre) {
 
-    try (
-        Connection con = ConexionBD.getConnection();
-        PreparedStatement ps = con.prepareStatement(sql)
-    ) {
+        String sql
+                = "UPDATE categoria SET nombre=? WHERE id=?";
 
-        ps.setString(1, nombre);
-        ps.setInt(2, id);
+        try (
+                Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ps.executeUpdate();
+            ps.setString(1, nombre);
+            ps.setInt(2, id);
 
-        return true;
+            ps.executeUpdate();
 
-    } catch (Exception e) {
+            return true;
 
-        e.printStackTrace();
+        } catch (Exception e) {
 
-        return false;
+            e.printStackTrace();
+
+            return false;
+        }
     }
-}
-     
-     public boolean cambiarEstado(int id, int estado) {
 
-    String sql =
-        "UPDATE categoria SET estado=? WHERE id=?";
+    public boolean cambiarEstado(int id, int estado) {
 
-    try (
-        Connection con = ConexionBD.getConnection();
-        PreparedStatement ps = con.prepareStatement(sql)
-    ) {
+        String sql
+                = "UPDATE categoria SET estado=? WHERE id=?";
 
-        ps.setInt(1, estado);
-        ps.setInt(2, id);
+        try (
+                Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ps.executeUpdate();
+            ps.setInt(1, estado);
+            ps.setInt(2, id);
 
-        return true;
+            ps.executeUpdate();
 
-    } catch (Exception e) {
+            return true;
 
-        e.printStackTrace();
+        } catch (Exception e) {
 
-        return false;
+            e.printStackTrace();
+
+            return false;
+        }
     }
-}
 }

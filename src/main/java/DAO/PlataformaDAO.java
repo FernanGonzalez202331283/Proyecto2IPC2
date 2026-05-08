@@ -17,76 +17,78 @@ import java.util.List;
  * @author fernan
  */
 public class PlataformaDAO {
+
     public double obtenerSaldoPlataforma() {
 
-    double saldo = 0;
+        double saldo = 0;
 
-    try {
+        try {
 
-        Connection con = ConexionBD.getConnection();
+            Connection con = ConexionBD.getConnection();
 
-        String sql =
-            "SELECT monto FROM saldo_plataforma WHERE id = 1";
+            String sql
+                    = "SELECT monto FROM saldo_plataforma WHERE id = 1";
 
-        PreparedStatement ps =
-            con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            saldo = rs.getDouble("monto");
+            if (rs.next()) {
+                saldo = rs.getDouble("monto");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        return saldo;
     }
 
-    return saldo;
-}
     public List<ModeloComision> listarComisiones() {
 
-    List<ModeloComision> lista =
-        new ArrayList<>();
+        List<ModeloComision> lista
+                = new ArrayList<>();
 
-    try {
+        try {
 
-        Connection con =
-            ConexionBD.getConnection();
+            Connection con
+                    = ConexionBD.getConnection();
 
-        String sql =
-            "SELECT * FROM comision_contrato " +
-            "ORDER BY id DESC";
+            String sql
+                    = "SELECT * FROM comision_contrato "
+                    + "ORDER BY id DESC";
 
-        PreparedStatement ps =
-            con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
+            while (rs.next()) {
 
-            ModeloComision c =
-                new ModeloComision();
+                ModeloComision c
+                        = new ModeloComision();
 
-            c.setContratoId(
-                rs.getInt("contrato_id")
-            );
+                c.setContratoId(
+                        rs.getInt("contrato_id")
+                );
 
-            c.setPorcentaje(
-                rs.getDouble("porcentaje")
-            );
+                c.setPorcentaje(
+                        rs.getDouble("porcentaje")
+                );
 
-            c.setMonto(
-                rs.getDouble("monto")
-            );
+                c.setMonto(
+                        rs.getDouble("monto")
+                );
 
-            lista.add(c);
+                lista.add(c);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        return lista;
     }
 
-    return lista;
-}
-    
 }

@@ -26,7 +26,7 @@ public class RecargaSaldoServlet extends HttpServlet {
         try {
             Gson gson = new Gson();
 
-            // recibimos monto
+            //recibimos monto
             java.util.Map<String, Double> data = gson.fromJson(req.getReader(), java.util.Map.class);
             double monto = data.get("monto");
 

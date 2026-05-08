@@ -54,7 +54,7 @@ public class SolicitudHabilidadDAO {
         }
     }
 
-    // LISTAR PENDIENTES
+    //LISTAR PENDIENTES
     public List<SolicitudHabilidad> listarPendientes() {
 
         List<SolicitudHabilidad> lista =
@@ -115,7 +115,7 @@ public class SolicitudHabilidadDAO {
         return lista;
     }
 
-    // ACEPTAR SOLICITUD
+    //ACEPTAR SOLICITUD
     public boolean aceptar(int solicitudId) {
 
         Connection con = null;

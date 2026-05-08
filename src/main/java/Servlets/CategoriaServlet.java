@@ -19,9 +19,9 @@ import java.util.List;
  * @author fernan
  */
 @WebServlet("/categorias")
-public class CategoriaServlet extends HttpServlet{
-    
-     @Override
+public class CategoriaServlet extends HttpServlet {
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         resp.setContentType("application/json");
@@ -39,82 +39,82 @@ public class CategoriaServlet extends HttpServlet{
             resp.setStatus(500);
         }
     }
-    
+
     @Override
-protected void doPost(
-        HttpServletRequest req,
-        HttpServletResponse resp)
-        throws IOException {
+    protected void doPost(
+            HttpServletRequest req,
+            HttpServletResponse resp)
+            throws IOException {
 
-    Gson gson = new Gson();
+        Gson gson = new Gson();
 
-    Categoria data =
-        gson.fromJson(req.getReader(), Categoria.class);
+        Categoria data
+                = gson.fromJson(req.getReader(), Categoria.class);
 
-    CategoriaDAO dao = new CategoriaDAO();
+        CategoriaDAO dao = new CategoriaDAO();
 
-    boolean ok =
-        dao.crearCategoria(data.getNombre());
+        boolean ok
+                = dao.crearCategoria(data.getNombre());
 
-    resp.setContentType("application/json");
+        resp.setContentType("application/json");
 
-    if (ok) {
+        if (ok) {
 
-        resp.getWriter()
-            .write("{\"msg\":\"Categoría creada\"}");
+            resp.getWriter()
+                    .write("{\"msg\":\"Categoría creada\"}");
 
-    } else {
+        } else {
 
-        resp.setStatus(400);
+            resp.setStatus(400);
 
-        resp.getWriter()
-            .write("{\"error\":\"No se pudo crear\"}");
-    }
-}
-
-@Override
-protected void doPut(
-        HttpServletRequest req,
-        HttpServletResponse resp)
-        throws IOException {
-
-    Gson gson = new Gson();
-
-    Categoria data =
-        gson.fromJson(req.getReader(), Categoria.class);
-
-    CategoriaDAO dao = new CategoriaDAO();
-
-    boolean ok;
-
-    if (data.getNombre() != null) {
-
-        ok = dao.editarCategoria(
-            data.getId(),
-            data.getNombre()
-        );
-
-    } else {
-
-        ok = dao.cambiarEstado(
-            data.getId(),
-            data.getEstado()
-        );
+            resp.getWriter()
+                    .write("{\"error\":\"No se pudo crear\"}");
+        }
     }
 
-    resp.setContentType("application/json");
+    @Override
+    protected void doPut(
+            HttpServletRequest req,
+            HttpServletResponse resp)
+            throws IOException {
 
-    if (ok) {
+        Gson gson = new Gson();
 
-        resp.getWriter()
-            .write("{\"msg\":\"Actualizado\"}");
+        Categoria data
+                = gson.fromJson(req.getReader(), Categoria.class);
 
-    } else {
+        CategoriaDAO dao = new CategoriaDAO();
 
-        resp.setStatus(400);
+        boolean ok;
 
-        resp.getWriter()
-            .write("{\"error\":\"Error\"}");
+        if (data.getNombre() != null) {
+
+            ok = dao.editarCategoria(
+                    data.getId(),
+                    data.getNombre()
+            );
+
+        } else {
+
+            ok = dao.cambiarEstado(
+                    data.getId(),
+                    data.getEstado()
+            );
+        }
+
+        resp.setContentType("application/json");
+
+        if (ok) {
+
+            resp.getWriter()
+                    .write("{\"msg\":\"Actualizado\"}");
+
+        } else {
+
+            resp.setStatus(400);
+
+            resp.getWriter()
+                    .write("{\"error\":\"Error\"}");
+        }
     }
-}
 }

@@ -35,7 +35,7 @@ public class CalificacionServlet extends HttpServlet{
                     Calificacion.class
             );
 
-            // VALIDACIONES
+            //VALIDACIONES
 
             if (c.getEstrellas() < 1 || c.getEstrellas() > 5) {
 

@@ -17,7 +17,7 @@ import java.util.List;
  * @author fernan
  */
 public class ConfiguracionComisionDAO {
-    
+
     // OBTENER COMISION ACTUAL
     public double obtenerPorcentajeActual() {
 
@@ -25,26 +25,26 @@ public class ConfiguracionComisionDAO {
 
         try {
 
-            Connection con =
-                ConexionBD.getConnection();
+            Connection con
+                    = ConexionBD.getConnection();
 
-            String sql =
-                "SELECT porcentaje_actual " +
-                "FROM configuracion_comision " +
-                "WHERE id = 1";
+            String sql
+                    = "SELECT porcentaje_actual "
+                    + "FROM configuracion_comision "
+                    + "WHERE id = 1";
 
-            PreparedStatement ps =
-                con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            ResultSet rs =
-                ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             if (rs.next()) {
 
-                porcentaje =
-                    rs.getDouble(
-                        "porcentaje_actual"
-                    );
+                porcentaje
+                        = rs.getDouble(
+                                "porcentaje_actual"
+                        );
             }
 
             con.close();
@@ -56,75 +56,59 @@ public class ConfiguracionComisionDAO {
 
         return porcentaje;
     }
-
-    // ACTUALIZAR PORCENTAJE
     public void actualizarPorcentaje(
-        double nuevoPorcentaje
+            double nuevoPorcentaje
     ) {
 
         Connection con = null;
 
         try {
 
-            con =
-                ConexionBD.getConnection();
+            con
+                    = ConexionBD.getConnection();
 
             con.setAutoCommit(false);
+            String cerrarHistorial
+                    = "UPDATE historial_comision "
+                    + "SET fecha_fin = NOW() "
+                    + "WHERE fecha_fin IS NULL";
 
-            // =========================
-            // 1. CERRAR HISTORIAL ACTUAL
-            // =========================
-
-            String cerrarHistorial =
-                "UPDATE historial_comision " +
-                "SET fecha_fin = NOW() " +
-                "WHERE fecha_fin IS NULL";
-
-            PreparedStatement psCerrar =
-                con.prepareStatement(
-                    cerrarHistorial
-                );
+            PreparedStatement psCerrar
+                    = con.prepareStatement(
+                            cerrarHistorial
+                    );
 
             psCerrar.executeUpdate();
 
-            // =========================
-            // 2. ACTUALIZAR CONFIGURACION
-            // =========================
+            String actualizar
+                    = "UPDATE configuracion_comision "
+                    + "SET porcentaje_actual=? "
+                    + "WHERE id=1";
 
-            String actualizar =
-                "UPDATE configuracion_comision " +
-                "SET porcentaje_actual=? " +
-                "WHERE id=1";
-
-            PreparedStatement psActualizar =
-                con.prepareStatement(
-                    actualizar
-                );
+            PreparedStatement psActualizar
+                    = con.prepareStatement(
+                            actualizar
+                    );
 
             psActualizar.setDouble(
-                1,
-                nuevoPorcentaje
+                    1,
+                    nuevoPorcentaje
             );
 
             psActualizar.executeUpdate();
+            String insertarHistorial
+                    = "INSERT INTO historial_comision "
+                    + "(porcentaje, fecha_inicio, fecha_fin) "
+                    + "VALUES (?, NOW(), NULL)";
 
-            // =========================
-            // 3. INSERTAR NUEVO HISTORIAL
-            // =========================
-
-            String insertarHistorial =
-                "INSERT INTO historial_comision " +
-                "(porcentaje, fecha_inicio, fecha_fin) " +
-                "VALUES (?, NOW(), NULL)";
-
-            PreparedStatement psInsertar =
-                con.prepareStatement(
-                    insertarHistorial
-                );
+            PreparedStatement psInsertar
+                    = con.prepareStatement(
+                            insertarHistorial
+                    );
 
             psInsertar.setDouble(
-                1,
-                nuevoPorcentaje
+                    1,
+                    nuevoPorcentaje
             );
 
             psInsertar.executeUpdate();
@@ -164,57 +148,56 @@ public class ConfiguracionComisionDAO {
             }
         }
     }
-    
-    public List<HistorialComision>listarHistorial() {
-    List<HistorialComision> lista = new ArrayList<>();
-    try {
 
-        Connection con =
-            ConexionBD.getConnection();
+    public List<HistorialComision> listarHistorial() {
+        List<HistorialComision> lista = new ArrayList<>();
+        try {
 
-        String sql =
-            "SELECT * " +
-            "FROM historial_comision " +
-            "ORDER BY fecha_inicio DESC";
+            Connection con
+                    = ConexionBD.getConnection();
 
-        PreparedStatement ps =
-            con.prepareStatement(sql);
+            String sql
+                    = "SELECT * "
+                    + "FROM historial_comision "
+                    + "ORDER BY fecha_inicio DESC";
 
-        ResultSet rs =
-            ps.executeQuery();
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-        while (rs.next()) {
+            ResultSet rs
+                    = ps.executeQuery();
 
-            HistorialComision h =
-                new HistorialComision();
+            while (rs.next()) {
 
-            h.setId(
-                rs.getInt("id")
-            );
+                HistorialComision h
+                        = new HistorialComision();
 
-            h.setPorcentaje(
-                rs.getDouble("porcentaje")
-            );
+                h.setId(
+                        rs.getInt("id")
+                );
 
-            h.setFechaInicio(
-                rs.getString("fecha_inicio")
-            );
+                h.setPorcentaje(
+                        rs.getDouble("porcentaje")
+                );
 
-            h.setFechaFin(
-                rs.getString("fecha_fin")
-            );
+                h.setFechaInicio(
+                        rs.getString("fecha_inicio")
+                );
 
-            lista.add(h);
+                h.setFechaFin(
+                        rs.getString("fecha_fin")
+                );
+
+                lista.add(h);
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
 
-        con.close();
-
-    } catch (Exception e) {
-
-        e.printStackTrace();
+        return lista;
     }
-
-    return lista;
 }
-}
-

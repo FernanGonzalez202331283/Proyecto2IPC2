@@ -19,12 +19,12 @@ import java.io.IOException;
  * @author fernan
  */
 @WebServlet("/admin/usuarios")
-public class AdminUsuarioServlet extends HttpServlet{
-    
-   @Override
+public class AdminUsuarioServlet extends HttpServlet {
+
+    @Override
     protected void doGet(
-        HttpServletRequest req,
-        HttpServletResponse resp
+            HttpServletRequest req,
+            HttpServletResponse resp
     ) throws IOException {
 
         resp.setContentType("application/json");
@@ -35,36 +35,26 @@ public class AdminUsuarioServlet extends HttpServlet{
 
         try {
 
-            String id =
-                req.getParameter("id");
+            String id
+                    = req.getParameter("id");
+            if (id != null) {
 
-            // =========================
-            // VER PERFIL
-            // =========================
-
-            if(id != null){
-
-                PerfilUsuario perfil =
-                    dao.obtenerPerfil(
-                        Integer.parseInt(id)
-                    );
+                PerfilUsuario perfil
+                        = dao.obtenerPerfil(
+                                Integer.parseInt(id)
+                        );
 
                 resp.getWriter().write(
-                    gson.toJson(perfil)
+                        gson.toJson(perfil)
                 );
 
-            }
-
-            // =========================
-            // LISTAR USUARIOS
-            // =========================
-
-            else{
+            } 
+            else {
 
                 resp.getWriter().write(
-                    gson.toJson(
-                        dao.listarUsuarios()
-                    )
+                        gson.toJson(
+                                dao.listarUsuarios()
+                        )
                 );
             }
 
@@ -75,20 +65,15 @@ public class AdminUsuarioServlet extends HttpServlet{
             resp.setStatus(500);
 
             resp.getWriter().write(
-                "{\"error\":\"Error servidor\"}"
+                    "{\"error\":\"Error servidor\"}"
             );
         }
     }
 
-    // =========================
-    // PUT
-    // ACTIVAR/DESACTIVAR
-    // =========================
-
     @Override
     protected void doPut(
-        HttpServletRequest req,
-        HttpServletResponse resp
+            HttpServletRequest req,
+            HttpServletResponse resp
     ) throws IOException {
 
         resp.setContentType("application/json");
@@ -97,24 +82,24 @@ public class AdminUsuarioServlet extends HttpServlet{
 
             Gson gson = new Gson();
 
-            Usuario u =
-                gson.fromJson(
-                    req.getReader(),
-                    Usuario.class
-                );
+            Usuario u
+                    = gson.fromJson(
+                            req.getReader(),
+                            Usuario.class
+                    );
 
             UsuarioDAO dao = new UsuarioDAO();
 
-            boolean ok =
-                dao.cambiarEstado(
-                    u.getId(),
-                    u.getEstado()
-                );
+            boolean ok
+                    = dao.cambiarEstado(
+                            u.getId(),
+                            u.getEstado()
+                    );
 
             if (ok) {
 
                 resp.getWriter().write(
-                    "{\"msg\":\"Estado actualizado\"}"
+                        "{\"msg\":\"Estado actualizado\"}"
                 );
 
             } else {
@@ -122,7 +107,7 @@ public class AdminUsuarioServlet extends HttpServlet{
                 resp.setStatus(400);
 
                 resp.getWriter().write(
-                    "{\"error\":\"No se pudo actualizar\"}"
+                        "{\"error\":\"No se pudo actualizar\"}"
                 );
             }
 
@@ -133,20 +118,15 @@ public class AdminUsuarioServlet extends HttpServlet{
             resp.setStatus(500);
 
             resp.getWriter().write(
-                "{\"error\":\"Error servidor\"}"
+                    "{\"error\":\"Error servidor\"}"
             );
         }
     }
 
-    // =========================
-    // POST
-    // CREAR ADMIN
-    // =========================
-
     @Override
     protected void doPost(
-        HttpServletRequest req,
-        HttpServletResponse resp
+            HttpServletRequest req,
+            HttpServletResponse resp
     ) throws IOException {
 
         resp.setContentType("application/json");
@@ -155,21 +135,21 @@ public class AdminUsuarioServlet extends HttpServlet{
 
             Gson gson = new Gson();
 
-            Usuario u =
-                gson.fromJson(
-                    req.getReader(),
-                    Usuario.class
-                );
+            Usuario u
+                    = gson.fromJson(
+                            req.getReader(),
+                            Usuario.class
+                    );
 
             UsuarioDAO dao = new UsuarioDAO();
 
-            boolean ok =
-                dao.crearAdmin(u);
+            boolean ok
+                    = dao.crearAdmin(u);
 
-            if(ok){
+            if (ok) {
 
                 resp.getWriter().write(
-                    "{\"msg\":\"Administrador creado\"}"
+                        "{\"msg\":\"Administrador creado\"}"
                 );
 
             } else {
@@ -177,7 +157,7 @@ public class AdminUsuarioServlet extends HttpServlet{
                 resp.setStatus(400);
 
                 resp.getWriter().write(
-                    "{\"error\":\"No se pudo crear\"}"
+                        "{\"error\":\"No se pudo crear\"}"
                 );
             }
 
@@ -188,7 +168,7 @@ public class AdminUsuarioServlet extends HttpServlet{
             resp.setStatus(500);
 
             resp.getWriter().write(
-                "{\"error\":\"Error servidor\"}"
+                    "{\"error\":\"Error servidor\"}"
             );
         }
     }

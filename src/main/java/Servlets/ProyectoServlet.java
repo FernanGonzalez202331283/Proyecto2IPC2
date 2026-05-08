@@ -21,7 +21,7 @@ import java.util.List;
  */
 @WebServlet("/proyectos")
 public class ProyectoServlet extends HttpServlet {
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
@@ -62,42 +62,42 @@ public class ProyectoServlet extends HttpServlet {
     }
 
     @Override
-protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-    resp.setContentType("application/json");
+        resp.setContentType("application/json");
 
-    try {
-        ProyectoDAO dao = new ProyectoDAO();
-        Gson gson = new Gson();
+        try {
+            ProyectoDAO dao = new ProyectoDAO();
+            Gson gson = new Gson();
 
-        String idParam = req.getParameter("id");
+            String idParam = req.getParameter("id");
 
-        if (idParam != null) {
-            int id = Integer.parseInt(idParam);
-            Proyecto p = dao.obtenerPorId(id);
+            if (idParam != null) {
+                int id = Integer.parseInt(idParam);
+                Proyecto p = dao.obtenerPorId(id);
 
-            resp.getWriter().write(gson.toJson(p));
-            return;
+                resp.getWriter().write(gson.toJson(p));
+                return;
+            }
+            int userId = (int) req.getAttribute("userId");
+            String rol = (String) req.getAttribute("rol");
+
+            List<Proyecto> lista;
+
+            if ("CLIENTE".equals(rol)) {
+                int clienteId = dao.obtenerClienteIdPorUsuario(userId);
+                lista = dao.listarProyectosPorCliente(clienteId);
+            } else if ("FREELANCER".equals(rol)) {
+                lista = dao.listarAbiertos();
+            } else {
+                lista = new java.util.ArrayList<>();
+            }
+
+            resp.getWriter().write(gson.toJson(lista));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.setStatus(500);
         }
-        int userId = (int) req.getAttribute("userId");
-        String rol = (String) req.getAttribute("rol");
-
-        List<Proyecto> lista;
-
-        if ("CLIENTE".equals(rol)) {
-            int clienteId = dao.obtenerClienteIdPorUsuario(userId);
-            lista = dao.listarProyectosPorCliente(clienteId);
-        } else if ("FREELANCER".equals(rol)) {
-            lista = dao.listarAbiertos();
-        } else {
-            lista = new java.util.ArrayList<>();
-        }
-
-        resp.getWriter().write(gson.toJson(lista));
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        resp.setStatus(500);
     }
-}
 }

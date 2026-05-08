@@ -18,7 +18,7 @@ public class JWTUtil {
     private static final String SECRET = "MI_CLAVE_SUPER_LARGA_DE_MAS_DE_32_CARACTERES_123456";
     private static final Key KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
 
-    // día de duración
+    //día de duración
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
 
     //GENERAR TOKEN
@@ -33,7 +33,7 @@ public class JWTUtil {
                 .compact();
     }
 
-    // validar los tokens 
+    //validar los tokens 
     public static Claims validarToken(String token) {
         try {
             return Jwts.parserBuilder()

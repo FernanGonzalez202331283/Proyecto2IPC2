@@ -24,7 +24,7 @@ import java.util.List;
  */
 @WebServlet("/ReporteProyectosClienteServlet")
 public class ReporteProyectosClienteServlet extends HttpServlet {
-    
+
     @Override
     protected void doGet(
             HttpServletRequest request,
@@ -35,28 +35,28 @@ public class ReporteProyectosClienteServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try {
-           int usuarioId =
-    (int) request.getAttribute("userId");
+            int usuarioId
+                    = (int) request.getAttribute("userId");
 
-ClienteDAO clienteDAO =
-    new ClienteDAO();
+            ClienteDAO clienteDAO
+                    = new ClienteDAO();
 
-int clienteId =
-    clienteDAO.obtenerIdCliente(usuarioId);
+            int clienteId
+                    = clienteDAO.obtenerIdCliente(usuarioId);
 
-            String fechaInicio =
-                request.getParameter("fechaInicio");
+            String fechaInicio
+                    = request.getParameter("fechaInicio");
 
-            String fechaFin =
-                request.getParameter("fechaFin");
+            String fechaFin
+                    = request.getParameter("fechaFin");
 
             ReporteDAO dao = new ReporteDAO();
-              List<ReporteProyecto> lista =
-                dao.obtenerReporteProyectos(
-                    clienteId,
-                    fechaInicio,
-                    fechaFin
-                );
+            List<ReporteProyecto> lista
+                    = dao.obtenerReporteProyectos(
+                            clienteId,
+                            fechaInicio,
+                            fechaFin
+                    );
 
             Gson gson = new Gson();
 
@@ -69,7 +69,7 @@ int clienteId =
             e.printStackTrace();
 
             response.setStatus(
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR
             );
 
             response.getWriter().write("""
@@ -79,5 +79,5 @@ int clienteId =
             """);
         }
     }
-        
+
 }

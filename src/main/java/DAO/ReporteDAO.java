@@ -196,37 +196,37 @@ public class ReporteDAO {
         List<ReporteProyecto> lista = new ArrayList<>();
 
         String sql = """
-    SELECT
-        p.id,
-        p.titulo,
-        p.estado,
-        p.presupuesto,
-        p.fecha_creacion,
+            SELECT
+                p.id,
+                p.titulo,
+                p.estado,
+                p.presupuesto,
+                p.fecha_creacion,
 
-        u.nombre AS freelancer,
+                u.nombre AS freelancer,
 
-        c.monto AS monto_contrato
+                c.monto AS monto_contrato
 
-    FROM proyecto p
+            FROM proyecto p
 
-    LEFT JOIN propuesta pr
-        ON p.id = pr.proyecto_id
+            LEFT JOIN propuesta pr
+                ON p.id = pr.proyecto_id
 
-    LEFT JOIN contrato c
-        ON pr.id = c.propuesta_id
+            LEFT JOIN contrato c
+                ON pr.id = c.propuesta_id
 
-    LEFT JOIN freelancer f
-        ON pr.freelancer_id = f.id
+            LEFT JOIN freelancer f
+                ON pr.freelancer_id = f.id
 
-    LEFT JOIN usuario u
-        ON f.usuario_id = u.id
+            LEFT JOIN usuario u
+                ON f.usuario_id = u.id
 
-    WHERE p.cliente_id = ?
-    AND DATE(p.fecha_creacion)
-    BETWEEN ? AND ?
+            WHERE p.cliente_id = ?
+            AND DATE(p.fecha_creacion)
+            BETWEEN ? AND ?
 
-    ORDER BY p.fecha_creacion DESC
-""";
+            ORDER BY p.fecha_creacion DESC
+        """;
 
         try (
                 Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql);) {
@@ -327,7 +327,7 @@ public class ReporteDAO {
         return lista;
     }
 
-    public List<ReporteGastoCategoria>obtenerGastosPorCategoria(int clienteId,String fechaInicio, String fechaFin) {
+    public List<ReporteGastoCategoria> obtenerGastosPorCategoria(int clienteId, String fechaInicio, String fechaFin) {
         List<ReporteGastoCategoria> lista = new ArrayList<>();
         String sql = """
         SELECT
@@ -353,14 +353,14 @@ public class ReporteDAO {
             ps.setInt(1, clienteId);
             ps.setString(2, fechaInicio);
             ps.setString(3, fechaFin);
-            ResultSet rs= ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 ReporteGastoCategoria r = new ReporteGastoCategoria();
-                r.setCategoria( rs.getString("categoria")
+                r.setCategoria(rs.getString("categoria")
                 );
-                r.setTotalGastado(      rs.getDouble(
-                                "total_gastado"
-                        )
+                r.setTotalGastado(rs.getDouble(
+                        "total_gastado"
+                )
                 );
 
                 lista.add(r);
@@ -373,17 +373,18 @@ public class ReporteDAO {
 
         return lista;
     }
+
     public List<ReporteContratoFreelancer>
-obtenerContratosFreelancer(
-        int freelancerId,
-        String fechaInicio,
-        String fechaFin
-) {
+            obtenerContratosFreelancer(
+                    int freelancerId,
+                    String fechaInicio,
+                    String fechaFin
+            ) {
 
-    List<ReporteContratoFreelancer> lista =
-        new ArrayList<>();
+        List<ReporteContratoFreelancer> lista
+                = new ArrayList<>();
 
-    String sql = """
+        String sql = """
         SELECT
 
             u.nombre AS cliente,
@@ -424,68 +425,63 @@ obtenerContratosFreelancer(
         ORDER BY c.fecha_fin DESC
     """;
 
-    try (
+        try (
+                Connection con
+                = ConexionBD.getConnection(); PreparedStatement ps
+                = con.prepareStatement(sql);) {
 
-        Connection con =
-            ConexionBD.getConnection();
+            ps.setInt(1, freelancerId);
 
-        PreparedStatement ps =
-            con.prepareStatement(sql);
+            ps.setString(2, fechaInicio);
 
-    ) {
+            ps.setString(3, fechaFin);
 
-        ps.setInt(1, freelancerId);
+            ResultSet rs
+                    = ps.executeQuery();
 
-        ps.setString(2, fechaInicio);
+            while (rs.next()) {
 
-        ps.setString(3, fechaFin);
+                ReporteContratoFreelancer r
+                        = new ReporteContratoFreelancer();
 
-        ResultSet rs =
-            ps.executeQuery();
+                r.setCliente(
+                        rs.getString("cliente")
+                );
 
-        while (rs.next()) {
+                r.setProyecto(
+                        rs.getString("proyecto")
+                );
 
-            ReporteContratoFreelancer r =
-                new ReporteContratoFreelancer();
+                r.setMonto(
+                        rs.getDouble("monto")
+                );
 
-            r.setCliente(
-                rs.getString("cliente")
-            );
+                r.setCalificacion(
+                        rs.getInt("calificacion")
+                );
 
-            r.setProyecto(
-                rs.getString("proyecto")
-            );
+                r.setFecha(
+                        rs.getString("fecha_fin")
+                );
 
-            r.setMonto(
-                rs.getDouble("monto")
-            );
+                lista.add(r);
+            }
 
-            r.setCalificacion(
-                rs.getInt("calificacion")
-            );
+        } catch (Exception e) {
 
-            r.setFecha(
-                rs.getString("fecha_fin")
-            );
-
-            lista.add(r);
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-
-        e.printStackTrace();
+        return lista;
     }
 
-    return lista;
-}
+    public List<TopCategoriaFreelancer>
+            topCategoriasFreelancer(int userId) {
 
-public List<TopCategoriaFreelancer>
-topCategoriasFreelancer(int userId) {
+        List<TopCategoriaFreelancer> lista
+                = new ArrayList<>();
 
-    List<TopCategoriaFreelancer> lista =
-        new ArrayList<>();
-
-    String sql = """
+        String sql = """
         SELECT
 
             cat.nombre AS categoria,
@@ -520,58 +516,54 @@ topCategoriasFreelancer(int userId) {
         LIMIT 5
     """;
 
-    try (
+        try (
+                Connection con
+                = ConexionBD.getConnection(); PreparedStatement ps
+                = con.prepareStatement(sql);) {
 
-        Connection con =
-            ConexionBD.getConnection();
+            ps.setInt(1, userId);
 
-        PreparedStatement ps =
-            con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
-    ) {
+            while (rs.next()) {
 
-        ps.setInt(1, userId);
+                TopCategoriaFreelancer t
+                        = new TopCategoriaFreelancer();
 
-        ResultSet rs = ps.executeQuery();
+                t.setCategoria(
+                        rs.getString("categoria")
+                );
 
-        while (rs.next()) {
+                t.setCantidadContratos(
+                        rs.getInt("cantidad_contratos")
+                );
 
-            TopCategoriaFreelancer t =
-                new TopCategoriaFreelancer();
+                t.setTotalIngresos(
+                        rs.getDouble("total_ingresos")
+                );
 
-            t.setCategoria(
-                rs.getString("categoria")
-            );
+                lista.add(t);
+            }
 
-            t.setCantidadContratos(
-                rs.getInt("cantidad_contratos")
-            );
+        } catch (Exception e) {
 
-            t.setTotalIngresos(
-                rs.getDouble("total_ingresos")
-            );
-
-            lista.add(t);
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-
-        e.printStackTrace();
+        return lista;
     }
 
-    return lista;
-}
-public List<ReportePropuestaFreelancer>
-reportePropuestasFreelancer(
-        int userId,
-        String fechaInicio,
-        String fechaFin
-) {
+    public List<ReportePropuestaFreelancer>
+            reportePropuestasFreelancer(
+                    int userId,
+                    String fechaInicio,
+                    String fechaFin
+            ) {
 
-    List<ReportePropuestaFreelancer> lista =
-        new ArrayList<>();
+        List<ReportePropuestaFreelancer> lista
+                = new ArrayList<>();
 
-    String sql = """
+        String sql = """
         SELECT
 
             pr.titulo AS proyecto,
@@ -598,51 +590,46 @@ reportePropuestasFreelancer(
         ORDER BY p.fecha DESC
     """;
 
-    try (
+        try (
+                Connection con
+                = ConexionBD.getConnection(); PreparedStatement ps
+                = con.prepareStatement(sql);) {
 
-        Connection con =
-            ConexionBD.getConnection();
+            ps.setInt(1, userId);
+            ps.setString(2, fechaInicio);
+            ps.setString(3, fechaFin);
 
-        PreparedStatement ps =
-            con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
-    ) {
+            while (rs.next()) {
 
-        ps.setInt(1, userId);
-        ps.setString(2, fechaInicio);
-        ps.setString(3, fechaFin);
+                ReportePropuestaFreelancer r
+                        = new ReportePropuestaFreelancer();
 
-        ResultSet rs = ps.executeQuery();
+                r.setProyecto(
+                        rs.getString("proyecto")
+                );
 
-        while (rs.next()) {
+                r.setMonto(
+                        rs.getDouble("monto")
+                );
 
-            ReportePropuestaFreelancer r =
-                new ReportePropuestaFreelancer();
+                r.setEstado(
+                        rs.getString("estado")
+                );
 
-            r.setProyecto(
-                rs.getString("proyecto")
-            );
+                r.setFecha(
+                        rs.getString("fecha")
+                );
 
-            r.setMonto(
-                rs.getDouble("monto")
-            );
+                lista.add(r);
+            }
 
-            r.setEstado(
-                rs.getString("estado")
-            );
+        } catch (Exception e) {
 
-            r.setFecha(
-                rs.getString("fecha")
-            );
-
-            lista.add(r);
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-
-        e.printStackTrace();
+        return lista;
     }
-
-    return lista;
-}
 }

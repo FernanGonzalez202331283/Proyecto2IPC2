@@ -14,33 +14,34 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 /**
  *
  * @author fernan
  */
-@WebFilter("/*") 
-public class JWTFilter implements Filter{
-    
+@WebFilter("/*")
+public class JWTFilter implements Filter {
+
     @Override
-public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-        throws IOException, jakarta.servlet.ServletException {
-HttpServletRequest req = (HttpServletRequest) request;
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, jakarta.servlet.ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-       resp.setHeader(
-    "Access-Control-Allow-Origin",
-    "http://localhost:4200"
-);
+        resp.setHeader(
+                "Access-Control-Allow-Origin",
+                "http://localhost:4200"
+        );
         resp.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         resp.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, Content-Type, Accept, Authorization"
-);
+                "Access-Control-Allow-Headers",
+                "Origin, Content-Type, Accept, Authorization"
+        );
         resp.setHeader(
-    "Access-Control-Allow-Credentials",
-    "true"
-);
-        // Preflight
+                "Access-Control-Allow-Credentials",
+                "true"
+        );
+        //Preflight
         if (req.getMethod().equalsIgnoreCase("OPTIONS")) {
             resp.setStatus(HttpServletResponse.SC_OK);
             return;
@@ -48,11 +49,9 @@ HttpServletRequest req = (HttpServletRequest) request;
 
         String path = req.getRequestURI();
 
-        // RUTAS LIBRES
-        if (
-            path.endsWith("/login") ||
-            path.endsWith("/registro") 
-        ) {
+        //RUTAS LIBRES
+        if (path.endsWith("/login")
+                || path.endsWith("/registro")) {
 
             chain.doFilter(request, response);
             return;
@@ -75,7 +74,7 @@ HttpServletRequest req = (HttpServletRequest) request;
             return;
         }
 
-        // atributos del usuario
+        //atributos del usuario
         req.setAttribute("userId", ((Number) claims.get("id")).intValue());
         req.setAttribute("username", claims.getSubject());
         req.setAttribute("rol", claims.get("rol"));

@@ -17,6 +17,7 @@ import java.util.List;
  * @author fernan
  */
 public class HabilidadDAO {
+
     public List<Habilidad> listar() {
 
         List<Habilidad> lista = new ArrayList<>();

@@ -19,8 +19,8 @@ import java.util.List;
  * @author fernan
  */
 @WebServlet("/admin/solicitudes-categoria")
-public class AdminSolicitudCategoriaServlet extends HttpServlet{
-    // LISTAR PENDIENTES
+public class AdminSolicitudCategoriaServlet extends HttpServlet {
+
     @Override
     protected void doGet(
             HttpServletRequest req,
@@ -31,31 +31,30 @@ public class AdminSolicitudCategoriaServlet extends HttpServlet{
 
         try {
 
-            SolicitudCategoriaDAO dao =
-                new SolicitudCategoriaDAO();
+            SolicitudCategoriaDAO dao
+                    = new SolicitudCategoriaDAO();
 
-            List<SolicitarCategoria> lista =
-                dao.listarPendientes();
+            List<SolicitarCategoria> lista
+                    = dao.listarPendientes();
 
             Gson gson = new Gson();
 
             resp.getWriter().write(
-                gson.toJson(lista)
+                    gson.toJson(lista)
             );
 
-        } catch(Exception e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
 
             resp.setStatus(500);
 
             resp.getWriter().write(
-                "{\"error\":\"Error servidor\"}"
+                    "{\"error\":\"Error servidor\"}"
             );
         }
     }
 
-    // ACEPTAR O RECHAZAR
     @Override
     protected void doPut(
             HttpServletRequest req,
@@ -67,31 +66,30 @@ public class AdminSolicitudCategoriaServlet extends HttpServlet{
         try {
 
             int id = Integer.parseInt(
-                req.getParameter("id")
+                    req.getParameter("id")
             );
 
-            String accion =
-                req.getParameter("accion");
+            String accion
+                    = req.getParameter("accion");
 
-            SolicitudCategoriaDAO dao =
-                new SolicitudCategoriaDAO();
+            SolicitudCategoriaDAO dao
+                    = new SolicitudCategoriaDAO();
 
             boolean ok = false;
 
-            if("aceptar".equals(accion)) {
+            if ("aceptar".equals(accion)) {
 
                 ok = dao.aceptar(id);
 
-            } else if(
-                    "rechazar".equals(accion)) {
+            } else if ("rechazar".equals(accion)) {
 
                 ok = dao.rechazar(id);
             }
 
-            if(ok) {
+            if (ok) {
 
                 resp.getWriter().write(
-                    "{\"msg\":\"Operacion exitosa\"}"
+                        "{\"msg\":\"Operacion exitosa\"}"
                 );
 
             } else {
@@ -99,18 +97,18 @@ public class AdminSolicitudCategoriaServlet extends HttpServlet{
                 resp.setStatus(400);
 
                 resp.getWriter().write(
-                    "{\"error\":\"No se pudo realizar\"}"
+                        "{\"error\":\"No se pudo realizar\"}"
                 );
             }
 
-        } catch(Exception e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
 
             resp.setStatus(500);
 
             resp.getWriter().write(
-                "{\"error\":\"Error servidor\"}"
+                    "{\"error\":\"Error servidor\"}"
             );
         }
     }

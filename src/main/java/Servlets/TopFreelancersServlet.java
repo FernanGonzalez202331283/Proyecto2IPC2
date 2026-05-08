@@ -30,7 +30,7 @@ public class TopFreelancersServlet extends HttpServlet{
         HttpServletResponse resp
     ) throws IOException {
 
-        // CORS
+        //CORS
         resp.setHeader(
             "Access-Control-Allow-Origin",
             "http://localhost:4200"
@@ -50,7 +50,7 @@ public class TopFreelancersServlet extends HttpServlet{
             "application/json"
         );
 
-        // PARAMETROS
+        //PARAMETROS
         String fechaInicio =
             req.getParameter(
                 "fechaInicio"
@@ -61,7 +61,7 @@ public class TopFreelancersServlet extends HttpServlet{
                 "fechaFin"
             );
 
-        // DAO
+        //DAO
         ReporteDAO dao =
             new ReporteDAO();
 
@@ -71,7 +71,7 @@ public class TopFreelancersServlet extends HttpServlet{
                 fechaFin
             );
 
-        // JSON
+        //JSON
         String json =
             gson.toJson(lista);
 

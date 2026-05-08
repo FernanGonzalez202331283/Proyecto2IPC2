@@ -14,16 +14,15 @@ import java.sql.ResultSet;
  * @author fernan
  */
 public class CalificacionDAO {
-     public boolean guardarCalificacion(Calificacion c) {
+
+    public boolean guardarCalificacion(Calificacion c) {
 
         String sql = "INSERT INTO calificacion "
                 + "(contrato_id, freelancer_id, estrellas, comentario) "
                 + "VALUES (?, ?, ?, ?)";
 
         try (
-                Connection con = Conexion.ConexionBD.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql)
-        ) {
+                Connection con = Conexion.ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, c.getContratoId());
             ps.setInt(2, c.getFreelancerId());
@@ -37,32 +36,30 @@ public class CalificacionDAO {
             return false;
         }
     }
-     
-   public int obtenerFreelancerPorContrato(int contratoId) {
 
-    String sql =
-        "SELECT pr.freelancer_id " +
-        "FROM contrato c " +
-        "JOIN propuesta pr ON c.propuesta_id = pr.id " +
-        "WHERE c.id = ?";
+    public int obtenerFreelancerPorContrato(int contratoId) {
 
-    try (
-        Connection con = Conexion.ConexionBD.getConnection();
-        PreparedStatement ps = con.prepareStatement(sql)
-    ) {
+        String sql
+                = "SELECT pr.freelancer_id "
+                + "FROM contrato c "
+                + "JOIN propuesta pr ON c.propuesta_id = pr.id "
+                + "WHERE c.id = ?";
 
-        ps.setInt(1, contratoId);
+        try (
+                Connection con = Conexion.ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ResultSet rs = ps.executeQuery();
+            ps.setInt(1, contratoId);
 
-        if (rs.next()) {
-            return rs.getInt("freelancer_id");
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("freelancer_id");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        return 0;
     }
-
-    return 0;
-}
 }

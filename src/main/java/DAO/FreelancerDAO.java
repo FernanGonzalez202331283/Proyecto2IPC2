@@ -17,14 +17,14 @@ import java.util.Set;
  * @author fernan
  */
 public class FreelancerDAO {
-    
-     public boolean completarPerfil(int userId, Freelancer f) {
+
+    public boolean completarPerfil(int userId, Freelancer f) {
 
         Connection con = null;
 
         try {
             con = ConexionBD.getConnection();
-            con.setAutoCommit(false); 
+            con.setAutoCommit(false);
 
             if (f.getBiografia() == null || f.getBiografia().trim().isEmpty()) {
                 throw new RuntimeException("Biografía requerida");
@@ -71,7 +71,6 @@ public class FreelancerDAO {
                 throw new RuntimeException("Error al obtener ID del freelancer");
             }
 
-           
             Set<Integer> habilidadesUnicas = new HashSet<>();
             for (int h : f.getHabilidades()) {
                 habilidadesUnicas.add(h);
@@ -98,7 +97,9 @@ public class FreelancerDAO {
             e.printStackTrace();
 
             try {
-                if (con != null) con.rollback();
+                if (con != null) {
+                    con.rollback();
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -117,59 +118,59 @@ public class FreelancerDAO {
         }
     }
 
-   public double obtenerSaldo(int userId) {
+    public double obtenerSaldo(int userId) {
 
-    double saldo = 0;
+        double saldo = 0;
 
-    try {
+        try {
 
-        Connection con = ConexionBD.getConnection();
+            Connection con = ConexionBD.getConnection();
 
-        String sql =
-            "SELECT SUM(monto) AS total " +
-            "FROM movimiento_saldo " +
-            "WHERE usuario_id = ? " +
-            "AND tipo = 'INGRESO'";
+            String sql
+                    = "SELECT SUM(monto) AS total "
+                    + "FROM movimiento_saldo "
+                    + "WHERE usuario_id = ? "
+                    + "AND tipo = 'INGRESO'";
 
-        PreparedStatement ps =
-            con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-        ps.setInt(1, userId);
+            ps.setInt(1, userId);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            saldo = rs.getDouble("total");
+            if (rs.next()) {
+                saldo = rs.getDouble("total");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        return saldo;
     }
 
-    return saldo;
-}
-    
     public int obtenerIdPorUsuario(int userId) {
 
-    int freelancerId = 0;
+        int freelancerId = 0;
 
-    try {
-        Connection con = ConexionBD.getConnection();
+        try {
+            Connection con = ConexionBD.getConnection();
 
-        String sql = "SELECT id FROM freelancer WHERE usuario_id = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, userId);
+            String sql = "SELECT id FROM freelancer WHERE usuario_id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, userId);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            freelancerId = rs.getInt("id");
+            if (rs.next()) {
+                freelancerId = rs.getInt("id");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        return freelancerId;
     }
-
-    return freelancerId;
 }
-   }

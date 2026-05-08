@@ -21,27 +21,27 @@ import java.util.Map;
  * @author fernan
  */
 @WebServlet("/admin/saldos")
-public class AdminSaldoServlet extends HttpServlet{
-    
+public class AdminSaldoServlet extends HttpServlet {
+
     @Override
     protected void doGet(
-        HttpServletRequest request,
-        HttpServletResponse response
+            HttpServletRequest request,
+            HttpServletResponse response
     ) throws IOException {
 
         response.setContentType("application/json");
 
-        PlataformaDAO dao =
-            new PlataformaDAO();
+        PlataformaDAO dao
+                = new PlataformaDAO();
 
-        double saldo =
-            dao.obtenerSaldoPlataforma();
+        double saldo
+                = dao.obtenerSaldoPlataforma();
 
-        List<ModeloComision> lista =
-            dao.listarComisiones();
+        List<ModeloComision> lista
+                = dao.listarComisiones();
 
-        Map<String, Object> data =
-            new HashMap<>();
+        Map<String, Object> data
+                = new HashMap<>();
 
         data.put("saldo", saldo);
         data.put("comisiones", lista);
@@ -49,7 +49,7 @@ public class AdminSaldoServlet extends HttpServlet{
         Gson gson = new Gson();
 
         response.getWriter().write(
-            gson.toJson(data)
+                gson.toJson(data)
         );
     }
 }

@@ -17,25 +17,20 @@ import java.util.List;
  * @author fernan
  */
 public class SolicitudCategoriaDAO {
-   
+
     public boolean crearSolicitud(
             SolicitarCategoria s
     ) {
 
-        String sql =
-            "INSERT INTO solicitud_categoria " +
-            "(nombre, estado, usuario_id) " +
-            "VALUES (?, 'PENDIENTE', ?)";
+        String sql
+                = "INSERT INTO solicitud_categoria "
+                + "(nombre, estado, usuario_id) "
+                + "VALUES (?, 'PENDIENTE', ?)";
 
         try (
-
-            Connection con =
-                ConexionBD.getConnection();
-
-            PreparedStatement ps =
-                con.prepareStatement(sql)
-
-        ) {
+                Connection con
+                = ConexionBD.getConnection(); PreparedStatement ps
+                = con.prepareStatement(sql)) {
 
             ps.setString(1, s.getNombre());
 
@@ -51,151 +46,141 @@ public class SolicitudCategoriaDAO {
         }
 
     }
-    
+
     public List<SolicitarCategoria> listarPendientes() {
 
-    List<SolicitarCategoria> lista =
-            new ArrayList<>();
+        List<SolicitarCategoria> lista
+                = new ArrayList<>();
 
-    String sql =
-        "SELECT * FROM solicitud_categoria " +
-        "WHERE estado='PENDIENTE'";
+        String sql
+                = "SELECT * FROM solicitud_categoria "
+                + "WHERE estado='PENDIENTE'";
 
-    try (
+        try (
+                Connection con
+                = ConexionBD.getConnection(); PreparedStatement ps
+                = con.prepareStatement(sql); ResultSet rs
+                = ps.executeQuery()) {
 
-        Connection con =
-            ConexionBD.getConnection();
+            while (rs.next()) {
 
-        PreparedStatement ps =
-            con.prepareStatement(sql);
+                SolicitarCategoria s
+                        = new SolicitarCategoria();
 
-        ResultSet rs =
-            ps.executeQuery()
+                s.setId(rs.getInt("id"));
+                s.setNombre(rs.getString("nombre"));
+                s.setEstado(rs.getString("estado"));
+                s.setUsuario_id(
+                        rs.getInt("usuario_id")
+                );
 
-    ) {
+                lista.add(s);
+            }
 
-        while(rs.next()) {
-
-            SolicitarCategoria s =
-                new SolicitarCategoria();
-
-            s.setId(rs.getInt("id"));
-            s.setNombre(rs.getString("nombre"));
-            s.setEstado(rs.getString("estado"));
-            s.setUsuario_id(
-                rs.getInt("usuario_id")
-            );
-
-            lista.add(s);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-    } catch(Exception e) {
-        e.printStackTrace();
+        return lista;
     }
 
-    return lista;
-}
     public boolean aceptar(int solicitudId) {
 
-    Connection con = null;
-
-    try {
-
-        con = ConexionBD.getConnection();
-
-        con.setAutoCommit(false);
-
-        // OBTENER SOLICITUD
-        String sqlSolicitud =
-            "SELECT * FROM solicitud_categoria " +
-            "WHERE id=?";
-
-        PreparedStatement ps1 =
-            con.prepareStatement(sqlSolicitud);
-
-        ps1.setInt(1, solicitudId);
-
-        ResultSet rs = ps1.executeQuery();
-
-        if(!rs.next()) {
-            return false;
-        }
-
-        String nombre =
-            rs.getString("nombre");
-
-        // INSERTAR CATEGORIA
-        String sqlInsert =
-            "INSERT INTO categoria " +
-            "(nombre, estado) " +
-            "VALUES (?, 1)";
-
-        PreparedStatement ps2 =
-            con.prepareStatement(sqlInsert);
-
-        ps2.setString(1, nombre);
-
-        ps2.executeUpdate();
-
-        // ACTUALIZAR SOLICITUD
-        String sqlUpdate =
-            "UPDATE solicitud_categoria " +
-            "SET estado='ACEPTADA' " +
-            "WHERE id=?";
-
-        PreparedStatement ps3 =
-            con.prepareStatement(sqlUpdate);
-
-        ps3.setInt(1, solicitudId);
-
-        ps3.executeUpdate();
-
-        con.commit();
-
-        return true;
-
-    } catch(Exception e) {
+        Connection con = null;
 
         try {
 
-            if(con != null) {
-                con.rollback();
+            con = ConexionBD.getConnection();
+
+            con.setAutoCommit(false);
+
+            //OBTENER SOLICITUD
+            String sqlSolicitud
+                    = "SELECT * FROM solicitud_categoria "
+                    + "WHERE id=?";
+
+            PreparedStatement ps1
+                    = con.prepareStatement(sqlSolicitud);
+
+            ps1.setInt(1, solicitudId);
+
+            ResultSet rs = ps1.executeQuery();
+
+            if (!rs.next()) {
+                return false;
             }
 
-        } catch(Exception ex) {}
+            String nombre
+                    = rs.getString("nombre");
 
-        e.printStackTrace();
+            // INSERTAR CATEGORIA
+            String sqlInsert
+                    = "INSERT INTO categoria "
+                    + "(nombre, estado) "
+                    + "VALUES (?, 1)";
+
+            PreparedStatement ps2
+                    = con.prepareStatement(sqlInsert);
+
+            ps2.setString(1, nombre);
+
+            ps2.executeUpdate();
+
+            // ACTUALIZAR SOLICITUD
+            String sqlUpdate
+                    = "UPDATE solicitud_categoria "
+                    + "SET estado='ACEPTADA' "
+                    + "WHERE id=?";
+
+            PreparedStatement ps3
+                    = con.prepareStatement(sqlUpdate);
+
+            ps3.setInt(1, solicitudId);
+
+            ps3.executeUpdate();
+
+            con.commit();
+
+            return true;
+
+        } catch (Exception e) {
+
+            try {
+
+                if (con != null) {
+                    con.rollback();
+                }
+
+            } catch (Exception ex) {
+            }
+
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
-    return false;
-}
-    
     public boolean rechazar(int solicitudId) {
 
-    String sql =
-        "UPDATE solicitud_categoria " +
-        "SET estado='RECHAZADA' " +
-        "WHERE id=?";
+        String sql
+                = "UPDATE solicitud_categoria "
+                + "SET estado='RECHAZADA' "
+                + "WHERE id=?";
 
-    try (
+        try (
+                Connection con
+                = ConexionBD.getConnection(); PreparedStatement ps
+                = con.prepareStatement(sql)) {
 
-        Connection con =
-            ConexionBD.getConnection();
+            ps.setInt(1, solicitudId);
 
-        PreparedStatement ps =
-            con.prepareStatement(sql)
+            return ps.executeUpdate() > 0;
 
-    ) {
+        } catch (Exception e) {
 
-        ps.setInt(1, solicitudId);
+            e.printStackTrace();
+        }
 
-        return ps.executeUpdate() > 0;
-
-    } catch(Exception e) {
-
-        e.printStackTrace();
+        return false;
     }
-
-    return false;
-}
 }

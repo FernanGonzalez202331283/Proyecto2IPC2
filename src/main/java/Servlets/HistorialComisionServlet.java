@@ -30,7 +30,7 @@ public class HistorialComisionServlet extends HttpServlet{
         HttpServletResponse resp
     ) throws IOException {
 
-        // CORS
+        //CORS
         resp.setHeader(
             "Access-Control-Allow-Origin",
             "http://localhost:4200"

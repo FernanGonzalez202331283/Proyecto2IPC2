@@ -19,113 +19,113 @@ import java.io.IOException;
  * @author fernan
  */
 @WebServlet("/ConfiguracionComisionServlet")
-public class ConfiguracionComisionServlet extends HttpServlet{
-    
+public class ConfiguracionComisionServlet extends HttpServlet {
+
     private Gson gson = new Gson();
 
     private void configurarCors(
-        HttpServletResponse response
+            HttpServletResponse response
     ) {
 
         response.setHeader(
-            "Access-Control-Allow-Origin",
-            "http://localhost:4200"
+                "Access-Control-Allow-Origin",
+                "http://localhost:4200"
         );
 
         response.setHeader(
-            "Access-Control-Allow-Methods",
-            "GET, POST, OPTIONS"
+                "Access-Control-Allow-Methods",
+                "GET, POST, OPTIONS"
         );
 
         response.setHeader(
-            "Access-Control-Allow-Headers",
-            "Origin, Content-Type, Accept, Authorization"
+                "Access-Control-Allow-Headers",
+                "Origin, Content-Type, Accept, Authorization"
         );
     }
 
     @Override
     protected void doOptions(
-        HttpServletRequest request,
-        HttpServletResponse response
+            HttpServletRequest request,
+            HttpServletResponse response
     ) throws ServletException, IOException {
 
         configurarCors(response);
 
         response.setStatus(
-            HttpServletResponse.SC_OK
+                HttpServletResponse.SC_OK
         );
     }
 
     @Override
     protected void doGet(
-        HttpServletRequest request,
-        HttpServletResponse response
+            HttpServletRequest request,
+            HttpServletResponse response
     ) throws ServletException, IOException {
 
         configurarCors(response);
 
         response.setContentType(
-            "application/json"
+                "application/json"
         );
 
-        ConfiguracionComisionDAO dao =
-            new ConfiguracionComisionDAO();
+        ConfiguracionComisionDAO dao
+                = new ConfiguracionComisionDAO();
 
-        double porcentaje =
-            dao.obtenerPorcentajeActual();
+        double porcentaje
+                = dao.obtenerPorcentajeActual();
 
-        JsonObject json =
-            new JsonObject();
+        JsonObject json
+                = new JsonObject();
 
         json.addProperty(
-            "porcentajeActual",
-            porcentaje
+                "porcentajeActual",
+                porcentaje
         );
 
         response.getWriter().write(
-            gson.toJson(json)
+                gson.toJson(json)
         );
     }
 
     @Override
     protected void doPost(
-        HttpServletRequest request,
-        HttpServletResponse response
+            HttpServletRequest request,
+            HttpServletResponse response
     ) throws ServletException, IOException {
 
         configurarCors(response);
 
         response.setContentType(
-            "application/json"
+                "application/json"
         );
 
-        JsonObject body =
-            gson.fromJson(
-                request.getReader(),
-                JsonObject.class
-            );
+        JsonObject body
+                = gson.fromJson(
+                        request.getReader(),
+                        JsonObject.class
+                );
 
-        double nuevoPorcentaje =
-            body.get("nuevoPorcentaje")
-                .getAsDouble();
+        double nuevoPorcentaje
+                = body.get("nuevoPorcentaje")
+                        .getAsDouble();
 
-        ConfiguracionComisionDAO dao =
-            new ConfiguracionComisionDAO();
+        ConfiguracionComisionDAO dao
+                = new ConfiguracionComisionDAO();
 
         dao.actualizarPorcentaje(
-            nuevoPorcentaje
+                nuevoPorcentaje
         );
 
-        JsonObject json =
-            new JsonObject();
+        JsonObject json
+                = new JsonObject();
 
         json.addProperty(
-            "mensaje",
-            "Comisión actualizada correctamente"
+                "mensaje",
+                "Comisión actualizada correctamente"
         );
 
         response.getWriter().write(
-            gson.toJson(json)
+                gson.toJson(json)
         );
     }
 }

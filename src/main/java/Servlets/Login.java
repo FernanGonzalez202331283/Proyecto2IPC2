@@ -41,9 +41,6 @@ public class Login extends HttpServlet {
             if (u != null && u.getEstado() == 1) {
                 // GENERAR TOKEN
                 String token = JWTUtil.generarToken(u.getId(), u.getUsername(), u.getRol());
-
-                // CREAR OBJETO DE RESPUESTA
-                // Usamos un Map para que Gson lo convierta a JSON automáticamente
                 java.util.Map<String, Object> responseData = new java.util.HashMap<>();
                 responseData.put("token", token);
                 responseData.put("id", u.getId());
