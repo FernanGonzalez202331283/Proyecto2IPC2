@@ -117,29 +117,37 @@ public class FreelancerDAO {
         }
     }
 
-    public double obtenerSaldo(int userId) {
+   public double obtenerSaldo(int userId) {
 
-        double saldo = 0;
+    double saldo = 0;
 
-        try {
-            Connection con = ConexionBD.getConnection();
+    try {
 
-            String sql = "SELECT SUM(monto) as total FROM movimiento_saldo WHERE usuario_id = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, userId);
+        Connection con = ConexionBD.getConnection();
 
-            ResultSet rs = ps.executeQuery();
+        String sql =
+            "SELECT SUM(monto) AS total " +
+            "FROM movimiento_saldo " +
+            "WHERE usuario_id = ? " +
+            "AND tipo = 'INGRESO'";
 
-            if (rs.next()) {
-                saldo = rs.getDouble("total");
-            }
+        PreparedStatement ps =
+            con.prepareStatement(sql);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        ps.setInt(1, userId);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            saldo = rs.getDouble("total");
         }
 
-        return saldo;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    return saldo;
+}
     
     public int obtenerIdPorUsuario(int userId) {
 

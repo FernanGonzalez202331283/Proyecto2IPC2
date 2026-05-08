@@ -197,4 +197,37 @@ public class ClienteDAO {
 
     return clienteId;
 }
+     public int obtenerIdCliente(int usuarioId) {
+
+    int clienteId = 0;
+
+    try {
+
+        Connection con =
+            ConexionBD.getConnection();
+
+        String sql =
+            "SELECT id FROM cliente WHERE usuario_id = ?";
+
+        PreparedStatement ps =
+            con.prepareStatement(sql);
+
+        ps.setInt(1, usuarioId);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+
+            clienteId = rs.getInt("id");
+        }
+
+        con.close();
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+    }
+
+    return clienteId;
+}
 }

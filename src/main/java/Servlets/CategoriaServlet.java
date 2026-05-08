@@ -39,4 +39,82 @@ public class CategoriaServlet extends HttpServlet{
             resp.setStatus(500);
         }
     }
+    
+    @Override
+protected void doPost(
+        HttpServletRequest req,
+        HttpServletResponse resp)
+        throws IOException {
+
+    Gson gson = new Gson();
+
+    Categoria data =
+        gson.fromJson(req.getReader(), Categoria.class);
+
+    CategoriaDAO dao = new CategoriaDAO();
+
+    boolean ok =
+        dao.crearCategoria(data.getNombre());
+
+    resp.setContentType("application/json");
+
+    if (ok) {
+
+        resp.getWriter()
+            .write("{\"msg\":\"Categoría creada\"}");
+
+    } else {
+
+        resp.setStatus(400);
+
+        resp.getWriter()
+            .write("{\"error\":\"No se pudo crear\"}");
+    }
+}
+
+@Override
+protected void doPut(
+        HttpServletRequest req,
+        HttpServletResponse resp)
+        throws IOException {
+
+    Gson gson = new Gson();
+
+    Categoria data =
+        gson.fromJson(req.getReader(), Categoria.class);
+
+    CategoriaDAO dao = new CategoriaDAO();
+
+    boolean ok;
+
+    if (data.getNombre() != null) {
+
+        ok = dao.editarCategoria(
+            data.getId(),
+            data.getNombre()
+        );
+
+    } else {
+
+        ok = dao.cambiarEstado(
+            data.getId(),
+            data.getEstado()
+        );
+    }
+
+    resp.setContentType("application/json");
+
+    if (ok) {
+
+        resp.getWriter()
+            .write("{\"msg\":\"Actualizado\"}");
+
+    } else {
+
+        resp.setStatus(400);
+
+        resp.getWriter()
+            .write("{\"error\":\"Error\"}");
+    }
+}
 }

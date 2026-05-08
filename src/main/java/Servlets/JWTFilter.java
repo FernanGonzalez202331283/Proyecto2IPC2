@@ -27,11 +27,19 @@ public void doFilter(ServletRequest request, ServletResponse response, FilterCha
 HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        // CORS 
-        resp.setHeader("Access-Control-Allow-Origin", "*");
+       resp.setHeader(
+    "Access-Control-Allow-Origin",
+    "http://localhost:4200"
+);
         resp.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
+        resp.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, Content-Type, Accept, Authorization"
+);
+        resp.setHeader(
+    "Access-Control-Allow-Credentials",
+    "true"
+);
         // Preflight
         if (req.getMethod().equalsIgnoreCase("OPTIONS")) {
             resp.setStatus(HttpServletResponse.SC_OK);
@@ -41,7 +49,11 @@ HttpServletRequest req = (HttpServletRequest) request;
         String path = req.getRequestURI();
 
         // RUTAS LIBRES
-        if (path.endsWith("/login") || path.endsWith("/registro")) {
+        if (
+            path.endsWith("/login") ||
+            path.endsWith("/registro") 
+        ) {
+
             chain.doFilter(request, response);
             return;
         }

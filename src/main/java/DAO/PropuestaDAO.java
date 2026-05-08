@@ -334,91 +334,239 @@ public class PropuestaDAO {
     }
 }
 
-    public void confirmarPropuesta(int propuestaId) {
+   public void confirmarPropuesta(int propuestaId) {
 
     Connection con = null;
 
     try {
+
         con = ConexionBD.getConnection();
         con.setAutoCommit(false);
 
         // 1. obtener propuesta
-        String sql = "SELECT * FROM propuesta WHERE id=?";
-        PreparedStatement ps = con.prepareStatement(sql);
+        String sql =
+            "SELECT * FROM propuesta WHERE id=?";
+
+        PreparedStatement ps =
+            con.prepareStatement(sql);
+
         ps.setInt(1, propuestaId);
+
         ResultSet rs = ps.executeQuery();
 
         if (!rs.next()) {
-            throw new RuntimeException("Propuesta no encontrada");
+
+            throw new RuntimeException(
+                "Propuesta no encontrada"
+            );
         }
 
-        int proyectoId = rs.getInt("proyecto_id");
-        double monto = rs.getDouble("monto");
+        int proyectoId =
+            rs.getInt("proyecto_id");
 
-        // 2. validar proyecto en EN_REVISION
-        String val = "SELECT estado, cliente_id FROM proyecto WHERE id=?";
-        PreparedStatement psVal = con.prepareStatement(val);
+        double monto =
+            rs.getDouble("monto");
+
+        // 2. validar proyecto EN_REVISION
+        String val =
+            "SELECT estado, cliente_id " +
+            "FROM proyecto " +
+            "WHERE id=?";
+
+        PreparedStatement psVal =
+            con.prepareStatement(val);
+
         psVal.setInt(1, proyectoId);
-        ResultSet rsVal = psVal.executeQuery();
 
-        if (!rsVal.next() || !rsVal.getString("estado").equals("EN_REVISION")) {
-            throw new RuntimeException("El proyecto no está listo para confirmar");
+        ResultSet rsVal =
+            psVal.executeQuery();
+
+        if (!rsVal.next() ||
+            !rsVal.getString("estado")
+                .equals("EN_REVISION")) {
+
+            throw new RuntimeException(
+                "El proyecto no está listo para confirmar"
+            );
         }
 
-        int clienteId = rsVal.getInt("cliente_id");
+        int clienteId =
+            rsVal.getInt("cliente_id");
 
-        // 3. bloquear saldo
-        String sqlSaldo = "SELECT saldo FROM cliente WHERE id=? FOR UPDATE";
-        PreparedStatement psS = con.prepareStatement(sqlSaldo);
+        // 3. bloquear saldo cliente
+        String sqlSaldo =
+            "SELECT saldo " +
+            "FROM cliente " +
+            "WHERE id=? FOR UPDATE";
+
+        PreparedStatement psS =
+            con.prepareStatement(sqlSaldo);
+
         psS.setInt(1, clienteId);
-        ResultSet rsS = psS.executeQuery();
+
+        ResultSet rsS =
+            psS.executeQuery();
 
         if (!rsS.next()) {
-            throw new RuntimeException("Cliente no encontrado");
+
+            throw new RuntimeException(
+                "Cliente no encontrado"
+            );
         }
 
-        double saldo = rsS.getDouble("saldo");
+        double saldo =
+            rsS.getDouble("saldo");
 
         if (saldo < monto) {
-            throw new RuntimeException("Saldo insuficiente");
+
+            throw new RuntimeException(
+                "Saldo insuficiente"
+            );
         }
 
         // 4. descontar saldo
-        String upd = "UPDATE cliente SET saldo = saldo - ? WHERE id=?";
-        PreparedStatement psU = con.prepareStatement(upd);
+        String upd =
+            "UPDATE cliente " +
+            "SET saldo = saldo - ? " +
+            "WHERE id=?";
+
+        PreparedStatement psU =
+            con.prepareStatement(upd);
+
         psU.setDouble(1, monto);
         psU.setInt(2, clienteId);
+
         psU.executeUpdate();
 
-        // 5. marcar propuesta como ACEPTADA
-        actualizarEstado(con, propuestaId, "ACEPTADA");
+        // 5. propuesta aceptada
+        actualizarEstado(
+            con,
+            propuestaId,
+            "ACEPTADA"
+        );
 
-        // 6. proyecto → EN_PROGRESO
-        String sql3 = "UPDATE proyecto SET estado='EN_PROGRESO' WHERE id=?";
-        PreparedStatement ps3 = con.prepareStatement(sql3);
+        // 6. proyecto EN_PROGRESO
+        String sql3 =
+            "UPDATE proyecto " +
+            "SET estado='EN_PROGRESO' " +
+            "WHERE id=?";
+
+        PreparedStatement ps3 =
+            con.prepareStatement(sql3);
+
         ps3.setInt(1, proyectoId);
+
         ps3.executeUpdate();
 
         // 7. crear contrato
         String sqlContrato =
-            "INSERT INTO contrato (propuesta_id, monto, estado, fecha_inicio) " +
+            "INSERT INTO contrato " +
+            "(propuesta_id, monto, estado, fecha_inicio) " +
             "VALUES (?, ?, 'EN_PROGRESO', NOW())";
 
-        PreparedStatement ps4 = con.prepareStatement(sqlContrato);
+        PreparedStatement ps4 =
+            con.prepareStatement(
+                sqlContrato,
+                PreparedStatement.RETURN_GENERATED_KEYS
+            );
+
         ps4.setInt(1, propuestaId);
         ps4.setDouble(2, monto);
+
         ps4.executeUpdate();
+
+        // 8. obtener contrato generado
+        ResultSet rsContrato =
+            ps4.getGeneratedKeys();
+
+        int contratoId = 0;
+
+        if (rsContrato.next()) {
+
+            contratoId =
+                rsContrato.getInt(1);
+        }
+
+        // =========================
+        // COMISION PLATAFORMA
+        // =========================
+
+        ConfiguracionComisionDAO daoConfig =
+            new ConfiguracionComisionDAO();
+
+        double porcentaje =
+            daoConfig.obtenerPorcentajeActual();
+
+        if (porcentaje <= 0) {
+
+            throw new RuntimeException(
+                "No existe configuración de comisión"
+            );
+        }
+
+        // calcular comisión
+        double comision =
+            monto * (porcentaje / 100.0);
+
+        // 9. guardar comisión
+        String sqlComision =
+            "INSERT INTO comision_contrato " +
+            "(contrato_id, porcentaje, monto) " +
+            "VALUES (?, ?, ?)";
+
+        PreparedStatement psCom =
+            con.prepareStatement(sqlComision);
+
+        psCom.setInt(1, contratoId);
+        psCom.setDouble(2, porcentaje);
+        psCom.setDouble(3, comision);
+
+        psCom.executeUpdate();
+
+        // 10. aumentar saldo plataforma
+        String sqlPlat =
+            "UPDATE saldo_plataforma " +
+            "SET monto = monto + ? " +
+            "WHERE id = 1";
+
+        PreparedStatement psPlat =
+            con.prepareStatement(sqlPlat);
+
+        psPlat.setDouble(1, comision);
+
+        psPlat.executeUpdate();
 
         con.commit();
 
     } catch (Exception e) {
 
-        try { if (con != null) con.rollback(); } catch (Exception ex) {}
+        try {
 
-        throw new RuntimeException(e.getMessage());
+            if (con != null) {
+                con.rollback();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        throw new RuntimeException(
+            e.getMessage()
+        );
 
     } finally {
-        try { if (con != null) con.setAutoCommit(true); } catch (Exception e) {}
+
+        try {
+
+            if (con != null) {
+
+                con.setAutoCommit(true);
+                con.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
     

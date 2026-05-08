@@ -14,9 +14,18 @@ public class SolicitudHabilidad {
     private String descripcion;
     private String estado;
     private int usuarioId;
+    private int categoriaId;
 
     public int getId() {
         return id;
+    }
+
+    public int getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(int categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
     public void setId(int id) {

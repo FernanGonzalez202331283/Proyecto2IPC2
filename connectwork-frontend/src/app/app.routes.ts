@@ -20,7 +20,18 @@ import { ContratosActivos } from './pages/contratos-activos/contratos-activos';
 import { ClienteContratoDetalle } from './pages/cliente-contrato-detalle/cliente-contrato-detalle';
 import { ClienteContratos } from './pages/cliente-contratos/cliente-contratos';
 import { CalificarFreelancer } from './pages/calificar-freelancer/calificar-freelancer';
-
+import { AdminUsuario } from './pages/admin-usuario/admin-usuario';
+import { AdminSaldos } from './pages/admin/admin-saldos/admin-saldos';
+import { AdminComision } from './pages/admin-comision/admin-comision';
+import { TopFreelancers } from './pages/top-freelancers/top-freelancers';
+import { TopCategorias } from './pages/top-categorias/top-categorias';
+import { ReporteIngresos } from './pages/reporte-ingresos/reporte-ingresos';
+import { ReporteProyectos } from './pages/reporte-proyectos/reporte-proyectos';
+import { ReporteRecargas } from './pages/reporte-recargas/reporte-recargas';
+import { ReporteGastosCategoria } from './pages/reporte-gastos-categoria/reporte-gastos-categoria';
+import { ReporteContratosFreelancer } from './pages/reporte-contratos-freelancer/reporte-contratos-freelancer';
+import { ReporteTopCategoriasFreelancer } from './pages/reporte-top-categorias-freelancer/reporte-top-categorias-freelancer';
+import { ReportePropuestasFreelancer } from './pages/reporte-propuestas-freelancer/reporte-propuestas-freelancer';
 export const routes: Routes = [
     { path: '', component: Login },
     { path: 'login', component: Login },
@@ -102,6 +113,80 @@ export const routes: Routes = [
  {
     path: 'calificar-freelancer/:id',
     component: CalificarFreelancer
-  }
+  },
+  {
+  path: 'admin/usuarios',
+  component: AdminUsuario
+},
+{
+  path: 'solicitar-categoria',
+  loadComponent: () =>
+    import('./pages/solicitar-categoria/solicitar-categoria')
+      .then(m => m.SolicitarCategoria)
+},
+{
+  path: 'admin/categorias',
+  loadComponent: () =>
+    import('./pages/admin-categorias/admin-categorias')
+      .then(m => m.AdminCategorias)
+},
+{
+  path: 'admin/solicitudes',
+  loadComponent: () =>
+    import('./pages/admin-solicitudes/admin-solicitudes')
+    .then(m => m.AdminSolicitudes)
+},
+{
+  path: 'admin/saldos',
+  component: AdminSaldos
+},
+{
+  path: 'admin/comision',
+  component: AdminComision
+},
+{
+  path: 'admin/reportes',
+  loadComponent: () =>
+    import('./pages/admin-reportes/admin-reportes')
+    .then(m => m.AdminReportes)
+},
+{
+  path: 'admin/reportes/top-freelancers',
+  component: TopFreelancers
+},
+{
+  path: 'admin/reportes/top-categorias',
+  component: TopCategorias
+},
+{
+  path: 'admin/reportes/ingresos-plataforma',
+  component: ReporteIngresos
+},
+{ path: 'cliente/reportes/proyectos',
+  component: ReporteProyectos
+},
+{
+  path: 'cliente/reportes/recargas',
+  component: ReporteRecargas
+},{
+  path: 'cliente/reportes/gastos-categorias',
+  component: ReporteGastosCategoria
+},{
+  path: 'freelancer/reportes/contratos',
+  component: ReporteContratosFreelancer
+},
+{
+  path:
+  'freelancer/reportes/top-categorias',
 
+  component:
+  ReporteTopCategoriasFreelancer
+},
+{
+  path:
+  'freelancer/reportes/propuestas',
+
+  component:
+  ReportePropuestasFreelancer
+}
 ];

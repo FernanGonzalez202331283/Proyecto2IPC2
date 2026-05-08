@@ -1,0 +1,70 @@
+<div class="contenedor">
+  <div class="card">
+
+    <div class="top-bar">
+    <button class="btn-volver" (click)="regresar()">Regresar</button>
+  </div>
+
+    <h1>
+      Historial de Comisión
+    </h1>
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>
+            Porcentaje
+          </th>
+
+          <th>
+            Fecha Inicio
+          </th>
+
+          <th>
+            Fecha Fin
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let h of historial">
+
+          <td>
+            {{ h.porcentaje }}%
+          </td>
+
+          <td>
+            {{ h.fechaInicio }}
+          </td>
+
+          <td>
+
+            <span *ngIf="h.fechaFin">
+              {{ h.fechaFin }}
+            </span>
+
+            <span *ngIf="!h.fechaFin">
+              ACTUAL
+            </span>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+    <p class="mensaje">
+      {{ mensaje }}
+    </p>
+
+  </div>
+
+</div>

@@ -1,0 +1,58 @@
+<div class="page">
+
+    <div class="card">
+    <button class="btn-back" (click)="regresar()">
+     Volver
+    </button>
+  <!-- TOPBAR -->
+  <div class="topbar">
+
+    <div class="logo">
+      <h2>ConnectWork</h2>
+    </div>
+
+  </div>
+
+  <!-- CARD -->
+  <div class="container">
+
+    <div class="header">
+
+      <h1>Solicitar Nueva Categoría</h1>
+
+      <p>
+        Envía una solicitud para agregar
+        una nueva categoría de servicios
+        al sistema.
+      </p>
+
+    </div>
+
+    <form (ngSubmit)="enviarSolicitud()">
+
+      <div class="form-group">
+
+        <label>
+          Nombre de la categoría
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="nombre"
+          name="nombre"
+          placeholder="Ejemplo: Diseño 3D"
+          required>
+
+      </div>
+
+      <button type="submit">
+
+        Enviar Solicitud
+
+      </button>
+
+    </form>
+
+  </div>
+
+</div>

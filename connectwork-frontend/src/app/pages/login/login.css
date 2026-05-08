@@ -1,7 +1,7 @@
 /* Fondo general */
 .login-container {
   height: 100vh;
-  background: linear-gradient(to right, #2563eb, #1e3a8a);
+  background: linear-gradient(to right, #05163a, #081947);
   display: flex;
   justify-content: center;
   align-items: center;

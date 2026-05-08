@@ -1,0 +1,229 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+
+  font-family: Arial, Helvetica, sans-serif;
+
+}
+
+/* PAGE */
+.page {
+
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 40px 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #1e293b,
+      #334155
+    );
+
+}
+
+/* TOPBAR */
+.topbar {
+
+  width: 100%;
+  max-width: 1200px;
+
+  margin-bottom: 40px;
+
+}
+
+/* LOGO */
+.logo h2 {
+
+  color: white;
+
+  font-size: 32px;
+
+  font-weight: bold;
+
+}
+
+/* CARD */
+.container {
+
+  width: 100%;
+  max-width: 500px;
+
+  padding: 40px;
+
+  border-radius: 25px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(12px);
+
+  border:
+    1px solid rgba(255,255,255,0.1);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+
+}
+
+/* HEADER */
+.header {
+
+  text-align: center;
+
+  margin-bottom: 30px;
+
+}
+
+.header h1 {
+
+  color: white;
+
+  font-size: 34px;
+
+  margin-bottom: 12px;
+
+}
+
+.header p {
+
+  color: #cbd5e1;
+
+  line-height: 1.5;
+
+}
+
+/* FORM */
+form {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 25px;
+
+}
+
+/* GROUP */
+.form-group {
+
+  display: flex;
+  flex-direction: column;
+
+}
+
+/* LABEL */
+label {
+
+  color: white;
+
+  margin-bottom: 10px;
+
+  font-weight: bold;
+
+}
+
+/* INPUT */
+input {
+
+  padding: 16px;
+
+  border-radius: 12px;
+
+  border: none;
+
+  outline: none;
+
+  font-size: 16px;
+
+  background:
+    rgba(255,255,255,0.15);
+
+  color: white;
+
+  transition: 0.3s;
+
+}
+
+/* PLACEHOLDER */
+input::placeholder {
+
+  color: #cbd5e1;
+
+}
+
+/* FOCUS */
+input:focus {
+
+  background:
+    rgba(255,255,255,0.22);
+
+  box-shadow:
+    0 0 0 3px rgba(59,130,246,0.4);
+
+}
+
+/* BUTTON */
+button {
+
+  padding: 16px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #3b82f6
+    );
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+
+}
+
+/* HOVER BUTTON */
+button:hover {
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 20px rgba(37,99,235,0.4);
+
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+
+  .container {
+
+    padding: 25px;
+
+  }
+
+  .header h1 {
+
+    font-size: 28px;
+
+  }
+
+}

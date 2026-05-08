@@ -1,0 +1,104 @@
+.contenedor {
+
+  min-height: 100vh;
+
+  background: #f3f4f6;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 40px;
+}
+
+.card {
+
+  width: 100%;
+
+  max-width: 1000px;
+
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.filtros {
+
+  display: flex;
+
+  gap: 20px;
+
+  margin: 20px 0;
+}
+
+.campo {
+
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+input {
+
+  padding: 10px;
+
+  border-radius: 10px;
+
+  border: 1px solid #ccc;
+}
+
+button {
+
+  padding: 12px 20px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #2563eb;
+
+  color: white;
+
+  cursor: pointer;
+
+  margin-bottom: 20px;
+}
+
+table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+th,
+td {
+
+  padding: 12px;
+
+  border-bottom: 1px solid #ddd;
+
+  text-align: center;
+}
+
+th {
+
+  background: #2563eb;
+
+  color: white;
+}
+
+.mensaje {
+
+  margin: 15px 0;
+
+  color: red;
+}

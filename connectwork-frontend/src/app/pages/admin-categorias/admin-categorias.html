@@ -1,0 +1,149 @@
+<div class="page">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+
+    <div class="logo">
+      <h2>Administrar Categorías</h2>
+    </div>
+
+    <div class="top-bar">
+    <button class="btn-back" (click)="regresar()"> Regresar</button>
+  </div>
+  </div>
+
+  <!-- CONTENEDOR -->
+  <div class="container">
+
+    <!-- TITULO -->
+    <div class="title-section">
+
+      <h1>
+        Gestión de Categorías
+      </h1>
+
+      <p>
+        Crear, editar y administrar
+        categorías del sistema
+      </p>
+
+    </div>
+
+    <!-- FORM -->
+    <div class="form-card">
+
+      <h3>Nueva categoría</h3>
+
+      <div class="form-group">
+
+        <input
+          type="text"
+          [(ngModel)]="nombre"
+          placeholder="Ejemplo: Diseño Web">
+
+        <button (click)="crearCategoria()">
+
+          Crear Categoría
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-container">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>ID</th>
+
+            <th>Nombre</th>
+
+            <th>Estado</th>
+
+            <th>Acciones</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let cat of categorias">
+
+            <!-- ID -->
+            <td>
+
+              {{cat.id}}
+
+            </td>
+
+            <!-- NOMBRE -->
+            <td>
+
+              {{cat.nombre}}
+
+            </td>
+
+            <!-- ESTADO -->
+            <td>
+
+              <span
+                *ngIf="cat.estado == 1"
+                class="activo">
+
+                Activa
+
+              </span>
+
+              <span
+                *ngIf="cat.estado == 0"
+                class="inactivo">
+
+                Inactiva
+
+              </span>
+
+            </td>
+
+            <!-- ACCIONES -->
+            <td class="acciones">
+
+              <!-- DESACTIVAR -->
+              <button
+                *ngIf="cat.estado == 1"
+                class="btn-desactivar"
+                (click)="cambiarEstado(cat, 0)">
+
+                Desactivar
+
+              </button>
+
+              <!-- ACTIVAR -->
+              <button
+                *ngIf="cat.estado == 0"
+                class="btn-activar"
+                (click)="cambiarEstado(cat, 1)">
+
+                Activar
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

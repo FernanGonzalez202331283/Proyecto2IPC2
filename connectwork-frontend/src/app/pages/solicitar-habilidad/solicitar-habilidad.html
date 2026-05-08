@@ -1,50 +1,112 @@
 <div class="page">
-   
 
   <div class="card">
-    <button class="btn-back" (click)="regresar()">
-    ← Volver
+
+    <!-- BOTON -->
+    <button
+      class="btn-back"
+      (click)="regresar()">
+
+      Volver
+
     </button>
 
-    <h2>Solicitar nueva habilidad</h2>
+    <!-- TITULO -->
+    <h2>
+      Solicitar nueva habilidad
+    </h2>
 
     <p class="subtitle">
-      Envía una solicitud para agregar una nueva habilidad al catálogo.
+
+      Envía una solicitud para agregar
+      una nueva habilidad al catálogo.
+
     </p>
 
+    <!-- NOMBRE -->
     <div class="form-group">
 
-      <label>Nombre de la habilidad</label>
+      <label>
+        Nombre de la habilidad
+      </label>
 
       <input
         type="text"
+        name="nombre"
         [(ngModel)]="nombre"
-        placeholder="Ejemplo: Docker"
-      >
+        placeholder="Ejemplo: Docker">
 
     </div>
 
+    <!-- CATEGORIA -->
     <div class="form-group">
 
-      <label>Descripción</label>
+      <label>
+        Categoría
+      </label>
+
+      <select
+        name="categoria"
+        [(ngModel)]="categoriaId">
+
+        <option [value]="0">
+
+          Selecciona una categoría
+
+        </option>
+
+        <option
+          *ngFor="let c of categorias"
+          [value]="c.id">
+
+          {{c.nombre}}
+
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- DESCRIPCION -->
+    <div class="form-group">
+
+      <label>
+        Descripción
+      </label>
 
       <textarea
+        name="descripcion"
         [(ngModel)]="descripcion"
         placeholder="Describe la habilidad solicitada">
       </textarea>
 
     </div>
 
-    <button (click)="enviar()">
+    <!-- BOTON -->
+    <button
+      class="btn-send"
+      (click)="enviar()">
+
       Enviar solicitud
+
     </button>
 
-    <p *ngIf="mensaje" class="success">
+    <!-- MENSAJE -->
+    <p
+      *ngIf="mensaje"
+      class="success">
+
       {{mensaje}}
+
     </p>
 
-    <p *ngIf="error" class="error">
+    <!-- ERROR -->
+    <p
+      *ngIf="error"
+      class="error">
+
       {{error}}
+
     </p>
 
   </div>

@@ -1,0 +1,305 @@
+/* CONTENEDOR PRINCIPAL */
+.reporte-container {
+
+  min-height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 40px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #1e293b,
+      #334155
+    );
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+/* EFECTOS DE FONDO */
+.reporte-container::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  background: rgba(59,130,246,0.25);
+
+  border-radius: 50%;
+
+  top: -150px;
+  left: -150px;
+
+  filter: blur(80px);
+}
+
+.reporte-container::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 450px;
+  height: 450px;
+
+  background: rgba(168,85,247,0.20);
+
+  border-radius: 50%;
+
+  bottom: -120px;
+  right: -120px;
+
+  filter: blur(80px);
+}
+
+/* TARJETA */
+.reporte-card {
+
+  position: relative;
+
+  z-index: 2;
+
+  width: 100%;
+  max-width: 750px;
+
+  padding: 40px;
+
+  border-radius: 28px;
+
+  background: rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.35);
+
+  animation: aparecer 0.5s ease;
+}
+
+/* HEADER */
+.header {
+
+  text-align: center;
+
+  margin-bottom: 35px;
+}
+
+.header h1 {
+
+  color: white;
+
+  font-size: 40px;
+
+  margin-bottom: 10px;
+
+  font-weight: 700;
+}
+
+.header p {
+
+  color: #cbd5e1;
+
+  font-size: 16px;
+}
+
+/* FORMULARIO */
+.form-group {
+
+  display: flex;
+
+  gap: 20px;
+
+  flex-wrap: wrap;
+
+  margin-bottom: 25px;
+}
+
+/* INPUT BOX */
+.input-box {
+
+  flex: 1;
+
+  min-width: 220px;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+.input-box label {
+
+  color: #e2e8f0;
+
+  margin-bottom: 8px;
+
+  font-weight: 600;
+
+  font-size: 15px;
+}
+
+/* INPUTS */
+.input-box input {
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.12);
+
+  color: white;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.3s;
+}
+
+.input-box input:focus {
+
+  background: rgba(255,255,255,0.18);
+
+  box-shadow:
+    0 0 0 3px rgba(59,130,246,0.35);
+}
+
+/* BOTON */
+.btn-generar {
+
+  width: 100%;
+
+  padding: 15px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #3b82f6
+    );
+
+  color: white;
+
+  font-size: 17px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.btn-generar:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px rgba(37,99,235,0.4);
+}
+
+/* RESULTADOS */
+.resultados {
+
+  margin-top: 35px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 20px;
+}
+
+/* TARJETAS DE RESULTADOS */
+.resultado-card {
+
+  background: rgba(255,255,255,0.10);
+
+  border-radius: 20px;
+
+  padding: 30px;
+
+  text-align: center;
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  transition: all 0.3s ease;
+}
+
+.resultado-card:hover {
+
+  transform: translateY(-5px);
+
+  background: rgba(255,255,255,0.14);
+}
+
+/* TITULOS RESULTADOS */
+.resultado-card h3 {
+
+  color: #cbd5e1;
+
+  font-size: 18px;
+
+  margin-bottom: 15px;
+}
+
+/* VALORES */
+.resultado-card span {
+
+  color: white;
+
+  font-size: 34px;
+
+  font-weight: bold;
+}
+
+/* ANIMACION */
+@keyframes aparecer {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(25px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+@media(max-width: 768px) {
+
+  .reporte-card {
+
+    padding: 25px;
+  }
+
+  .header h1 {
+
+    font-size: 30px;
+  }
+
+}

@@ -1,0 +1,167 @@
+<div class="container">
+    <div class="topbar">
+    <div class="top-bar">
+    <button class="btn-back" (click)="regresar()"> Regresar</button>
+  </div>
+
+  <h1>
+    Gestión de Solicitudes
+  </h1>
+  @if (mensaje) {
+
+  <div class="mensaje" [ngClass]="tipoMensaje">
+
+    {{ mensaje }}
+
+  </div>
+
+}
+
+  <!-- CATEGORIAS -->
+
+  <section class="bloque">
+
+    <h2>
+      Solicitudes de Categorías
+    </h2>
+
+    @if (cargandoCategorias) {
+
+      <p>Cargando categorías...</p>
+
+    } @else {
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (c of categorias; track c.id) {
+
+            <tr>
+
+              <td>{{ c.id }}</td>
+
+              <td>{{ c.nombre }}</td>
+
+              <td>{{ c.estado }}</td>
+
+              <td>
+
+                <button
+                  class="aceptar"
+                  (click)="aceptarCategoria(c.id)">
+
+                  Aceptar
+
+                </button>
+
+                <button
+                  class="rechazar"
+                  (click)="rechazarCategoria(c.id)">
+
+                  Rechazar
+
+                </button>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    }
+
+  </section>
+
+  <!-- ========================= -->
+  <!-- HABILIDADES -->
+  <!-- ========================= -->
+
+  <section class="bloque">
+
+    <h2>
+      Solicitudes de Habilidades
+    </h2>
+
+    @if (cargandoHabilidades) {
+
+      <p>Cargando habilidades...</p>
+
+    } @else {
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (h of habilidades; track h.id) {
+
+            <tr>
+
+              <td>{{ h.id }}</td>
+
+              <td>{{ h.nombre }}</td>
+
+              <td>{{ h.descripcion }}</td>
+
+              <td>{{ h.estado }}</td>
+
+              <td>
+
+                <button
+                  class="aceptar"
+                  (click)="aceptarHabilidad(h.id)">
+
+                  Aceptar
+
+                </button>
+
+                <button
+                  class="rechazar"
+                  (click)="rechazarHabilidad(h.id)">
+
+                  Rechazar
+
+                </button>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    }
+
+  </section>
+
+</div>

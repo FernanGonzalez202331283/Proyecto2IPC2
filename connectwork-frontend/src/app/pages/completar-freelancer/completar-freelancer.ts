@@ -36,7 +36,7 @@ export class CompletarFreelancer implements OnInit {
     headers: { Authorization: `Bearer ${token}` }
   }).subscribe({
     next: (data) => {
-      console.log("HABILIDADES:", data); //MIRA ESTO
+      console.log("HABILIDADES:", data);
       this.listaHabilidades = data;
     },
     error: (err) => console.error("ERROR:", err)

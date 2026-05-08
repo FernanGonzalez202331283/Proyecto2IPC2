@@ -1,0 +1,72 @@
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="top-bar">
+
+   <div class="top-bar">
+    <button class="btn-back" (click)="regresar()">← Regresar</button>
+  </div>
+
+    <h2>
+      Saldo Plataforma
+    </h2>
+
+  </div>
+
+  <!-- SALDO GLOBAL -->
+  <div class="saldo-card">
+
+    <h3>
+      Saldo Global
+    </h3>
+
+    <h1>
+      Q {{ saldo }}
+    </h1>
+
+  </div>
+
+  <!-- TABLA -->
+  <div class="tabla-container">
+
+    <h3>
+      Historial de Comisiones
+    </h3>
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Contrato</th>
+          <th>Porcentaje</th>
+          <th>Monto</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let c of comisiones">
+
+          <td>
+            #{{ c.contratoId }}
+          </td>
+
+          <td>
+            {{ c.porcentaje }}%
+          </td>
+
+          <td>
+            Q {{ c.monto }}
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

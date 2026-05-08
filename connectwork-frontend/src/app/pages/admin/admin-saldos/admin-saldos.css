@@ -1,0 +1,167 @@
+.container {
+
+  padding: 30px;
+}
+
+.top-bar {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 30px;
+}
+
+.btn-back {
+
+  background: #111827;
+
+  color: white;
+
+  border: none;
+
+  padding: 10px 20px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.saldo-card {
+
+  background: linear-gradient(
+    135deg,
+    #111827,
+    #1f2937
+  );
+
+  color: white;
+
+  padding: 40px;
+
+  border-radius: 20px;
+
+  margin-bottom: 40px;
+}
+
+.saldo-card h1 {
+
+  font-size: 50px;
+
+  margin-top: 10px;
+}
+
+.tabla-container {
+
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 20px;
+
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+}
+
+table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  margin-top: 20px;
+}
+
+th,
+td {
+
+  padding: 14px;
+
+  border-bottom: 1px solid #ddd;
+
+  text-align: left;
+}
+
+th {
+
+  background: #f3f4f6;
+}
+/* Fondo general */
+.container {
+  min-height: 100vh;
+  padding: 30px;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+/* Top bar */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.btn-back {
+  background: #334155;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-back:hover {
+  background: #475569;
+}
+
+/* Card de saldo */
+.saldo-card {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.saldo-card h1 {
+  font-size: 40px;
+  color: #22c55e;
+}
+
+/* Tabla */
+.tabla-container {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+th {
+  color: #94a3b8;
+}
+
+td {
+  color: #e2e8f0;
+}
+
+/* Hover filas */
+tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}

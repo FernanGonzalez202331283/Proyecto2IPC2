@@ -145,3 +145,69 @@
 .btn-logout:hover {
   background: #ff4d4d;
 }
+
+/* CARD REPORTES */
+.reportes-card {
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  min-height: 220px;
+}
+
+/* TEXTO */
+.reportes-card p {
+
+  margin-top: 10px;
+
+  margin-bottom: 18px;
+
+  color: #999;
+
+  line-height: 1.5;
+
+  font-size: 13px;
+}
+
+/* CONTENEDOR LINKS */
+.reportes-links {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+/* LINKS */
+.reportes-links a {
+
+  text-decoration: none;
+
+  padding: 10px 12px;
+
+  border-radius: 10px;
+
+  background: #f1f5f9;
+
+  color: #2a5298;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  transition: 0.3s;
+}
+
+/* HOVER */
+.reportes-links a:hover {
+
+  background: #2a5298;
+
+  color: white;
+
+  transform: translateY(-2px);
+}

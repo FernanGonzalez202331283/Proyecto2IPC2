@@ -27,7 +27,10 @@ public class Cors implements Filter{
         HttpServletRequest req = (HttpServletRequest) request;
 
         //HEADERS CORS
-        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader(
+    "Access-Control-Allow-Origin",
+    "http://localhost:4200"
+);
         resp.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 

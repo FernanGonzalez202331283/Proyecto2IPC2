@@ -1,0 +1,92 @@
+<div class="contenedor">
+
+  <div class="card">
+    <div class="top-bar">
+    <button class="btn-volver" (click)="regresar()"> Regresar</button>
+  </div>
+
+    <h1>Historial de Proyectos</h1>
+
+    <div class="filtros">
+
+      <div class="campo">
+        <label>Fecha inicio</label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaInicio"
+        >
+      </div>
+
+      <div class="campo">
+        <label>Fecha fin</label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaFin"
+        >
+      </div>
+
+    </div>
+
+    <button (click)="cargarReporte()">
+      Generar Reporte
+    </button>
+
+    <div
+      class="mensaje"
+      *ngIf="mensaje"
+    >
+      {{mensaje}}
+    </div>
+
+    <div
+      class="table-container"
+      *ngIf="proyectos.length > 0"
+    >
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>ID</th>
+            <th>Proyecto</th>
+            <th>Estado</th>
+            <th>Presupuesto</th>
+            <th>Freelancer</th>
+            <th>Monto Contrato</th>
+            <th>Fecha</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let p of proyectos">
+
+            <td>{{p.idProyecto}}</td>
+
+            <td>{{p.titulo}}</td>
+
+            <td>{{p.estado}}</td>
+
+            <td>Q{{p.presupuesto}}</td>
+
+            <td>{{p.freelancer}}</td>
+
+            <td>Q{{p.montoContrato}}</td>
+
+            <td>{{p.fecha}}</td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

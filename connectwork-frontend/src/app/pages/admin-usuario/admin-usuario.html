@@ -1,0 +1,406 @@
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="topbar">
+
+    <div class="top-bar">
+
+      <button
+        class="btn-back"
+        (click)="regresar()">
+
+        Regresar
+
+      </button>
+
+    </div>
+
+    <div class="logo">
+
+      <h2>Admin Panel</h2>
+
+    </div>
+
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="container">
+
+    <!-- TITULO -->
+    <div class="title-section">
+
+      <h1>Gestión de Usuarios</h1>
+
+      <p>
+        Administra usuarios del sistema,
+        activa o desactiva cuentas.
+      </p>
+
+    </div>
+
+    <!-- BOTON CREAR ADMIN -->
+    <div class="acciones-top">
+
+      <button
+        class="btn-crear"
+        (click)="abrirModalAdmin()">
+
+        + Crear Administrador
+
+      </button>
+
+    </div>
+
+    <!-- TABLA -->
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>ID</th>
+
+          <th>Usuario</th>
+
+          <th>Correo</th>
+
+          <th>Rol</th>
+
+          <th>Estado</th>
+
+          <th>Acciones</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let u of usuarios">
+
+          <!-- ID -->
+          <td>{{u.id}}</td>
+
+          <!-- USERNAME -->
+          <td>
+
+            <strong>
+              {{u.username}}
+            </strong>
+
+          </td>
+
+          <!-- CORREO -->
+          <td>{{u.correo}}</td>
+
+          <!-- ROL -->
+          <td>
+
+            <span
+              class="rol"
+              [ngClass]="{
+
+                'admin': u.rol == 'ADMIN',
+
+                'cliente': u.rol == 'CLIENTE',
+
+                'freelancer': u.rol == 'FREELANCER'
+
+              }">
+
+              {{u.rol}}
+
+            </span>
+
+          </td>
+
+          <!-- ESTADO -->
+          <td>
+
+            <span
+              *ngIf="u.estado == 1"
+              class="activo">
+
+              Activo
+
+            </span>
+
+            <span
+              *ngIf="u.estado == 0"
+              class="inactivo">
+
+              Inactivo
+
+            </span>
+
+          </td>
+
+          <!-- ACCIONES -->
+          <td class="acciones">
+
+            <!-- VER PERFIL -->
+            <button
+              class="btn-ver"
+              (click)="verPerfil(u.id)">
+
+              Ver Perfil
+
+            </button>
+
+            <!-- DESACTIVAR -->
+            <button
+              *ngIf="u.estado == 1"
+              class="btn-desactivar"
+              (click)="cambiarEstado(u, 0)">
+
+              Desactivar
+
+            </button>
+
+            <!-- ACTIVAR -->
+            <button
+              *ngIf="u.estado == 0"
+              class="btn-activar"
+              (click)="cambiarEstado(u, 1)">
+
+              Activar
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- MODAL PERFIL -->
+  <!-- ========================= -->
+
+  <div
+    class="modal-overlay"
+    *ngIf="perfilSeleccionado">
+
+    <div class="modal">
+
+      <h2>
+
+        Perfil Usuario
+
+      </h2>
+
+      <!-- DATOS USUARIO -->
+
+      <div class="info">
+
+        <p>
+
+          <strong>ID:</strong>
+
+          {{perfilSeleccionado.usuario.id}}
+
+        </p>
+
+        <p>
+
+          <strong>Nombre:</strong>
+
+          {{perfilSeleccionado.usuario.nombre}}
+
+        </p>
+
+        <p>
+
+          <strong>Username:</strong>
+
+          {{perfilSeleccionado.usuario.username}}
+
+        </p>
+
+        <p>
+
+          <strong>Correo:</strong>
+
+          {{perfilSeleccionado.usuario.correo}}
+
+        </p>
+
+        <p>
+
+          <strong>Rol:</strong>
+
+          {{perfilSeleccionado.usuario.rol}}
+
+        </p>
+
+        <p>
+
+          <strong>Teléfono:</strong>
+
+          {{perfilSeleccionado.usuario.telefono}}
+
+        </p>
+
+        <p>
+
+          <strong>Dirección:</strong>
+
+          {{perfilSeleccionado.usuario.direccion}}
+
+        </p>
+
+      </div>
+
+      <!-- FREELANCER -->
+
+      <div
+        *ngIf="perfilSeleccionado.freelancer">
+
+        <h3>
+
+          Información Freelancer
+
+        </h3>
+
+        <p>
+
+          <strong>Biografía:</strong>
+
+          {{perfilSeleccionado.freelancer.biografia}}
+
+        </p>
+
+        <p>
+
+          <strong>Nivel:</strong>
+
+          {{perfilSeleccionado.freelancer.nivelExperiencia}}
+
+        </p>
+
+        <p>
+
+          <strong>Tarifa:</strong>
+
+          Q{{perfilSeleccionado.freelancer.tarifaHora}}
+
+        </p>
+
+      </div>
+
+      <!-- CLIENTE -->
+
+      <div
+        *ngIf="perfilSeleccionado.cliente">
+
+        <h3>
+
+          Información Cliente
+
+        </h3>
+
+        <p>
+
+          <strong>Descripción:</strong>
+
+          {{perfilSeleccionado.cliente.descripcion}}
+
+        </p>
+
+        <p>
+
+          <strong>Sector:</strong>
+
+          {{perfilSeleccionado.cliente.sector}}
+
+        </p>
+
+        <p>
+
+          <strong>Sitio Web:</strong>
+
+          {{perfilSeleccionado.cliente.sitioWeb}}
+
+        </p>
+
+      </div>
+
+      <!-- BOTON -->
+
+      <button
+        class="btn-cerrar"
+        (click)="cerrarPerfil()">
+
+        Cerrar
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- MODAL CREAR ADMIN -->
+  <!-- ========================= -->
+
+  <div
+    class="modal-overlay"
+    *ngIf="mostrarModalAdmin">
+
+    <div class="modal">
+
+      <h2>
+
+        Crear Administrador
+
+      </h2>
+
+      <input
+        type="text"
+        placeholder="Nombre"
+        [(ngModel)]="nuevoAdmin.nombre">
+
+      <input
+        type="text"
+        placeholder="Username"
+        [(ngModel)]="nuevoAdmin.username">
+
+      <input
+        type="email"
+        placeholder="Correo"
+        [(ngModel)]="nuevoAdmin.correo">
+
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="nuevoAdmin.password">
+
+      <div class="acciones-modal">
+
+        <button
+          class="btn-crear"
+          (click)="crearAdmin()">
+
+          Crear
+
+        </button>
+
+        <button
+          class="btn-cerrar"
+          (click)="cerrarModalAdmin()">
+
+          Cancelar
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

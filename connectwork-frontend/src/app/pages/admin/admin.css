@@ -207,3 +207,40 @@
     font-size: 36px;
   }
 }
+.reportes-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.reportes-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reportes-links a {
+
+  text-decoration: none;
+
+  background: #f3f4f6;
+
+  padding: 10px;
+
+  border-radius: 10px;
+
+  color: #111827;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+}
+
+.reportes-links a:hover {
+
+  background: #2563eb;
+
+  color: white;
+
+  transform: translateY(-2px);
+}

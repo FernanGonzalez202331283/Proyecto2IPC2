@@ -31,23 +31,36 @@
       <h2>Q{{saldo}}</h2>
     </div>
 
-    <div class="card">
-      <h4>Propuestas</h4>
-      <h2>{{propuestas}}</h2>
-    </div>
-
-    <div class="card">
-      <h4>Contratos</h4>
-      <h2>{{contratos}}</h2>
-    </div>
-
     <div class="card clickable" (click)="irContratos()">
       <h4>Contratos activos</h4>
       <h2>{{contratos}}</h2>
       <p>Ver entregas y progreso</p>
     </div>
 
+    <!-- REPORTES FREELANCER -->
+<div class="card reportes-card">
+
+  <h4>Reportes</h4>
+  <div class="reportes-links">
+
+    <a routerLink="/freelancer/reportes/contratos">
+      Contratos completados
+    </a>
+
+    <a routerLink="/freelancer/reportes/top-categorias">
+      Top categorías
+    </a>
+
+    <a routerLink="/freelancer/reportes/propuestas">
+      Propuestas enviadas
+    </a>
+
   </div>
+
+</div>
+
+  </div>
+  
 
   <!-- PROYECTOS -->
   <div class="proyectos">

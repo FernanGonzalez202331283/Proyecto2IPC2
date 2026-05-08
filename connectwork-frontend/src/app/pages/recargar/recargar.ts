@@ -33,10 +33,6 @@ export class Recargar {
     next: () => {
       // 1. Notificamos al servicio (para que el Dashboard sepa que debe refrescar)
   this.dashboardService.notificarActualizacion();
-  
-  // 2. El alert es CLAVE aquí: detiene la ejecución de JavaScript.
-  // Mientras el usuario lee el mensaje y le da "Aceptar", 
-  // MySQL tiene tiempo de sobra (milisegundos) para terminar el UPDATE.
   alert('Saldo recargado exitosamente');
 
   // 3. Limpiamos el input

@@ -1,0 +1,117 @@
+<div class="contenedor">
+
+  <div class="card">
+    <div class="top-bar">
+    <button class="btn-volver" (click)="regresar()">Regresar</button>
+  </div>
+
+    <h1>Contratos Completados</h1>
+
+    <p class="subtitulo">
+      Visualiza tu historial de trabajos
+      realizados y calificaciones obtenidas
+    </p>
+
+    <div class="filtros">
+
+      <div class="campo">
+
+        <label>Fecha inicio</label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaInicio"
+        >
+
+      </div>
+
+      <div class="campo">
+
+        <label>Fecha fin</label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaFin"
+        >
+
+      </div>
+
+    </div>
+
+    <button (click)="cargarReporte()">
+      Generar Reporte
+    </button>
+
+    <div
+      class="mensaje"
+      *ngIf="mensaje"
+    >
+      {{mensaje}}
+    </div>
+
+    <div
+      class="tabla-container"
+      *ngIf="contratos.length > 0"
+    >
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Cliente</th>
+
+            <th>Proyecto</th>
+
+            <th>Monto</th>
+
+            <th>Calificación</th>
+
+            <th>Fecha</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let c of contratos">
+
+            <td>{{c.cliente}}</td>
+
+            <td>{{c.proyecto}}</td>
+
+            <td>Q{{c.monto}}</td>
+
+            <td>
+
+              <span
+                *ngIf="c.calificacion > 0"
+              >
+                {{c.calificacion}}/5
+              </span>
+
+              <span
+                *ngIf="c.calificacion == 0"
+              >
+                Sin calificación
+              </span>
+
+            </td>
+
+            <td>
+              {{c.fecha | date:'short'}}
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

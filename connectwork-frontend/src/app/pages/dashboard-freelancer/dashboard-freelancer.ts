@@ -74,8 +74,6 @@ export class DashboardFreelancer implements OnInit {
   // Opción simple
   localStorage.removeItem('token');
   localStorage.removeItem('usuario');
-
-  // Si ya tienes método en AuthService (mejor usarlo)
   this.auth.logout?.();
 
   this.router.navigate(['/login']);

@@ -49,4 +49,60 @@ public class SaldoDAO {
         e.printStackTrace();
     }
 }
+    public void sumarSaldoPlataforma(double monto) {
+
+    try {
+
+        Connection con = ConexionBD.getConnection();
+
+        String sql =
+            "UPDATE saldo_plataforma " +
+            "SET monto = monto + ? " +
+            "WHERE id = 1";
+
+        PreparedStatement ps =
+            con.prepareStatement(sql);
+
+        ps.setDouble(1, monto);
+
+        ps.executeUpdate();
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+
+    }
+}
+    public double obtenerSaldoPlataforma() {
+
+    double saldo = 0;
+
+    try {
+
+        Connection con = ConexionBD.getConnection();
+
+        String sql =
+            "SELECT monto " +
+            "FROM saldo_plataforma " +
+            "WHERE id = 1";
+
+        PreparedStatement ps =
+            con.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+
+            saldo = rs.getDouble("monto");
+
+        }
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+
+    }
+
+    return saldo;
+}
 }

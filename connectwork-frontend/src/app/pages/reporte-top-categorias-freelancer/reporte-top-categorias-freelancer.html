@@ -1,0 +1,45 @@
+<div class="contenedor">
+
+  <div class="card">
+    <div class="top-bar">
+    <button class="btn-volver" (click)="regresar()"> Regresar</button>
+  </div>
+    <h1>
+      Top 5 Categorías
+    </h1>
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Categoría</th>
+          <th>Contratos</th>
+          <th>Total ingresos</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let c of categorias">
+
+          <td>{{ c.categoria }}</td>
+
+          <td>
+            {{ c.cantidadContratos }}
+          </td>
+
+          <td>
+            Q{{ c.totalIngresos }}
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

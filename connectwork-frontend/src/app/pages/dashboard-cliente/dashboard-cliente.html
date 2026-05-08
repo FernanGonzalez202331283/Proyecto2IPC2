@@ -39,8 +39,51 @@
       <h2>Q{{saldo}}</h2>
       <p>Disponible</p>
     </div>
+
+
+    <div class="card clickable"
+     routerLink="/solicitar-categoria">
+
+  <h4>Solicitar categoría</h4>
+
+  <h2></h2>
+
+  <p>
+    Solicita una nueva categoría
+    para proyectos
+  </p>
+
+</div>
     <div class="acciones">
     <button routerLink="/recargar">Recargar saldo</button>
+</div>
+
+<!-- REPORTES CLIENTE -->
+<div class="card reportes-card">
+
+  <h4>Reportes</h4>
+
+  <p>
+    Visualiza estadísticas y movimientos
+    de tu cuenta
+  </p>
+
+  <div class="reportes-links">
+
+    <a routerLink="/cliente/reportes/proyectos">
+      Historial de proyectos
+    </a>
+
+    <a routerLink="/cliente/reportes/recargas">
+      Historial de recargas
+    </a>
+
+    <a routerLink="/cliente/reportes/gastos-categorias">
+      Gastos por categoría
+    </a>
+
+  </div>
+
 </div>
 
   </div>

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
-  imports: [],
+  standalone: true,
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './admin.html',
   styleUrl: './admin.css',
 })
@@ -57,5 +58,9 @@ export class Admin {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
+
+  irA(ruta: string) {
+  this.router.navigate([ruta]);
+}
 
 }

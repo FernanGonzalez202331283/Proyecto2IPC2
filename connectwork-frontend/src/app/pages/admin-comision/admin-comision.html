@@ -1,0 +1,46 @@
+<div class="contenedor">
+
+  <div class="card">
+    <div class="top-bar">
+    <button class="btn-back" (click)="regresar()"> Regresar</button>
+  </div>
+
+    <h1>
+      Configuración Comisión
+    </h1>
+
+    <h2>
+      Comisión actual:
+      <span class="porcentaje">
+        {{ porcentajeActual }}%
+      </span>
+    </h2>
+
+    <div class="form-group">
+
+      <label>
+        Nuevo porcentaje
+      </label>
+
+      <input
+        type="number"
+        [(ngModel)]="nuevoPorcentaje"
+        placeholder="Ingrese porcentaje"
+      >
+
+    </div>
+
+    <button
+      (click)="actualizarComision()">
+
+      Actualizar Comisión
+
+    </button>
+
+    <p class="mensaje">
+      {{ mensaje }}
+    </p>
+
+  </div>
+
+</div>

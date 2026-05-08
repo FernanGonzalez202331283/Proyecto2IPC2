@@ -1,0 +1,97 @@
+<div class="contenedor">
+
+  <div class="card">
+    <div class="top-bar">
+    <button class="btn-volver" (click)="regresar()">Regresar</button>
+  </div>
+
+    <h1>
+      Top 5 Categorías
+    </h1>
+
+    <div class="filtros">
+
+      <div class="campo">
+
+        <label>
+          Fecha inicio
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaInicio"
+        >
+
+      </div>
+
+      <div class="campo">
+
+        <label>
+          Fecha fin
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaFin"
+        >
+
+      </div>
+
+    </div>
+
+    <button
+      (click)="obtenerReporte()">
+
+      Generar Reporte
+
+    </button>
+
+    <p class="mensaje">
+      {{ mensaje }}
+    </p>
+
+    <table *ngIf="categorias.length > 0">
+
+      <thead>
+
+        <tr>
+
+          <th>Categoría</th>
+
+          <th>Contratos</th>
+
+          <th>Total Comisiones</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr
+          *ngFor="
+            let c of categorias
+          "
+        >
+
+          <td>
+            {{ c.categoria }}
+          </td>
+
+          <td>
+            {{ c.cantidadContratos }}
+          </td>
+
+          <td>
+            Q{{ c.totalComisiones }}
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

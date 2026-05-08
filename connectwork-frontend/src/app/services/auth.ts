@@ -26,7 +26,7 @@ export class AuthService {
     perfilCompleto: resp.perfilCompleto
   };
 
-  localStorage.setItem('usuario', JSON.stringify(user)); // 🔥 IMPORTANTE
+  localStorage.setItem('usuario', JSON.stringify(user)); //
   this.usuario.set(user);
 }
 

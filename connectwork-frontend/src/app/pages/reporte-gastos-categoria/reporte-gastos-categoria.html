@@ -1,0 +1,89 @@
+<div class="contenedor">
+
+  <div class="card">
+    <div class="top-bar">
+    <button class="btn-volver" (click)="regresar()">Regresar</button>
+  </div>
+
+    <h1>Gastos por Categoría</h1>
+
+    <p class="subtitulo">
+      Consulta cuánto has invertido
+      en cada categoría de servicios
+    </p>
+
+    <div class="filtros">
+
+      <div class="campo">
+
+        <label>Fecha inicio</label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaInicio"
+        >
+
+      </div>
+
+      <div class="campo">
+
+        <label>Fecha fin</label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaFin"
+        >
+
+      </div>
+
+    </div>
+
+    <button (click)="cargarReporte()">
+      Generar Reporte
+    </button>
+
+    <div
+      class="mensaje"
+      *ngIf="mensaje"
+    >
+      {{mensaje}}
+    </div>
+
+    <div
+      class="tabla-container"
+      *ngIf="categorias.length > 0"
+    >
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Categoría</th>
+
+            <th>Total Gastado</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let c of categorias">
+
+            <td>{{c.categoria}}</td>
+
+            <td>Q{{c.totalGastado}}</td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

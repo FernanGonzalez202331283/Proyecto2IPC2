@@ -52,7 +52,7 @@ export class PropuestasCliente {
     this.router.navigate(['/dashboard-cliente']);
   }
 
-  // 🔵 SELECCIONAR
+  // SELECCIONAR
   seleccionar(id: number) {
     this.http.post(
       `http://localhost:8080/Proyecto2IPC2/propuesta/seleccionar`,
@@ -69,7 +69,7 @@ export class PropuestasCliente {
     });
   }
 
-  // 🟢 CONFIRMAR
+  // CONFIRMAR
   confirmar(id: number) {
     this.http.post(
       `http://localhost:8080/Proyecto2IPC2/propuesta/confirmar`,
@@ -86,7 +86,7 @@ export class PropuestasCliente {
     });
   }
 
-  // 🔴 RECHAZAR
+  // RECHAZAR
   rechazar(id: number) {
     this.http.post(
       `http://localhost:8080/Proyecto2IPC2/propuesta/rechazar`,

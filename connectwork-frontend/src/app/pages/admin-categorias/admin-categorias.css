@@ -1,0 +1,441 @@
+/* ===== FONDO GENERAL ===== */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ===== PAGE ===== */
+
+.page {
+
+  min-height: 100vh;
+
+  padding: 30px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #1e293b,
+      #334155
+    );
+
+}
+
+/* ===== TOPBAR ===== */
+
+.topbar {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 30px;
+
+}
+
+/* ===== LOGO ===== */
+
+.logo h2 {
+
+  margin: 0;
+
+  color: white;
+
+  font-size: 32px;
+
+  font-weight: bold;
+
+}
+
+/* ===== BOTON VOLVER ===== */
+
+.btn-volver {
+
+  border: none;
+
+  padding: 12px 20px;
+
+  border-radius: 12px;
+
+  background: white;
+
+  color: #0f172a;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.btn-volver:hover {
+
+  transform: translateY(-2px);
+
+  background: #e2e8f0;
+
+}
+
+/* ===== CONTENEDOR ===== */
+
+.container {
+
+  width: 95%;
+  max-width: 1200px;
+
+  margin: auto;
+
+  padding: 35px;
+
+  border-radius: 24px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(10px);
+
+  border:
+    1px solid rgba(255,255,255,0.1);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.35);
+
+}
+
+/* ===== TITULO ===== */
+
+.title-section {
+
+  text-align: center;
+
+  margin-bottom: 35px;
+
+}
+
+.title-section h1 {
+
+  margin: 0;
+
+  color: white;
+
+  font-size: 42px;
+
+}
+
+.title-section p {
+
+  margin-top: 10px;
+
+  color: #cbd5e1;
+
+  font-size: 16px;
+
+}
+
+/* ===== CARD FORM ===== */
+
+.form-card {
+
+  padding: 25px;
+
+  margin-bottom: 35px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,0.05);
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+}
+
+.form-card h3 {
+
+  margin-top: 0;
+
+  color: white;
+
+  margin-bottom: 20px;
+
+}
+
+/* ===== FORM GROUP ===== */
+
+.form-group {
+
+  display: flex;
+
+  gap: 15px;
+
+  flex-wrap: wrap;
+
+}
+
+/* ===== INPUT ===== */
+
+.form-group input {
+
+  flex: 1;
+
+  min-width: 250px;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  outline: none;
+
+  background:
+    rgba(255,255,255,0.12);
+
+  color: white;
+
+  font-size: 15px;
+
+}
+
+.form-group input::placeholder {
+
+  color: #cbd5e1;
+
+}
+
+/* ===== BOTON CREAR ===== */
+
+.form-group button {
+
+  border: none;
+
+  padding: 14px 22px;
+
+  border-radius: 12px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.form-group button:hover {
+
+  background: #3b82f6;
+
+  transform: translateY(-2px);
+
+}
+
+/* ===== TABLA ===== */
+
+.table-container {
+
+  overflow-x: auto;
+
+}
+
+table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  overflow: hidden;
+
+  border-radius: 18px;
+
+}
+
+/* ===== HEADER ===== */
+
+th {
+
+  padding: 18px;
+
+  background:
+    rgba(255,255,255,0.12);
+
+  color: white;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+  font-size: 14px;
+
+}
+
+/* ===== CELDAS ===== */
+
+td {
+
+  padding: 18px;
+
+  text-align: center;
+
+  color: #f8fafc;
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.08);
+
+}
+
+/* ===== HOVER ===== */
+
+tbody tr {
+
+  transition: 0.3s;
+
+}
+
+tbody tr:hover {
+
+  background:
+    rgba(255,255,255,0.05);
+
+  transform: scale(1.01);
+
+}
+
+/* ===== ESTADOS ===== */
+
+.activo {
+
+  color: #22c55e;
+
+  font-weight: bold;
+
+}
+
+.inactivo {
+
+  color: #ef4444;
+
+  font-weight: bold;
+
+}
+
+/* ===== ACCIONES ===== */
+
+.acciones {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+
+}
+
+/* ===== BOTONES ===== */
+
+.btn-activar,
+.btn-desactivar {
+
+  border: none;
+
+  padding: 10px 16px;
+
+  border-radius: 10px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+/* ACTIVAR */
+
+.btn-activar {
+
+  background: #16a34a;
+
+  color: white;
+
+}
+
+.btn-activar:hover {
+
+  background: #22c55e;
+
+  transform: translateY(-2px);
+
+}
+
+/* DESACTIVAR */
+
+.btn-desactivar {
+
+  background: #dc2626;
+
+  color: white;
+
+}
+
+.btn-desactivar:hover {
+
+  background: #ef4444;
+
+  transform: translateY(-2px);
+
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+
+  .topbar {
+
+    flex-direction: column;
+
+    gap: 15px;
+
+  }
+
+  .title-section h1 {
+
+    font-size: 30px;
+
+  }
+
+  .form-group {
+
+    flex-direction: column;
+
+  }
+
+  .form-group button {
+
+    width: 100%;
+
+  }
+
+  table {
+
+    font-size: 13px;
+
+  }
+
+  th,
+  td {
+
+    padding: 12px;
+
+  }
+
+}

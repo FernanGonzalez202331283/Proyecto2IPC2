@@ -11,6 +11,16 @@ package Modelos;
 public class Categoria {
     private int id;
     private String nombre;
+    private int estado;
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+    
 
     public int getId() {
         return id;

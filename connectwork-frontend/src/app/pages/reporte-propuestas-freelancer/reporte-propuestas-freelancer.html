@@ -1,0 +1,79 @@
+<div class="contenedor">
+
+  <div class="card">
+    <div class="top-bar">
+    <button class="btn-volver" (click)="regresar()">Regresar</button>
+  </div>
+
+    <h1>
+      Reporte de Propuestas
+    </h1>
+
+    <div class="filtros">
+
+      <div class="campo">
+        <label>Fecha inicio</label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaInicio">
+      </div>
+
+      <div class="campo">
+        <label>Fecha fin</label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaFin">
+      </div>
+
+    </div>
+
+    <button (click)="cargar()">
+      Generar reporte
+    </button>
+
+    <p
+      class="mensaje"
+      *ngIf="mensaje">
+
+      {{ mensaje }}
+
+    </p>
+
+    <table *ngIf="propuestas.length > 0">
+
+      <thead>
+
+        <tr>
+          <th>Proyecto</th>
+          <th>Monto</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let p of propuestas">
+
+          <td>{{ p.proyecto }}</td>
+
+          <td>
+            Q{{ p.monto }}
+          </td>
+
+          <td>{{ p.estado }}</td>
+
+          <td>{{ p.fecha }}</td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

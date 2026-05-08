@@ -17,60 +17,7 @@ import java.util.List;
  * @author fernan
  */
 public class ContratoDAO {
-     public void crearContrato(int propuestaId, double monto) {
-    Connection con = null;
-
-    try {
-        con = ConexionBD.getConnection();
-        con.setAutoCommit(false);
-
-        // 1. crear contrato
-        String sql = "INSERT INTO contrato (propuesta_id, monto, estado) VALUES (?, ?, 'EN_PROGRESO')";
-        PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-        ps.setInt(1, propuestaId);
-        ps.setDouble(2, monto);
-        ps.executeUpdate();
-
-        // 2. obtener contratoId
-        ResultSet rs = ps.getGeneratedKeys();
-        int contratoId = 0;
-        if (rs.next()) {
-            contratoId = rs.getInt(1);
-        }
-
-        // 3. obtener cliente_id
-        String sqlCliente =
-            "SELECT p.cliente_id " +
-            "FROM propuesta pr " +
-            "JOIN proyecto p ON pr.proyecto_id = p.id " +
-            "WHERE pr.id = ?";
-
-        PreparedStatement psCliente = con.prepareStatement(sqlCliente);
-        psCliente.setInt(1, propuestaId);
-        ResultSet rsCliente = psCliente.executeQuery();
-
-        int clienteId = 0;
-        if (rsCliente.next()) {
-            clienteId = rsCliente.getInt("cliente_id");
-        }
-
-        // 4. descontar saldo (PAGO)
-        String sqlPago =
-            "INSERT INTO movimiento_saldo (usuario_id, tipo, monto, fecha) " +
-            "VALUES (?, 'PAGO', ?, NOW())";
-
-        PreparedStatement psPago = con.prepareStatement(sqlPago);
-        psPago.setInt(1, clienteId);
-        psPago.setDouble(2, -monto); // negativo
-        psPago.executeUpdate();
-
-        con.commit();
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        try { if (con != null) con.rollback(); } catch (Exception ex) {}
-    }
-}
+     
       
       public List<ContratoDetalle> listarActivosPorFreelancer(int freelancerId) {
 

@@ -8,11 +8,35 @@
     </div>
 
     <div class="nav-links">
-      <a routerLink="/admin/categorias">Categorías</a>
-      <a routerLink="/admin/habilidades">Habilidades</a>
-      <a routerLink="/admin/solicitudes">Solicitudes</a>
-      <a routerLink="/admin/comision">Comisión</a>
-      <a routerLink="/admin/reportes">Reportes</a>
+
+      <a routerLink="/admin/usuarios">
+        Usuarios
+      </a>
+
+      <a routerLink="/admin/categorias">
+        Categorías
+      </a>
+
+      <a routerLink="/admin/habilidades">
+        Habilidades
+      </a>
+
+      <a routerLink="/admin/solicitudes">
+        Solicitudes
+      </a>
+
+      <a routerLink="/admin/comision">
+        Comisión
+      </a>
+
+      <a routerLink="/admin/saldos">
+        Saldos
+      </a>
+
+      <a routerLink="/admin/reportes">
+        Reportes
+      </a>
+
     </div>
 
     <button class="btn-logout" (click)="logout()">
@@ -27,43 +51,37 @@
     <h1>Panel Administrativo</h1>
 
     <p>
-      Gestiona categorías, habilidades,
-      solicitudes y reportes del sistema
+      Gestiona usuarios, categorías,
+      habilidades, solicitudes,
+      comisiones y reportes del sistema
     </p>
 
   </section>
 
-  <!-- STATS -->
-  <section class="stats">
-
-    <div class="stat-card">
-      <h3>Categorías</h3>
-      <!--<h2>{{totalCategorias}}</h2>-->
-    </div>
-
-    <div class="stat-card">
-      <h3>Habilidades</h3>
-     <!-- <h2>{{totalHabilidades}}</h2>-->
-    </div>
-
-    <div class="stat-card">
-      <h3>Solicitudes</h3>
-      <!--<h2>{{solicitudesPendientes}}</h2>--> 
-    </div>
-
-    <div class="stat-card">
-      <h3>Comisión</h3>
-     <!-- <h2>{{comisionActual}}%</h2>-->
-    </div>
-
-  </section>
 
   <!-- ACTIONS -->
   <section class="actions">
 
-    <div class="action-card" routerLink="/admin/categorias">
+    <!-- USUARIOS -->
+    <div class="action-card"
+         routerLink="/admin/usuarios">
 
-      <div class="icon">📂</div>
+      <div class="icon"></div>
+
+      <h3>Gestionar Usuarios</h3>
+
+      <p>
+        Activar, desactivar y visualizar
+        clientes y freelancers
+      </p>
+
+    </div>
+
+    <!-- CATEGORIAS -->
+    <div class="action-card"
+         routerLink="/admin/categorias">
+
+      <div class="icon"></div>
 
       <h3>Gestionar Categorías</h3>
 
@@ -73,9 +91,11 @@
 
     </div>
 
-    <div class="action-card" routerLink="/admin/habilidades">
+    <!-- HABILIDADES -->
+    <div class="action-card"
+         routerLink="/admin/habilidades">
 
-      <div class="icon">🛠️</div>
+      <div class="icon"></div>
 
       <h3>Gestionar Habilidades</h3>
 
@@ -85,9 +105,11 @@
 
     </div>
 
-    <div class="action-card" routerLink="/admin/solicitudes">
+    <!-- SOLICITUDES -->
+    <div class="action-card"
+         routerLink="/admin/solicitudes">
 
-      <div class="icon">📩</div>
+      <div class="icon"></div>
 
       <h3>Solicitudes</h3>
 
@@ -97,9 +119,11 @@
 
     </div>
 
-    <div class="action-card" routerLink="/admin/comision">
+    <!-- COMISION -->
+    <div class="action-card"
+         routerLink="/admin/comision">
 
-      <div class="icon">💰</div>
+      <div class="icon"></div>
 
       <h3>Comisión</h3>
 
@@ -109,17 +133,52 @@
 
     </div>
 
-    <div class="action-card" routerLink="/admin/reportes">
+    <!-- SALDO -->
+    <div class="action-card"
+         routerLink="/admin/saldos">
 
-      <div class="icon">📊</div>
+      <div class="icon"></div>
 
-      <h3>Reportes</h3>
+      <h3>Saldo Plataforma</h3>
 
       <p>
-        Visualizar estadísticas e ingresos
+        Consultar ingresos y comisiones
       </p>
 
     </div>
+
+    <!-- REPORTES -->
+<div class="action-card reportes-card">
+
+  <div class="icon"></div>
+
+  <h3>Reportes</h3>
+
+  <p>
+    Visualizar estadísticas e ingresos
+  </p>
+
+  <div class="reportes-links">
+
+    <a routerLink="/admin/reportes">
+      Historial Comisión
+    </a>
+
+    <a routerLink="/admin/reportes/top-freelancers">
+      Top Freelancers
+    </a>
+
+    <a routerLink="/admin/reportes/top-categorias">
+      Top Categorías
+    </a>
+
+    <a routerLink="/admin/reportes/ingresos-plataforma">
+      Ingresos Plataforma
+    </a>
+
+  </div>
+
+</div>
 
   </section>
 

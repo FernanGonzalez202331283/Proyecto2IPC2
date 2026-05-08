@@ -1,0 +1,97 @@
+<div class="contenedor">
+  <div class="card">
+    <div class="top-bar">
+    <button class="btn-volver" (click)="regresar()">Regresar</button>
+  </div>
+    <h1>
+      Top 5 Freelancers
+    </h1>
+
+    <div class="filtros">
+
+      <div class="campo">
+
+        <label>
+          Fecha inicio
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaInicio"
+        >
+
+      </div>
+
+      <div class="campo">
+
+        <label>
+          Fecha fin
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="fechaFin"
+        >
+
+      </div>
+
+    </div>
+
+    <button
+      (click)="obtenerReporte()">
+
+      Generar Reporte
+
+    </button>
+
+    <p class="mensaje">
+      {{ mensaje }}
+    </p>
+
+    <table *ngIf="freelancers.length > 0">
+
+      <thead>
+
+        <tr>
+
+          <th>Freelancer</th>
+
+          <th>Contratos</th>
+
+          <th>Total Generado</th>
+
+          <th>Comisión Plataforma</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let f of freelancers">
+
+          <td>
+            {{ f.nombre }}
+          </td>
+
+          <td>
+            {{ f.cantidadContratos }}
+          </td>
+
+          <td>
+            Q{{ f.totalGenerado }}
+          </td>
+
+          <td>
+            Q{{ f.comisionPlataforma }}
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

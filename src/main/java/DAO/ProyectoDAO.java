@@ -6,6 +6,7 @@ package DAO;
 
 import Conexion.ConexionBD;
 import Modelos.Proyecto;
+import Modelos.ReportePropuestaFreelancer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -315,5 +316,90 @@ public class ProyectoDAO {
     }
 
     return arr;
+}
+   
+   public List<ReportePropuestaFreelancer>
+reportePropuestasFreelancer(
+        int userId,
+        String fechaInicio,
+        String fechaFin
+) {
+
+    List<ReportePropuestaFreelancer> lista =
+        new ArrayList<>();
+
+    String sql = """
+        SELECT
+
+            pr.titulo AS proyecto,
+
+            p.monto,
+
+            p.estado,
+
+            p.fecha
+
+        FROM propuesta p
+
+        INNER JOIN freelancer f
+            ON p.freelancer_id = f.id
+
+        INNER JOIN proyecto pr
+            ON p.proyecto_id = pr.id
+
+        WHERE f.usuario_id = ?
+
+        AND DATE(p.fecha)
+        BETWEEN ? AND ?
+
+        ORDER BY p.fecha DESC
+    """;
+
+    try (
+
+        Connection con =
+            ConexionBD.getConnection();
+
+        PreparedStatement ps =
+            con.prepareStatement(sql);
+
+    ) {
+
+        ps.setInt(1, userId);
+        ps.setString(2, fechaInicio);
+        ps.setString(3, fechaFin);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+
+            ReportePropuestaFreelancer r =
+                new ReportePropuestaFreelancer();
+
+            r.setProyecto(
+                rs.getString("proyecto")
+            );
+
+            r.setMonto(
+                rs.getDouble("monto")
+            );
+
+            r.setEstado(
+                rs.getString("estado")
+            );
+
+            r.setFecha(
+                rs.getString("fecha")
+            );
+
+            lista.add(r);
+        }
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+    }
+
+    return lista;
 }
     }
