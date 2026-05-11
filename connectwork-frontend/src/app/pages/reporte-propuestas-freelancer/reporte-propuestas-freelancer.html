@@ -33,6 +33,15 @@
       Generar reporte
     </button>
 
+    <button
+  class="btn-pdf"
+  (click)="exportarPDF()"
+  *ngIf="propuestas.length > 0">
+
+  Exportar PDF
+
+</button>
+
     <p
       class="mensaje"
       *ngIf="mensaje">

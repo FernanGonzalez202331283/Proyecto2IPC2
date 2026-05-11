@@ -105,3 +105,39 @@ tr:hover {
   transition: 0.3s;
 
 }
+
+.btn-pdf {
+
+  margin-bottom: 20px;
+
+  padding: 12px 18px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #dc2626,
+      #ef4444
+    );
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.btn-pdf:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(220,38,38,0.35);
+}

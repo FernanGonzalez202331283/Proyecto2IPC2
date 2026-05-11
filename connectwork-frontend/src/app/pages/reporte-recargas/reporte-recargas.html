@@ -37,6 +37,15 @@
       Generar Reporte
     </button>
 
+    <button
+  class="btn-pdf"
+  (click)="exportarPDF()"
+  *ngIf="recargas.length > 0">
+
+  Exportar PDF
+
+</button>
+
     <div
       class="mensaje"
       *ngIf="mensaje"

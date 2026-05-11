@@ -8,6 +8,15 @@
       Top 5 Categorías
     </h1>
 
+    <button
+  class="btn-pdf"
+  (click)="exportarPDF()"
+  *ngIf="categorias.length > 0">
+
+  Exportar PDF
+
+</button>
+
     <table>
 
       <thead>

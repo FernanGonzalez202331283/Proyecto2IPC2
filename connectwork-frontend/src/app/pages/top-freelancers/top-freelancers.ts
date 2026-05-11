@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 @Component({
   selector: 'app-top-freelancers',
   standalone: true,
@@ -74,5 +75,46 @@ export class TopFreelancers implements OnInit{
   }
    regresar() {
   this.router.navigate(['/admin']);
+}
+
+exportarPDF() {
+
+  const doc = new jsPDF();
+
+  // Título
+  doc.setFontSize(18);
+
+  doc.text('Top 5 Freelancers', 14, 20);
+
+  // Fechas
+  doc.setFontSize(12);
+
+  doc.text(
+    `Desde: ${this.fechaInicio}  Hasta: ${this.fechaFin}`,
+    14,
+    30
+  );
+
+  // Datos de la tabla
+  const datos = this.freelancers.map(f => [
+    f.nombre,
+    f.contratosCompletados,
+    `Q${f.totalGenerado}`,
+    `Q${f.comisionPlataforma}`
+  ]);
+
+  autoTable(doc, {
+    startY: 40,
+    head: [[
+      'Freelancer',
+      'Contratos',
+      'Total Generado',
+      'Comisión Plataforma'
+    ]],
+    body: datos
+  });
+
+  // Descargar PDF
+  doc.save('reporte-freelancers.pdf');
 }
 }

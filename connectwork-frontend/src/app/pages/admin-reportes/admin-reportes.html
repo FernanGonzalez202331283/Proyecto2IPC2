@@ -6,6 +6,15 @@
   </div>
 
     <h1>
+
+      <button
+  class="btn-pdf"
+  (click)="exportarPDF()"
+  *ngIf="historial.length > 0">
+
+  Exportar PDF
+
+</button>
       Historial de Comisión
     </h1>
 

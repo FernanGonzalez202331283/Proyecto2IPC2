@@ -303,3 +303,40 @@
   }
 
 }
+.btn-pdf {
+
+  width: 100%;
+
+  margin-top: 15px;
+
+  padding: 15px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #3b82f6
+    );
+
+  color: white;
+
+  font-size: 20px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.btn-pdf:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px rgba(37,99,235,0.4);
+}

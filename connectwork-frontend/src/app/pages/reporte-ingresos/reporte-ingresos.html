@@ -30,6 +30,15 @@
       Generar Reporte
     </button>
 
+    <button
+  class="btn-pdf"
+  (click)="exportarPDF()"
+  *ngIf="totalContratos > 0">
+
+  Exportar PDF
+
+</button>
+
     <div class="resultados">
 
       <div class="resultado-card">

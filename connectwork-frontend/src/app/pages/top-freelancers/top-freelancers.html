@@ -44,6 +44,15 @@
 
     </button>
 
+    <button
+  class="btn-pdf"
+  (click)="exportarPDF()"
+  *ngIf="freelancers.length > 0">
+
+  Exportar PDF
+
+</button>
+
     <p class="mensaje">
       {{ mensaje }}
     </p>
@@ -75,7 +84,7 @@
           </td>
 
           <td>
-            {{ f.cantidadContratos }}
+            {{ f.contratosCompletados }}
           </td>
 
           <td>

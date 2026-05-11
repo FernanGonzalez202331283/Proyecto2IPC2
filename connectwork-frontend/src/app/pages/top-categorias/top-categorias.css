@@ -181,3 +181,8 @@ tr:hover {
     transform: translateY(0);
   }
 }
+.btn-pdf{
+  margin-top: 10px;
+  background: #d32f2f;
+  color: white;
+}

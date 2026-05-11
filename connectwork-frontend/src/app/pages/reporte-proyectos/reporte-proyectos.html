@@ -5,6 +5,15 @@
     <button class="btn-volver" (click)="regresar()"> Regresar</button>
   </div>
 
+  <button
+  class="btn-pdf"
+  (click)="exportarPDF()"
+  *ngIf="proyectos.length > 0">
+
+  Exportar PDF
+
+</button>
+
     <h1>Historial de Proyectos</h1>
 
     <div class="filtros">

@@ -46,6 +46,15 @@
 
     </button>
 
+    <button
+  class="btn-pdf"
+  (click)="exportarPDF()"
+  *ngIf="categorias.length > 0">
+
+  Exportar PDF
+
+</button>
+
     <p class="mensaje">
       {{ mensaje }}
     </p>
